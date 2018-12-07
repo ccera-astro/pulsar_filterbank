@@ -2,7 +2,12 @@
 A Gnu Radio flow-graph for producing raw filterbank files from a live SDR
 
 It produces 16-bit binary outputs, arranged from lowest to highest frequency
-  in the filterbank output.  Filterbank size is adjustable.
+  in the filterbank output.
+
+The code automatically determines suitable filterbank sizes and output
+  rates.  A header file is produced that gives the calculated
+  rates, etc.
+
 
 Currently supported options:
 
