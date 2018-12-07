@@ -101,6 +101,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(1152, 20)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>dsrate</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>samp_rate</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(1048, 20)</value>
     </param>
     <param>
@@ -113,7 +140,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>int((samp_rate/fbsize)/fbrate)</value>
+      <value>int((dsrate/fbsize)/fbrate)</value>
     </param>
   </block>
   <block>
@@ -140,7 +167,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.determine_rate(samp_rate,fbsize)</value>
+      <value>fb_helper.determine_rate(dsrate,fbsize)</value>
     </param>
   </block>
   <block>
@@ -167,7 +194,34 @@
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.write_header(parmname, freq/1.0e6, samp_rate/1.0e6, fbsize, fbrate)</value>
+      <value>fb_helper.write_header(parmname, freq/1.0e6, dsrate/1.0e6, fbsize, fbrate)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(416, 380)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>lentaps</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>len(mytaps)</value>
     </param>
   </block>
   <block>
@@ -195,6 +249,53 @@
     <param>
       <key>value</key>
       <value>time.gmtime(time.time())</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_low_pass_filter_taps</key>
+    <param>
+      <key>beta</key>
+      <value>6.76</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>cutoff_freq</key>
+      <value>samp_rate/4.1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(232, 376)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>gain</key>
+      <value>1.0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>mytaps</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>width</key>
+      <value>samp_rate/8</value>
+    </param>
+    <param>
+      <key>win</key>
+      <value>firdes.WIN_HAMMING</value>
     </param>
   </block>
   <block>
@@ -513,7 +614,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 28)</value>
+      <value>(312, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2389,7 +2490,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(112, 172)</value>
+      <value>(8, 300)</value>
     </param>
     <param>
       <key>_rotation</key>
