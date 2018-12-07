@@ -1,13 +1,49 @@
 # this module will be imported in the into your flowgraph
 import time
-def determine_rate(srate, fbsize):
+
+#
+# Determine FBSIZE and FBRATE given input sample rate
+#
+# This is not stunningly efficient, but it only has to run
+#  ONCE on startup.
+#
+def determine_rate(srate):
+    if (srate > 6.0e6):
+        fbsize_2N = [128,64,32]
+        fbsize_10N = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30]
+        fbsize_3N = [96, 81, 78, 72, 56, 48, 36]
+    else:
+        fbsize_2N = [64,32]
+        fbsize_10N = [50,45,40,35,30,25]
+        fbsize_3N = [72, 56, 48, 36]
+
+    for n in fbsize_2N:
+        r = rate_core(srate, n)
+        if r > 0:
+            return((n,r))
+    for n in fbsize_10N:
+        r = rate_core(srate, n)
+        if r > 0:
+            return((n,r))
+    for n in fbsize_3N:
+        r = rate_core(srate, n)
+        if r > 0:
+            return((n,r))
+
+    raise RuntimeError("Unable to determine useful FBSIZE/FBRATE combination given sample rate")
+
+#
+# Given sample rate, and fbsize, determine a useful rate
+#  Return -1 if no rate could be determined
+#
+def rate_core(srate, fbsize):
     bankrate = float(srate)/float(fbsize)
-    for i in range(2500,17000):
+    for i in range(1800,4800,2):
         frate = bankrate/float(i)
         irate = float(int(frate))
         if (frate == irate):
             return int(bankrate/irate)
-    raise ValueError("No suitable filterbank sample rate could be determined--try different FB size or sample rate")
+    return -1
 
 def write_header(fn, freq, bw, fbsize, fbrate):
     f = open(fn, "w")

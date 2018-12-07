@@ -155,7 +155,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 20)</value>
+      <value>(1152, 92)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -167,7 +167,34 @@
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.determine_rate(dsrate,fbsize)</value>
+      <value>rates[1]</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1176, 196)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fbsize</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>rates[0]</value>
     </param>
   </block>
   <block>
@@ -209,33 +236,6 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(416, 380)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>lentaps</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>len(mytaps)</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
       <value>(1056, 460)</value>
     </param>
     <param>
@@ -249,53 +249,6 @@
     <param>
       <key>value</key>
       <value>time.gmtime(time.time())</value>
-    </param>
-  </block>
-  <block>
-    <key>variable_low_pass_filter_taps</key>
-    <param>
-      <key>beta</key>
-      <value>6.76</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>cutoff_freq</key>
-      <value>samp_rate/4.1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(232, 376)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain</key>
-      <value>1.0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>mytaps</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>width</key>
-      <value>samp_rate/8</value>
-    </param>
-    <param>
-      <key>win</key>
-      <value>firdes.WIN_HAMMING</value>
     </param>
   </block>
   <block>
@@ -350,6 +303,33 @@
     <param>
       <key>value</key>
       <value>prefix+"psr-"+timestr+".rfb16"</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value>Output sample rate for each channel</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(920, 20)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rates</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.determine_rate(samp_rate)</value>
     </param>
   </block>
   <block>
@@ -666,7 +646,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(704, 28)</value>
+      <value>(672, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -815,7 +795,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(424, 608)</value>
+      <value>(296, 608)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -856,14 +836,50 @@ sample rate</value>
       <key>source_code</key>
       <value># this module will be imported in the into your flowgraph
 import time
-def determine_rate(srate, fbsize):
+
+#
+# Determine FBSIZE and FBRATE given input sample rate
+#
+# This is not stunningly efficient, but it only has to run
+#  ONCE on startup.
+#
+def determine_rate(srate):
+    if (srate &gt; 6.0e6):
+        fbsize_2N = [128,64,32]
+        fbsize_10N = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30]
+        fbsize_3N = [96, 81, 78, 72, 56, 48, 36]
+    else:
+        fbsize_2N = [64,32]
+        fbsize_10N = [50,45,40,35,30,25]
+        fbsize_3N = [72, 56, 48, 36]
+
+    for n in fbsize_2N:
+        r = rate_core(srate, n)
+        if r &gt; 0:
+            return((n,r))
+    for n in fbsize_10N:
+        r = rate_core(srate, n)
+        if r &gt; 0:
+            return((n,r))
+    for n in fbsize_3N:
+        r = rate_core(srate, n)
+        if r &gt; 0:
+            return((n,r))
+
+    raise RuntimeError("Unable to determine useful FBSIZE/FBRATE combination given sample rate")
+
+#
+# Given sample rate, and fbsize, determine a useful rate
+#  Return -1 if no rate could be determined
+#
+def rate_core(srate, fbsize):
     bankrate = float(srate)/float(fbsize)
-    for i in range(2500,17000):
+    for i in range(1800,4800,2):
         frate = bankrate/float(i)
         irate = float(int(frate))
         if (frate == irate):
             return int(bankrate/irate)
-    raise ValueError("No suitable filterbank sample rate could be determined--try different FB size or sample rate")
+    return -1
 
 def write_header(fn, freq, bw, fbsize, fbrate):
     f = open(fn, "w")
@@ -885,6 +901,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
       <value>Helper Module
 
 - determine suitable output sample rate
+- determine suitable FB size
 - write header info</value>
     </param>
     <param>
@@ -893,7 +910,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 676)</value>
+      <value>(600, 540)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -902,53 +919,6 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     <param>
       <key>id</key>
       <value>fb_helper</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(192, 608)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fbsize</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Filterbank Size</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>hide</key>
-      <value>none</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>64</value>
     </param>
   </block>
   <block>
@@ -2609,7 +2579,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(320, 608)</value>
+      <value>(192, 608)</value>
     </param>
     <param>
       <key>_rotation</key>
