@@ -159,25 +159,38 @@ datadir=$rval
 #
 udate=`date -u +%Y%m%d`
 
+#
+# Start the GNU-radio based filterbank receiver
+#
 echo Starting receiver at `date`
 stime=`date +%s`
 rlogfile=${source}-${udate}-receiver.log
-python2 $HOME/pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" --rfgain $rfgain\
+python2 $HOME/pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" \
+        --rfgain $rfgain\
 		--runtime `expr $runtime '*' 60`  >$rlogfile  2>&1
 rval=$?
 
 etime=`date +%s`
-echo Receiver finished at `date` with status $?
+echo "Receiver finished at" `date` "with status $?"
 
+#
+# OK, check some health indicators for the receiver run
+#
+
+#
+# Return code
+#
 if [ $rval -ne 0 ]
 then
-	echo "Receiver indicates non-zero return status"
+	echo "Receiver indicated non-zero return status"
 	echo "Showing receiver log"
 	cat $rlogfile
 	exit
 fi
 
-
+#
+# Make sure the elapsed time is correct
+#
 tdiff=`expr $etime - $stime`
 rt=`expr $runtime \* 60`
 if [ $tdiff  -lt $rt ]
@@ -188,23 +201,36 @@ then
 	exit
 fi
 
+
+#
+# Create some convenient variables related to output files
+#
 hdrfile=${datadir}/${source}-psr-${udate}.header
 datafile=${datadir}/${source}-psr-${udate}.rfb16
 
-
+#
+# Extract fbrate and fbsize from header file
+#
 fbrate=`grep "output rate" $hdrfile |sed -e 's/.*=//'`
 fbsize=`grep "bank Size" $hdrfile|sed -e 's/.*=//'`
 
+#
+# Sanity check actual output file size vs expected
+#
 filesize=`ls -l $datafile | awk '/./ {print $5}'`
 computesize=`expr $fbrate \* $fbsize \* $runtime \* 60 \* 2`
 if [ $filesize -lt $computesize ]
 then
-	echo Output size does not match expected filesize: $filesize vs $computesize
-	echo Showing receiver log
+	echo "Output size does not match expected filesize: $filesize vs $computesize"
+	echo "Showing receiver log"
 	cat $rlogfile.log
 	exit
 fi
 
+#
+# All seems sane, call bin2fil to convert into .fil file for PRESTO
+#   and friends
+#
 flra=`echo $ra|awk '/./ {print $1*1000.0}'`
 fldec=`echo $dec|awk '/./ {print $1*1000.0}'`
 python3 $HOME/bin2fil.py --channels $fbsize --sample-rate $fbrate --center-freq $freq --source-name $source \
