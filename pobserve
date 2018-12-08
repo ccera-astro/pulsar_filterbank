@@ -59,7 +59,7 @@ then
     echo "Detected a LimeSDR device"
 	devstr="soapy,driver=lime,nchan=1"
 	d_srate="8.0e6"
-	echo -n "Sample rate [$d_srate]: "
+	echo -n "Sample rate (sps)[$d_srate]: "
 	read srate
 	if [ @$srate@ == @@]
 	then
@@ -120,7 +120,7 @@ then
 fi
 
 d_runtime="15"
-echo -n "Runtime (mins) [$d_runtime]: "
+echo -n "Runtime (minutes) [$d_runtime]: "
 read runtime
 if [ @$runtime@ == @@ ]
 then
@@ -139,8 +139,35 @@ fi
 # Spot the race condition...
 #
 udate=`date -u +%Y%m%d`
+
+echo Starting receiver at `date`
+stime=`date +%s`
+rlogfile=${source}-${udate}-receiver.log
 python2 $HOME/pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" --rfgain $rfgain\
-		--runtime `expr $runtime '*' 60`  >${source}-${udate}-receiver.log 2>&1
+		--runtime `expr $runtime '*' 60`  >$rlogfile  2>&1
+rval=$?
+
+etime=`date +%s`
+echo Receiver finished at `date` with status $?
+
+if [ $rval -ne 0 ]
+then
+	echo "Receiver indicates non-zero return status"
+	echo "Showing receiver log"
+	cat $rlogfile
+	exit
+fi
+
+
+tdiff=`expr $etime - $stime`
+rt=`expr $runtime \* 60`
+if [ $tdiff  -lt $rt ]
+then
+	echo "Receiver did not run long enough to satisfy runtime of $runtime minutes"
+	echo Showing receiver log
+	cat $rlogfile
+	exit
+fi
 
 hdrfile=${datadir}/${source}-psr-${udate}.header
 datafile=${datadir}/${source}-psr-${udate}.rfb16
@@ -151,14 +178,15 @@ fbsize=`grep "bank Size" $hdrfile|sed -e 's/.*=//'`
 
 filesize=`ls -l $datafile | awk '/./ {print $5}'`
 computesize=`expr $fbrate \* $fbsize \* $runtime \* 60 \* 2`
-if [ $filesize -ne $computesize ]
+if [ $filesize -lt $computesize ]
 then
 	echo Output filesize not as computed: $filesize vs $computesize
 	echo Showing receiver log
-	cat ${source}-${udate}-receiver.log
+	cat $rlogfile.log
+	exit
 fi
 
 flra=`echo $ra|awk '/./ {print $1*1000.0}'`
 fldec=`echo $dec|awk '/./ {print $1*1000.0}'`
 python3 $HOME/bin2fil.py --channels $fbsize --sample-rate $fbrate --center-freq $freq --source-name $source \
-	--source-ra $flra --source-de $fldec $datafile
+	--source-ra $flra --source-de $fldec $datafile --no-filter
