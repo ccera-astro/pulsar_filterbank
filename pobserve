@@ -139,18 +139,26 @@ fi
 # Spot the race condition...
 #
 udate=`date -u +%Y%m%d`
-echo Running python2./pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" --rfgain $rfgain\
-		--runtime `expr $runtime '*' 60`
 python2 $HOME/pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" --rfgain $rfgain\
-		--runtime `expr $runtime '*' 60`
+		--runtime `expr $runtime '*' 60`  >${source}-${udate}-receiver.log 2>&1
 
 hdrfile=${datadir}/${source}-psr-${udate}.header
 datafile=${datadir}/${source}-psr-${udate}.rfb16
 
+
 fbrate=`grep "output rate" $hdrfile |sed -e 's/.*=//'`
 fbsize=`grep "bank Size" $hdrfile|sed -e 's/.*=//'`
-python3 $HOME/bin2fil --channels $fbsize --sample-rate $fbrate --center-freq $freq --source-name $source \
-	--source-ra $ra --source-de $dec $datafile
 
+filesize=`ls -l $datafile | awk '/./ {print $5}'`
+computesize=`expr $fbrate \* $fbsize \* $runtime \* 60 \* 2`
+if [ $filesize -ne $computesize ]
+then
+	echo Output filesize not as computed: $filesize vs $computesize
+	echo Showing receiver log
+	cat ${source}-${udate}-receiver.log
+fi
 
-
+flra=`echo $ra|awk '/./ {print $1*1000.0}'`
+fldec=`echo $dec|awk '/./ {print $1*1000.0}'`
+python3 $HOME/bin2fil.py --channels $fbsize --sample-rate $fbrate --center-freq $freq --source-name $source \
+	--source-ra $flra --source-de $fldec $datafile
