@@ -6,11 +6,12 @@ devstr="unknown"
 #
 if grep -q 2500:002 tmp$$
 then
+	echo "Detected a USRP B2xx type device"
 	devstr="uhd=0,type=b200,num_recv_frames=256,otw_format=sc8"
 	d_srate="9.85e6"
-	echo "Sample rate [$d_srate]: "
+	echo -n "Sample rate [$d_srate]: "
 	read srate
-	if [ @$srate@ == @@]
+	if [ @$srate@ == @@ ]
 	then
 		srate=$d_srate
 	fi
@@ -21,6 +22,7 @@ fi
 #
 if grep -q 0bda:28 tmp$$
 then
+	echo "Detected a RTL-SDR device"
 	srate="2.5e6"
 	devstr="rtl=0"
 fi
@@ -31,6 +33,7 @@ fi
 #
 if grep -q 1d50:60a1 tmp$$
 then
+    echo "Detected a AirSpy R2 device"
 	devstr="airspy=0"
 	srate=6.0e6
 fi
@@ -40,9 +43,10 @@ fi
 #
 if grep -q 04b4:6108 tmp$$
 then
+    echo "Detected a LimeSDR device"
 	devstr="soapy,driver=lime,nchan=1"
 	d_srate="8.e06"
-	echo "Sample rate [$d_srate]: "
+	echo -n "Sample rate [$d_srate]: "
 	read srate
 	if [ @$srate@ == @@]
 	then
@@ -52,9 +56,10 @@ fi
 
 if grep -q 0403:61f tmp$$
 then
+    echo "Detected a LimeSDR device"
 	devstr="soapy,driver=lime,nchan=1"
 	d_srate="8.0e6"
-	echo "Sample rate [$d_srate]: "
+	echo -n "Sample rate [$d_srate]: "
 	read srate
 	if [ @$srate@ == @@]
 	then
@@ -130,6 +135,22 @@ then
 	datadir=$d_datadir
 fi
 
-echo ./pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" --rfgain $rfgain\
+#
+# Spot the race condition...
+#
+udate=`date -u +%Y%m%d`
+echo Running python2./pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" --rfgain $rfgain\
 		--runtime `expr $runtime '*' 60`
+python2 $HOME/pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" --rfgain $rfgain\
+		--runtime `expr $runtime '*' 60`
+
+hdrfile=${datadir}/${source}-psr-${udate}.header
+datafile=${datadir}/${source}-psr-${udate}.rfb16
+
+fbrate=`grep "output rate" $hdrfile |sed -e 's/.*=//'`
+fbsize=`grep "bank Size" $hdrfile|sed -e 's/.*=//'`
+python3 $HOME/bin2fil --channels $fbsize --sample-rate $fbrate --center-freq $freq --source-name $source \
+	--source-ra $ra --source-de $dec $datafile
+
+
 
