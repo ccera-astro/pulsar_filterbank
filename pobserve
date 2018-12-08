@@ -100,9 +100,23 @@ fi
 #
 if grep -q 1d50:60a1 tmp$$
 then
-    echo "Detected a AirSpy R2 device"
-	devstr="airspy=0"
-	srate=6.0e6
+    echo "Detected an AirSpy R2 device"
+	devstr="airspy=0,pack=1"
+	valid=0
+	while [ $valid == 0 ]
+	do
+		promptfor "$srate" 6.0e6 "Sample rate" "srate"
+		case $rval in
+			6.0e6|6e6|6000000)
+				valid=1
+				;;
+			2.5e6|2500000)
+				valid=1
+				;;
+			*)
+				echo "Invalid sample rate for AirSpy R2"
+		esac
+	done
 fi
 
 #
@@ -223,7 +237,7 @@ if [ $filesize -lt $computesize ]
 then
 	echo "Output size does not match expected filesize: $filesize vs $computesize"
 	echo "Showing receiver log"
-	cat $rlogfile.log
+	cat $rlogfile
 	exit
 fi
 
