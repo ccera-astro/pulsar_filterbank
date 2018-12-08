@@ -1,6 +1,78 @@
 #!/bin/bash
-lsusb >tmp$$
+
+function promptfor
+{
+	if [ @@ = @$1@ ]
+	then
+		echo Parameter \"--"$4"\" was not specified on command line
+		echo -n "$3 [$2]: "
+		read v
+		if [ @@ = @$v@ ]
+		then
+			rval=$2
+		fi
+	else
+		rval=$1
+	fi
+}
+
 devstr="unknown"
+srate=""
+source=""
+ra=""
+dec=""
+freq=""
+rfgain=""
+runtime=""
+datadir=""
+acnt=0
+while [ $# -gt 1 ]
+do
+	acnt=`expr $acnt + 1`
+	case $1 in
+		--srate)
+			srate=$2
+			shift 2
+			;;
+		--source)
+			source=$2
+			shift 2
+			;;
+		--ra)
+			ra=$2
+			shift 2
+			;;
+		--dec)
+			dec=$2
+			shift 2
+			;;
+		--freq)
+			freq=$2
+			shift 2
+			;;
+		--rfgain)
+			rfgain=$2
+			shift 2
+			;;
+		--runtime)
+			runtime=$2
+			shift 2
+			;;
+		--datadir)
+			datadir=$2
+			shift 2
+			;;
+		*)
+			echo "Unknown option $1"
+			exit
+	esac
+done
+
+#
+# Determine hardware type
+#
+lsusb >tmp$$
+
 #
 # USRP B2xx
 #
@@ -8,13 +80,8 @@ if grep -q 2500:002 tmp$$
 then
 	echo "Detected a USRP B2xx type device"
 	devstr="uhd=0,type=b200,num_recv_frames=256,otw_format=sc8"
-	d_srate="9.85e6"
-	echo -n "Sample rate [$d_srate]: "
-	read srate
-	if [ @$srate@ == @@ ]
-	then
-		srate=$d_srate
-	fi
+	promptfor "$srate" 10.0e6 "Sample rate" srate
+	srate=$rval
 fi
 
 #
@@ -45,26 +112,16 @@ if grep -q 04b4:6108 tmp$$
 then
     echo "Detected a LimeSDR device"
 	devstr="soapy,driver=lime,nchan=1"
-	d_srate="8.e06"
-	echo -n "Sample rate [$d_srate]: "
-	read srate
-	if [ @$srate@ == @@]
-	then
-		srate=$d_srate
-	fi
+	promptfor "$srate" 8.0e6 "Sample Rate" srate
+	srate=$rval
 fi
 
 if grep -q 0403:61f tmp$$
 then
     echo "Detected a LimeSDR device"
 	devstr="soapy,driver=lime,nchan=1"
-	d_srate="8.0e6"
-	echo -n "Sample rate (sps)[$d_srate]: "
-	read srate
-	if [ @$srate@ == @@]
-	then
-		srate=$d_srate
-	fi
+	promptfor "$srate" 8.0e6 "Sample Rate" srate
+	srate=$rval
 fi
 
 rm -f tmp$$
@@ -76,64 +133,26 @@ then
 	exit
 fi
 
-echo "Enter observation parameters below"
+promptfor "$source" B0329+54 "Source Name" source
+source=$rval
 
+promptfor "$ra" 03.49 "Source RA" ra
+ra=$rval
 
-d_source="B0329+54"
-echo -n "Source Name [$d_source]: "
-read source
-if [ @$source@ == "@@" ]
-then
-	source=$d_source
-fi
+promptfor "$dec" 54.00 "Source DEC" dec
+dec=$rval
 
-d_ra="03.49"
-echo -n "Source RA [$d_ra]: "
-read ra
-if [ @$ra@ = @@ ]
-then
-	ra=$d_ra
-fi
+promptfor "$freq" 612.0e6 "Center Frequency(Hz)" freq
+freq=$rval
 
-d_dec="54.00"
-echo -n "Source DEC [$d_dec]: "
-read dec
-if [ @$dec@ = @@ ]
-then
-	dec=$d_dec
-fi
+promptfor "$rfgain" 30.0 "RF Gain" rfgain
+rfgain=$rval
 
-d_freq="612.0e6"
-echo -n "Center Frequency [$d_freq]: "
-read freq
-if [ @$freq@ == @@ ]
-then
-	freq=$d_freq
-fi
+promptfor "$runtime" 1 "Runtime (minutes)" runtime
+runtime=$rval
 
-d_rfgain="30.0"
-echo -n "RF Gain [$d_rfgain]: "
-read rfgain
-if [ @$rfgain@ == @@ ]
-then
-	rfgain=$d_rfgain
-fi
-
-d_runtime="15"
-echo -n "Runtime (minutes) [$d_runtime]: "
-read runtime
-if [ @$runtime@ == @@ ]
-then
-	runtime=$d_runtime
-fi
-
-d_datadir="/mnt/data"
-echo -n "Data Directory [$d_datadir]: "
-read datadir
-if [ @$datadir@ == @@ ]
-then
-	datadir=$d_datadir
-fi
+promptfor "$datadir" /mnt/data "Data Directory" datadir
+datadir=$rval
 
 #
 # Spot the race condition...
@@ -164,7 +183,7 @@ rt=`expr $runtime \* 60`
 if [ $tdiff  -lt $rt ]
 then
 	echo "Receiver did not run long enough to satisfy runtime of $runtime minutes"
-	echo Showing receiver log
+	echo "Showing receiver log"
 	cat $rlogfile
 	exit
 fi
@@ -180,7 +199,7 @@ filesize=`ls -l $datafile | awk '/./ {print $5}'`
 computesize=`expr $fbrate \* $fbsize \* $runtime \* 60 \* 2`
 if [ $filesize -lt $computesize ]
 then
-	echo Output filesize not as computed: $filesize vs $computesize
+	echo Output size does not match expected filesize: $filesize vs $computesize
 	echo Showing receiver log
 	cat $rlogfile.log
 	exit
