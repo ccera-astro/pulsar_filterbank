@@ -8,6 +8,13 @@ The code automatically determines suitable filterbank sizes and output
   rates.  A header file is produced that gives the calculated
   rates, etc.
 
+Also, a shell script, "pobserve" can be used to manage an observtion
+with this Gnu Radio app, along with converting to .fil format,
+courtesy of a modified version of bin2fil, originally by
+Giorgio Dell'Immagine.  My fork is available at:
+
+[https://github.com/ccera-astro/bin2fil-py]
+
 
 Currently supported options:
 
