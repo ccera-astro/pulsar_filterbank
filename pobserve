@@ -1,0 +1,135 @@
+#!/bin/bash
+lsusb >tmp$$
+devstr="unknown"
+#
+# USRP B2xx
+#
+if grep -q 2500:002 tmp$$
+then
+	devstr="uhd=0,type=b200,num_recv_frames=256,otw_format=sc8"
+	d_srate="9.85e6"
+	echo "Sample rate [$d_srate]: "
+	read srate
+	if [ @$srate@ == @@]
+	then
+		srate=$d_srate
+	fi
+fi
+
+#
+# RTL-SDR
+#
+if grep -q 0bda:28 tmp$$
+then
+	srate="2.5e6"
+	devstr="rtl=0"
+fi
+
+
+#
+# AirSpy R2
+#
+if grep -q 1d50:60a1 tmp$$
+then
+	devstr="airspy=0"
+	srate=6.0e6
+fi
+
+#
+# Lime
+#
+if grep -q 04b4:6108 tmp$$
+then
+	devstr="soapy,driver=lime,nchan=1"
+	d_srate="8.e06"
+	echo "Sample rate [$d_srate]: "
+	read srate
+	if [ @$srate@ == @@]
+	then
+		srate=$d_srate
+	fi
+fi
+
+if grep -q 0403:61f tmp$$
+then
+	devstr="soapy,driver=lime,nchan=1"
+	d_srate="8.0e6"
+	echo "Sample rate [$d_srate]: "
+	read srate
+	if [ @$srate@ == @@]
+	then
+		srate=$d_srate
+	fi
+fi
+
+rm -f tmp$$
+
+if [ $devstr == "unknown" ]
+then
+	echo "You don't appear to have a supported device on this system"
+	echo "Must be: LimeSDR,LimeSDR-Mini,AirSpyR2,USRP-B200"
+	exit
+fi
+
+echo "Enter observation parameters below"
+
+
+d_source="B0329+54"
+echo -n "Source Name [$d_source]: "
+read source
+if [ @$source@ == "@@" ]
+then
+	source=$d_source
+fi
+
+d_ra="03.49"
+echo -n "Source RA [$d_ra]: "
+read ra
+if [ @$ra@ = @@ ]
+then
+	ra=$d_ra
+fi
+
+d_dec="54.00"
+echo -n "Source DEC [$d_dec]: "
+read dec
+if [ @$dec@ = @@ ]
+then
+	dec=$d_dec
+fi
+
+d_freq="612.0e6"
+echo -n "Center Frequency [$d_freq]: "
+read freq
+if [ @$freq@ == @@ ]
+then
+	freq=$d_freq
+fi
+
+d_rfgain="30.0"
+echo -n "RF Gain [$d_rfgain]: "
+read rfgain
+if [ @$rfgain@ == @@ ]
+then
+	rfgain=$d_rfgain
+fi
+
+d_runtime="15"
+echo -n "Runtime (mins) [$d_runtime]: "
+read runtime
+if [ @$runtime@ == @@ ]
+then
+	runtime=$d_runtime
+fi
+
+d_datadir="/mnt/data"
+echo -n "Data Directory [$d_datadir]: "
+read datadir
+if [ @$datadir@ == @@ ]
+then
+	datadir=$d_datadir
+fi
+
+echo ./pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" --rfgain $rfgain\
+		--runtime `expr $runtime '*' 60`
+

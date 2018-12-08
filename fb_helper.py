@@ -38,7 +38,7 @@ def determine_rate(srate):
 #
 def rate_core(srate, fbsize):
     bankrate = float(srate)/float(fbsize)
-    for i in range(1800,4800,2):
+    for i in range(1800,5600):
         frate = bankrate/float(i)
         irate = float(int(frate))
         if (frate == irate):

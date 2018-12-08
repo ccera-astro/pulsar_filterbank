@@ -504,7 +504,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1008, 368)</value>
+      <value>(1008, 352)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -874,7 +874,7 @@ def determine_rate(srate):
 #
 def rate_core(srate, fbsize):
     bankrate = float(srate)/float(fbsize)
-    for i in range(1800,4800,2):
+    for i in range(1800,5600):
         frate = bankrate/float(i)
         irate = float(int(frate))
         if (frate == irate):
