@@ -10,6 +10,8 @@ function promptfor
 		if [ @@ = @$v@ ]
 		then
 			rval=$2
+		else
+			rval=$v
 		fi
 	else
 		rval=$1
@@ -131,6 +133,14 @@ then
 fi
 
 if grep -q 0403:61f tmp$$
+then
+    echo "Detected a LimeSDR device"
+	devstr="soapy,driver=lime,nchan=1"
+	promptfor "$srate" 8.0e6 "Sample Rate" srate
+	srate=$rval
+fi
+
+if grep -q 1d50:6108 tmp$$
 then
     echo "Detected a LimeSDR device"
 	devstr="soapy,driver=lime,nchan=1"
