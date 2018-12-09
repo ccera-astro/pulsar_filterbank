@@ -453,7 +453,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(600, 332)</value>
+      <value>(304, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -697,7 +697,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 324)</value>
+      <value>(312, 92)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -844,24 +844,8 @@ import time
 #  ONCE on startup.
 #
 def determine_rate(srate):
-    if (srate &gt; 6.0e6):
-        fbsize_2N = [128,64,32]
-        fbsize_10N = [100, 95, 90, 85, 80, 75, 70, 65, 60, 55, 50, 45, 40, 35, 30]
-        fbsize_3N = [96, 81, 78, 72, 56, 48, 36]
-    else:
-        fbsize_2N = [64,32]
-        fbsize_10N = [50,45,40,35,30,25]
-        fbsize_3N = [72, 56, 48, 36]
-
+    fbsize_2N = [192,160,128,96,64,48,32,100,50,25]
     for n in fbsize_2N:
-        r = rate_core(srate, n)
-        if r &gt; 0:
-            return((n,r))
-    for n in fbsize_10N:
-        r = rate_core(srate, n)
-        if r &gt; 0:
-            return((n,r))
-    for n in fbsize_3N:
         r = rate_core(srate, n)
         if r &gt; 0:
             return((n,r))
@@ -929,7 +913,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     </param>
     <param>
       <key>comment</key>
-      <value>This is our channelizer for the channelbank</value>
+      <value></value>
     </param>
     <param>
       <key>affinity</key>
@@ -949,7 +933,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(448, 120)</value>
+      <value>(296, 176)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2728,7 +2712,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(648, 420)</value>
+      <value>(608, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
