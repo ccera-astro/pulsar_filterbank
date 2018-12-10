@@ -101,7 +101,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1152, 20)</value>
+      <value>(1176, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -128,7 +128,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 20)</value>
+      <value>(1088, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -155,7 +155,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1152, 92)</value>
+      <value>(1176, 76)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -182,7 +182,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1176, 196)</value>
+      <value>(1176, 172)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -271,7 +271,7 @@
     </param>
     <param>
       <key>function_name</key>
-      <value>get_level</value>
+      <value>level</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -352,7 +352,7 @@
     <key>variable</key>
     <param>
       <key>comment</key>
-      <value>Output sample rate for each channel</value>
+      <value></value>
     </param>
     <param>
       <key>_enabled</key>
@@ -360,7 +360,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(920, 20)</value>
+      <value>(976, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -556,7 +556,7 @@ synchronized</value>
     </param>
     <param>
       <key>comment</key>
-      <value></value>
+      <value>Allow for rough synchronization</value>
     </param>
     <param>
       <key>affinity</key>
@@ -572,7 +572,7 @@ synchronized</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(696, 4)</value>
+      <value>(784, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
