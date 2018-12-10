@@ -17,7 +17,8 @@ function promptfor
 		rval=$1
 	fi
 }
-
+startt=`date +%s`
+extra=""
 devstr="unknown"
 srate=""
 source=""
@@ -64,6 +65,14 @@ do
 			datadir=$2
 			shift 2
 			;;
+		--extra)
+			extra=$2
+			shift 2
+			;;
+		--startt)
+			startt=$2
+			shift 2
+			;;
 		*)
 			echo "Unknown option $1"
 			exit
@@ -81,7 +90,11 @@ lsusb >tmp$$
 if grep -q 2500:002 tmp$$
 then
 	echo "Detected a USRP B2xx type device"
-	devstr="uhd=0,type=b200,num_recv_frames=512,otw_format=sc12"
+	devstr="uhd=0,type=b200,num_recv_frames=512"
+	if [ @@ != @$extra@ ]
+	then
+		devstr=${devstr},${extra}
+	fi
 	promptfor "$srate" 10.0e6 "Sample rate" srate
 	srate=$rval
 fi
@@ -191,7 +204,7 @@ stime=`date +%s`
 rlogfile=${source}-${udate}-receiver.log
 python2 $HOME/pulsar_filterbank.py --device $devstr --srate $srate --freq $freq --prefix "${datadir}/${source}-" \
         --rfgain $rfgain\
-		--runtime `expr $runtime '*' 60`  >$rlogfile  2>&1
+		--runtime `expr $runtime '*' 60`  --startt ${startt} >$rlogfile  2>&1
 rval=$?
 
 etime=`date +%s`
@@ -243,6 +256,8 @@ fbsize=`grep "bank Size" $hdrfile|sed -e 's/.*=//'`
 #
 filesize=`ls -l $datafile | awk '/./ {print $5}'`
 computesize=`expr $fbrate \* $fbsize \* $runtime \* 60 \* 2`
+sub=`expr $computesize / 3`
+computesize=`expr $computesize - $sub`
 if [ $filesize -lt $computesize ]
 then
 	echo "Output size does not match expected filesize: $filesize vs $computesize"
