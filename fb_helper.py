@@ -44,12 +44,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
 cunter=0
 def synched(startt,dummy):
     global cunter
-    
-    cunter = cunter+1
-    if (cunter >= 100):
-        print "Cunter"
-        cunter=0
-    
+
     if (time.time() > startt):
         return True
     else:

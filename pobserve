@@ -81,7 +81,7 @@ lsusb >tmp$$
 if grep -q 2500:002 tmp$$
 then
 	echo "Detected a USRP B2xx type device"
-	devstr="uhd=0,type=b200,num_recv_frames=512,otw_format=sc8"
+	devstr="uhd=0,type=b200,num_recv_frames=512,otw_format=sc12"
 	promptfor "$srate" 10.0e6 "Sample rate" srate
 	srate=$rval
 fi

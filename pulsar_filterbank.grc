@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.13'?>
+<?grc format='1' created='3.7.12'?>
 <flow_graph>
   <timestamp>Tue Dec  4 02:45:36 2018</timestamp>
   <block>
@@ -1007,12 +1007,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
 cunter=0
 def synched(startt,dummy):
     global cunter
-    
-    cunter = cunter+1
-    if (cunter &gt;= 100):
-        print "Cunter"
-        cunter=0
-    
+
     if (time.time() &gt; startt):
         return True
     else:
