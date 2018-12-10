@@ -42,3 +42,8 @@ def write_header(fn, freq, bw, fbsize, fbrate):
         ltp.tm_min, ltp.tm_sec))
     
 
+def synched(startt,dummy):
+    if (time.time() > startt):
+        return True
+    else:
+        return False
