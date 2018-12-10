@@ -41,8 +41,15 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     f.write("Approx start UTC Time=%02d:%02d:%02d\n" % (ltp.tm_hour,
         ltp.tm_min, ltp.tm_sec))
     
-
+cunter=0
 def synched(startt,dummy):
+    global cunter
+    
+    cunter = cunter+1
+    if (cunter >= 100):
+        print "Cunter"
+        cunter=0
+    
     if (time.time() > startt):
         return True
     else:
