@@ -208,7 +208,7 @@ python2 $HOME/pulsar_filterbank.py --device $devstr --srate $srate --freq $freq 
 rval=$?
 
 etime=`date +%s`
-echo "Receiver finished at" `date` "with status $?"
+echo "Receiver finished at" `date` "with status $rval"
 
 #
 # OK, check some health indicators for the receiver run
