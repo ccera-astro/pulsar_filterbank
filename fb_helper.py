@@ -8,7 +8,7 @@ import time
 #  ONCE on startup.
 #
 def determine_rate(srate):
-    fbsize_2N = [192,160,128,96,64,48,32,100,50,25]
+    fbsize_2N = [160,128,96,64,48,32,100,50,25]
     for n in fbsize_2N:
         r = rate_core(srate, n)
         if r > 0:

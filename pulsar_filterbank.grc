@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.12'?>
+<?grc format='1' created='3.7.13'?>
 <flow_graph>
   <timestamp>Tue Dec  4 02:45:36 2018</timestamp>
   <block>
@@ -971,7 +971,7 @@ import time
 #  ONCE on startup.
 #
 def determine_rate(srate):
-    fbsize_2N = [192,160,128,96,64,48,32,100,50,25]
+    fbsize_2N = [160,128,96,64,48,32,100,50,25]
     for n in fbsize_2N:
         r = rate_core(srate, n)
         if r &gt; 0:
