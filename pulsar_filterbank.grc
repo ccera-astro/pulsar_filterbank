@@ -416,7 +416,7 @@ synchronized</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 260)</value>
+      <value>(728, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2884,7 +2884,7 @@ def synched(startt,dummy):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(608, 364)</value>
+      <value>(648, 364)</value>
     </param>
     <param>
       <key>_rotation</key>
