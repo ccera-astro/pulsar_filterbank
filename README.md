@@ -15,7 +15,6 @@ with this Gnu Radio app.
 
 Currently supported options:
 <pre>
-
 Usage: pulsar_filterbank.py: [options]
 
 Options:
@@ -24,7 +23,6 @@ Options:
   --dec=DEC          Set Source DEC [default=54.5]
   --device=DEVICE    Set Hardware device string [default=airspy=0]
   --freq=FREQ        Set Tuner Frequency [default=612.0M]
-  --fscale=FSCALE    Set Float to byte scaling [default=128]
   --ifgain=IFGAIN    Set IF Gain [default=10.0]
   --prefix=PREFIX    Set File prefix [default=./]
   --ra=RA            Set Source RA [default=3.51]
@@ -32,5 +30,5 @@ Options:
   --runtime=RUNTIME  Set Total runtime (seconds) [default=600]
   --source=SOURCE    Set Source Name [default=B0329+54]
   --srate=SRATE      Set Hardware Sample Rate [default=2.5M]
-  --startt=STARTT    Set Start Time [default=now]
+  --startt=STARTT    Set Start Time [default=1544737955]
 </pre>
