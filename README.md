@@ -14,6 +14,7 @@ Also, a shell script, "pobserve" can be used to manage an observtion
 with this Gnu Radio app.
 
 Currently supported options:
+<code>
 
 Usage: pulsar_filterbank.py: [options]
 
@@ -32,3 +33,4 @@ Options:
   --source=SOURCE    Set Source Name [default=B0329+54]
   --srate=SRATE      Set Hardware Sample Rate [default=2.5M]
   --startt=STARTT    Set Start Time [default=now]
+</code>
