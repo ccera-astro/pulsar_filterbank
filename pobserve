@@ -265,14 +265,3 @@ then
 	cat $rlogfile
 	exit
 fi
-
-#
-# All seems sane, call bin2fil to convert into .fil file for PRESTO
-#   and friends
-#
-echo "Starting conversion to .fil format at " `date`
-flra=`echo $ra|awk '/./ {print $1*1000.0}'`
-fldec=`echo $dec|awk '/./ {print $1*1000.0}'`
-python3 $HOME/bin2fil.py --channels $fbsize --sample-rate $fbrate --center-freq $freq --source-name $source \
-	--source-ra $flra --source-de $fldec --no-filter $datafile --sr-error 0.5 --nofilter
-echo "Finished conversion at " `date`
