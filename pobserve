@@ -237,31 +237,3 @@ then
 	cat $rlogfile
 	exit
 fi
-
-
-#
-# Create some convenient variables related to output files
-#
-hdrfile=${datadir}/${source}-psr-${udate}.header
-datafile=${datadir}/${source}-psr-${udate}.rfb16
-
-#
-# Extract fbrate and fbsize from header file
-#
-fbrate=`grep "output rate" $hdrfile |sed -e 's/.*=//'`
-fbsize=`grep "bank Size" $hdrfile|sed -e 's/.*=//'`
-
-#
-# Sanity check actual output file size vs expected
-#
-filesize=`ls -l $datafile | awk '/./ {print $5}'`
-computesize=`expr $fbrate \* $fbsize \* $runtime \* 60 \* 2`
-sub=`expr $computesize / 3`
-computesize=`expr $computesize - $sub`
-if [ $filesize -lt $computesize ]
-then
-	echo "Output size does not match expected filesize: $filesize vs $computesize"
-	echo "Showing receiver log"
-	cat $rlogfile
-	exit
-fi

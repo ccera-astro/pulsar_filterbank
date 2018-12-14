@@ -9,8 +9,8 @@ sshpass -p astronomer scp *.py pobserve  ~/bin2fil-py/bin2fil.py astronomer@192.
 sshpass -p astronomer ssh astronomer@192.168.0.55 "rm -f /mnt/data/B0329*;  rm -f *receiver.log"
 sshpass -p astronomer ssh astronomer@192.168.0.58 "rm -f /mnt/data/B0329*; rm -f *receiver.log"
 
-sshpass -p astronomer ssh astronomer@192.168.0.55 "killall python2"
-sshpass -p astronomer ssh astronomer@192.168.0.58 "killall python2"
+sshpass -p astronomer ssh astronomer@192.168.0.55 "killall python2 >/dev/null 2>&1"
+sshpass -p astronomer ssh astronomer@192.168.0.58 "killall python2 >/dev/null 2>&1"
 
 if [ -e first.pid ]
 then
