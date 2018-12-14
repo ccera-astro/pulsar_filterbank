@@ -221,7 +221,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1024 if samp_rate &gt;= 6.0e6 else 512</value>
+      <value>1024 if samp_rate &gt; 5.0e6 else 512</value>
     </param>
   </block>
   <block>
