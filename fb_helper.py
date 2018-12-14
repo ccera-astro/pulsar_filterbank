@@ -7,37 +7,11 @@ import time
 # This is not stunningly efficient, but it only has to run
 #  ONCE on startup.
 #
-import platform
-def determine_rate(srate):
-    #
-    # We assume that an x86 platform will be somewhat
-    #  beefier than an ARM platform, and increase the MAX allowable channels
-    #  accordingly.
-    #
-    if "x86" in platform.machine():
-        fbsize_2N = [1024,1000,512+256,512+128,512+64,512+32,512,500,400,256+128,256+64,300,256+32,256,200,128+64,128+32]
-        fbsize_2N += [150,128,100,64+32,64+16,70,64,50,32+16,32+8,32]
-    else:
-        fbsize_2N = [160,128,96,64,48,32,100,50,25]
-    for n in fbsize_2N:
-        r = rate_core(srate, n)
-        if r > 0:
-            return((n,r))
-
-    raise RuntimeError("Unable to determine useful FBSIZE/FBRATE combination given sample rate")
-
-#
-# Given sample rate, and fbsize, determine a useful rate
-#  Return -1 if no rate could be determined
-#
-def rate_core(srate, fbsize):
-    bankrate = float(srate)/float(fbsize)
-    for i in range(1200,4800):
-        frate = bankrate/float(i)
-        irate = float(int(frate))
-        if (frate == irate):
-            return int(bankrate/irate)
-    return -1
+def determine_rate(srate,fbsize):
+	decims = [32,16,8,4,2]
+	for d in decims:
+		if ((srate/fbsize)/d >= 1250.0):
+			return d
 
 #
 # Write an external, text, header file
@@ -48,7 +22,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     f.write("frequency=%.5f\n" % freq)
     f.write("RF sample rate=%.5f\n" % bw)
     f.write("Filterbank Size=%d\n" % fbsize)
-    f.write("Filterbank output rate=%d\n" % fbrate)
+    f.write("Filterbank output rate=%.3f\n" % fbrate)
     f.write("Approx start UTC Date=%04d%02d%02d\n" % (ltp.tm_year,
         ltp.tm_mon, ltp.tm_mday))
     f.write("Approx start UTC Time=%02d:%02d:%02d\n" % (ltp.tm_hour,
