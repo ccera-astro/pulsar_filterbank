@@ -61,8 +61,6 @@ def synched(startt,dummy):
     else:
         return False
 
-import datetime
-import ephem
 import os
 import struct
 #
