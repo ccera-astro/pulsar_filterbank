@@ -6,27 +6,32 @@ sshpass -p astronomer ssh astronomer@192.168.0.58 "uhd_usrp_probe --args type=b2
 sshpass -p astronomer scp *.py pobserve  ~/bin2fil-py/bin2fil.py astronomer@192.168.0.55:
 sshpass -p astronomer scp *.py pobserve  ~/bin2fil-py/bin2fil.py astronomer@192.168.0.58:
 
+sshpass -p astronomer ssh astronomer@192.168.0.55 "rm -f /mnt/data/B0329*;  rm -f *receiver.log"
+sshpass -p astronomer ssh astronomer@192.168.0.58 "rm -f /mnt/data/B0329*; rm -f *receiver.log"
+
+sshpass -p astronomer ssh astronomer@192.168.0.55 "killall python2"
+sshpass -p astronomer ssh astronomer@192.168.0.58 "killall python2"
 
 if [ -e first.pid ]
 then
-	kill -1 `cat first.pid`
+	kill -1 `cat first.pid` >/dev/null 2>&1
 fi
 
 if [ -e second.pid ]
 then
-	kill -1 `cat second.pid`
+	kill -1 `cat second.pid` >/dev/null 2>&1
 fi
 
 startt=`date +%s`
 startt=`expr $startt + 30`
 
 sshpass -p astronomer ssh astronomer@192.168.0.55 "source .bashrc; ./pobserve --startt ${startt} --freq 611e6 --source B0329+54\
-  --ra 3.51 --dec 54.5  --srate 6e6 --runtime 120 --rfgain 30 --datadir /mnt/data"  >first.log 2>&1 &
+  --ra 3.51 --dec 54.5  --srate 5e6 --runtime $1 --rfgain 30 --datadir /mnt/data"  >first.log 2>&1 &
 
 echo $! >first.pid
 
 sshpass -p astronomer ssh astronomer@192.168.0.58 "source .bashrc; ./pobserve --startt ${startt} --freq 611e6 --source B0329+54\
-  --ra 3.51 --dec 54.5  --srate 6e6 --runtime 120 --rfgain 30  --datadir /mnt/data" >second.log 2>&1 &
+  --ra 3.51 --dec 54.5  --srate 5e6 --runtime $1 --rfgain 30  --datadir /mnt/data" >second.log 2>&1 &
 
 echo $! >second.pid
 
