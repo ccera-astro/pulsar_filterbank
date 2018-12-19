@@ -1035,16 +1035,16 @@ import struct
 def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize):
 
 	#
-	# Time for one sample, in usec
+	# Time for one sample, in sec
 	#
     tsamp=1.0/fbrate
-    tsamp *= 1.0e6
     
     #
     # Frequency offset between channels, in MHz
     #
     f_off=bw/fbsize
     f_off /= 1.0e6
+    f_off = -1.0 * f_off
     
     #
     # Highest frequency represented in FB, in MHz
