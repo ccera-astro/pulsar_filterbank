@@ -145,7 +145,7 @@ then
 	srate=$rval
 fi
 
-if grep -q 0403:61f tmp$$
+if grep -q 0403:601f tmp$$
 then
     echo "Detected a LimeSDR device"
 	devstr="soapy,driver=lime,nchan=1"

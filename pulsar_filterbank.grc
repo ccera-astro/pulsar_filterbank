@@ -390,6 +390,33 @@
     <key>variable</key>
     <param>
       <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(328, 156)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>skiptime</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>int((startt-time.time())*samp_rate)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
       <value>Filename forming</value>
     </param>
     <param>
@@ -673,7 +700,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 4)</value>
+      <value>(576, 4)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -724,7 +751,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(152, 76)</value>
+      <value>(192, 92)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -744,7 +771,7 @@ sample rate</value>
     </param>
     <param>
       <key>num_items</key>
-      <value>(int(startt)-int(time.time()))*int(samp_rate)</value>
+      <value>0 if skiptime &lt; 0 else skiptime</value>
     </param>
     <param>
       <key>type</key>
@@ -775,7 +802,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 172)</value>
+      <value>(312, 220)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3023,7 +3050,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(648, 364)</value>
+      <value>(528, 204)</value>
     </param>
     <param>
       <key>_rotation</key>
