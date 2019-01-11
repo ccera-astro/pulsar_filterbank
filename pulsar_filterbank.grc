@@ -732,6 +732,57 @@ sample rate</value>
     </param>
   </block>
   <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value>Try to keep output values positive</value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>[0.9]*fbsize</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(816, 244)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_skiphead</key>
     <param>
       <key>alias</key>
@@ -853,7 +904,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 112)</value>
+      <value>(1008, 112)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3101,7 +3152,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(816, 148)</value>
+      <value>(752, 140)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3300,6 +3351,12 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
+    <sink_block_id>blocks_sub_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_skiphead_0</source_block_id>
     <sink_block_id>blocks_head_0</sink_block_id>
     <source_key>0</source_key>
@@ -3337,8 +3394,8 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
   </connection>
   <connection>
     <source_block_id>single_pole_iir_filter_xx_0_0</source_block_id>
-    <sink_block_id>blocks_sub_xx_0</sink_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
     <source_key>0</source_key>
-    <sink_key>1</sink_key>
+    <sink_key>0</sink_key>
   </connection>
 </flow_graph>
