@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.13'?>
+<?grc format='1' created='3.7.12'?>
 <flow_graph>
   <timestamp>Tue Dec  4 02:45:36 2018</timestamp>
   <block>
@@ -228,6 +228,77 @@
     <key>variable</key>
     <param>
       <key>comment</key>
+      <value>Arrange to log FFT outputs in dB ascii
+format every 10 seconds</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(872, 444)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fft_log_status</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.log_fft(freq,samp_rate,prefix,fft_poll)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_function_probe</key>
+    <param>
+      <key>block_id</key>
+      <value>fft_probe</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>function_args</key>
+      <value></value>
+    </param>
+    <param>
+      <key>function_name</key>
+      <value>level</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(872, 360)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fft_poll</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[1.0e-15]*fbsize</value>
+    </param>
+    <param>
+      <key>poll_rate</key>
+      <value>0.1</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
       <value></value>
     </param>
     <param>
@@ -236,7 +307,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 668)</value>
+      <value>(1120, 716)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -263,7 +334,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 596)</value>
+      <value>(1032, 716)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -317,7 +388,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 532)</value>
+      <value>(896, 612)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -601,7 +672,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1056, 260)</value>
+      <value>(896, 124)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -732,57 +803,6 @@ sample rate</value>
     </param>
   </block>
   <block>
-    <key>blocks_multiply_const_vxx</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value>Try to keep output values positive</value>
-    </param>
-    <param>
-      <key>const</key>
-      <value>[0.9]*fbsize</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(816, 244)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_multiply_const_vxx_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>fbsize</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_skiphead</key>
     <param>
       <key>alias</key>
@@ -882,57 +902,6 @@ sample rate</value>
     <param>
       <key>vlen</key>
       <value>1</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_sub_xx</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value>Cheap high-pass filter</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1008, 112)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_sub_xx_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>num_inputs</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>fbsize</value>
     </param>
   </block>
   <block>
@@ -1240,6 +1209,20 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     fp.close
     return True
 
+import math
+
+def log_fft(freq,bw,prefix,fft):
+    
+    ltp = time.gmtime(time.time())
+    date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
+    fp = open(prefix+date+"-fft.csv", "a")
+    
+    fp.write("%02d:%02d:%02d," % (ltp.tm_hour, ltp.tm_min, ltp.tm_sec))
+    for i in range(0,len(fft)):
+        fp.write("%.2f," % (10.0*math.log10(fft[i]/len(fft))))
+    fp.write("\n")
+    fp.close()
+    
 </value>
     </param>
     <param>
@@ -1258,7 +1241,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(600, 540)</value>
+      <value>(544, 516)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1267,6 +1250,45 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     <param>
       <key>id</key>
       <value>fb_helper</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_probe_signal_vx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(880, 308)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fft_probe</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
     </param>
   </block>
   <block>
@@ -3134,7 +3156,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     <key>single_pole_iir_filter_xx</key>
     <param>
       <key>alpha</key>
-      <value>1.0/float(fbdecim*2)</value>
+      <value>1.0/float(fbdecim)</value>
     </param>
     <param>
       <key>alias</key>
@@ -3185,7 +3207,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     <key>single_pole_iir_filter_xx</key>
     <param>
       <key>alpha</key>
-      <value>1.0/(fbrate*30)</value>
+      <value>1.0/25</value>
     </param>
     <param>
       <key>alias</key>
@@ -3193,7 +3215,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     </param>
     <param>
       <key>comment</key>
-      <value>Estimate DC</value>
+      <value></value>
     </param>
     <param>
       <key>affinity</key>
@@ -3205,7 +3227,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(752, 140)</value>
+      <value>(792, 212)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3213,7 +3235,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     </param>
     <param>
       <key>id</key>
-      <value>single_pole_iir_filter_xx_0_0</value>
+      <value>single_pole_iir_filter_xx_1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -3393,21 +3415,15 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
   </connection>
   <connection>
     <source_block_id>blocks_keep_one_in_n_0</source_block_id>
-    <sink_block_id>blocks_sub_xx_0</sink_block_id>
+    <sink_block_id>blocks_float_to_short_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_keep_one_in_n_0</source_block_id>
-    <sink_block_id>single_pole_iir_filter_xx_0_0</sink_block_id>
+    <sink_block_id>single_pole_iir_filter_xx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
-    <sink_block_id>blocks_sub_xx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_skiphead_0</source_block_id>
@@ -3418,12 +3434,6 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
   <connection>
     <source_block_id>blocks_stream_to_vector_0</source_block_id>
     <sink_block_id>fft_vxx_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_sub_xx_0</source_block_id>
-    <sink_block_id>blocks_float_to_short_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -3446,8 +3456,8 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>single_pole_iir_filter_xx_0_0</source_block_id>
-    <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
+    <source_block_id>single_pole_iir_filter_xx_1</source_block_id>
+    <sink_block_id>fft_probe</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

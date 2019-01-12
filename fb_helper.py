@@ -201,3 +201,17 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     fp.close
     return True
 
+import math
+
+def log_fft(freq,bw,prefix,fft):
+    
+    ltp = time.gmtime(time.time())
+    date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
+    fp = open(prefix+date+"-fft.csv", "a")
+    
+    fp.write("%02d:%02d:%02d," % (ltp.tm_hour, ltp.tm_min, ltp.tm_sec))
+    for i in range(0,len(fft)):
+        fp.write("%.2f," % (10.0*math.log10(fft[i]/len(fft))))
+    fp.write("\n")
+    fp.close()
+    

@@ -26,12 +26,12 @@ startt=`date +%s`
 startt=`expr $startt + 30`
 
 sshpass -p astronomer ssh astronomer@192.168.0.55 "source .bashrc; ./pobserve --startt ${startt} --freq 611e6 --source B0329+54\
-  --ra 3.51 --dec 54.5  --srate 5e6 --runtime $1 --rfgain 30 --datadir /mnt/data"  >first.log 2>&1 &
+  --ra 3.51 --dec 54.5  --srate 5e6 --runtime $1 --rfgain 35 --datadir /mnt/data"  >first.log 2>&1 &
 
 echo $! >first.pid
 
 sshpass -p astronomer ssh astronomer@192.168.0.58 "source .bashrc; ./pobserve --startt ${startt} --freq 611e6 --source B0329+54\
-  --ra 3.51 --dec 54.5  --srate 5e6 --runtime $1 --rfgain 30  --datadir /mnt/data" >second.log 2>&1 &
+  --ra 3.51 --dec 54.5  --srate 5e6 --runtime $1 --rfgain 35  --datadir /mnt/data" >second.log 2>&1 &
 
 echo $! >second.pid
 
