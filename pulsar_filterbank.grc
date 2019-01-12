@@ -1099,13 +1099,15 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     #
     f_off=bw/fbsize
     f_off /= 1.0e6
-    f_off = -1.0 * f_off
     
     #
     # Highest frequency represented in FB, in MHz
     #
     high_freq = freq+(bw/2.0)
     high_freq  /= 1.0e6
+    
+    low_freq = freq-(bw/2.0)
+    low_freq /= 1.0e6
     
     #
     # Number of subbands
@@ -1172,7 +1174,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     aux="fch1"
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
-    aux=struct.pack('d', high_freq)
+    aux=struct.pack('d', low_freq)
     fp.write(aux)
     #--
     aux="nchans"
