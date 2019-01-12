@@ -8,10 +8,11 @@ import time
 #  ONCE on startup.
 #
 def determine_rate(srate,fbsize):
-	decims = [32,16,8,4,2]
+	decims = [32,16,8,4,2,1]
 	for d in decims:
-		if ((srate/fbsize)/d >= 1250.0):
+		if ((srate/fbsize)/d >= 2200.0):
 			return d
+	return 1
 
 #
 # Write an external, text, header file
