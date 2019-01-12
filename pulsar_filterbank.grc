@@ -3081,7 +3081,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     <key>single_pole_iir_filter_xx</key>
     <param>
       <key>alpha</key>
-      <value>1.0/float(fbdecim)</value>
+      <value>1.0/float(fbdecim*2)</value>
     </param>
     <param>
       <key>alias</key>
