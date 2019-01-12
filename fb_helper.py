@@ -7,12 +7,15 @@ import time
 # This is not stunningly efficient, but it only has to run
 #  ONCE on startup.
 #
-def determine_rate(srate,fbsize):
-	decims = [32,16,8,4,2,1]
-	for d in decims:
-		if ((srate/fbsize)/d >= 2200.0):
-			return d
-	return 1
+def determine_rate(srate,fbsize,pw50):
+    decims = [32,16,8,4,2,1]
+    target_rate = (1.0/pw50)
+    target_rate *= 9.0
+    target_rate *= 2.0
+    for d in decims:
+        if ((srate/fbsize)/d >= target_rate):
+            return d
+    return 1
 
 #
 # Write an external, text, header file
@@ -47,9 +50,9 @@ import struct
 #
 def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize):
 
-	#
-	# Time for one sample, in sec
-	#
+    #
+    # Time for one sample, in sec
+    #
     tsamp=1.0/fbrate
     
     #

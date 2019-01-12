@@ -101,7 +101,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1016, 12)</value>
+      <value>(896, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -113,7 +113,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.determine_rate(samp_rate,fbsize)</value>
+      <value>fb_helper.determine_rate(samp_rate,fbsize,pw50)</value>
     </param>
   </block>
   <block>
@@ -155,7 +155,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1096, 12)</value>
+      <value>(992, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1046,12 +1046,15 @@ import time
 # This is not stunningly efficient, but it only has to run
 #  ONCE on startup.
 #
-def determine_rate(srate,fbsize):
-	decims = [32,16,8,4,2,1]
-	for d in decims:
-		if ((srate/fbsize)/d &gt;= 2200.0):
-			return d
-	return 1
+def determine_rate(srate,fbsize,pw50):
+    decims = [32,16,8,4,2,1]
+    target_rate = (1.0/pw50)
+    target_rate *= 9.0
+    target_rate *= 2.0
+    for d in decims:
+        if ((srate/fbsize)/d &gt;= target_rate):
+            return d
+    return 1
 
 #
 # Write an external, text, header file
@@ -1086,9 +1089,9 @@ import struct
 #
 def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize):
 
-	#
-	# Time for one sample, in sec
-	#
+    #
+    # Time for one sample, in sec
+    #
     tsamp=1.0/fbrate
     
     #
@@ -2935,6 +2938,53 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     <param>
       <key>value</key>
       <value>"./"</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(408, 784)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pw50</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Pulsar PW50</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.0066</value>
     </param>
   </block>
   <block>
