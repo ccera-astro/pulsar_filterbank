@@ -134,13 +134,13 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     aux="foff"
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
-    aux=struct.pack('d', f_off)
+    aux=struct.pack('d', -f_off)
     fp.write(aux)
     #--
     aux="fch1"
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
-    aux=struct.pack('d', low_freq)
+    aux=struct.pack('d', high_freq)
     fp.write(aux)
     #--
     aux="nchans"
@@ -215,7 +215,14 @@ def log_fft(freq,bw,prefix,fft):
     fp = open(prefix+date+"-fft.csv", "a")
     
     fp.write("%02d:%02d:%02d," % (ltp.tm_hour, ltp.tm_min, ltp.tm_sec))
-    for i in range(0,len(fft)):
+    
+    #
+    # Spectrum is inverted:  Fc+bw/2 to Fc-bw/2
+    #
+    # Required for PRESTO tooling
+    # So we start at the high end and work our way backwards
+    #
+    for i in range(len(fft)-1,-1,-1):
         fp.write("%.2f," % (10.0*math.log10(fft[i]/len(fft))))
     fp.write("\n")
     fp.close()
