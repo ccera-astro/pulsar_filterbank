@@ -66,9 +66,14 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     #
     high_freq = freq+(bw/2.0)
     high_freq  /= 1.0e6
+    high_freq -= (f_off/2.0)
     
+    #
+    # Lowest
+    #
     low_freq = freq-(bw/2.0)
     low_freq /= 1.0e6
+    low_freq += (f_off/2.0)
     
     #
     # Number of subbands

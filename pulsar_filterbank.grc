@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.12'?>
+<?grc format='1' created='3.7.13'?>
 <flow_graph>
   <timestamp>Tue Dec  4 02:45:36 2018</timestamp>
   <block>
@@ -1074,9 +1074,14 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     #
     high_freq = freq+(bw/2.0)
     high_freq  /= 1.0e6
+    high_freq -= (f_off/2.0)
     
+    #
+    # Lowest
+    #
     low_freq = freq-(bw/2.0)
     low_freq /= 1.0e6
+    low_freq += (f_off/2.0)
     
     #
     # Number of subbands
