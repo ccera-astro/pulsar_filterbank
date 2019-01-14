@@ -134,7 +134,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     aux="foff"
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
-    aux=struct.pack('d', -f_off)
+    aux=struct.pack('d', f_off)
     fp.write(aux)
     #--
     aux="fch1"
