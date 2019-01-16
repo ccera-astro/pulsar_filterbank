@@ -240,12 +240,12 @@ def dm_to_bins(dm,freq,bw):
         f_lower /= 1.0e6
         f_upper /= 1.0e6
         Dt = dm/2.41e-4 * (1.0/(f_lower*f_lower)-1.0/(f_upper*f_upper))
-        if (Dt < 0.0002):
+        if (Dt <= 0.000250):
             break
         
     bins = bw/tbw
     bins = math.log(bins)/math.log(2.0)
-    if (abs(bins-int(bins)) != 0):
+    if (abs(bins-int(bins)) > 0.2):
         bins += 1
     
     bins = int(bins)
