@@ -8,7 +8,7 @@ import time
 #  ONCE on startup.
 #
 def determine_rate(srate,fbsize,pw50):
-    decims = [32,16,8,4,2,1]
+    decims = [128,64,32,16,8,4,2,1]
     target_rate = (1.0/pw50)
     target_rate *= 9.0
     target_rate *= 2.0
@@ -210,6 +210,9 @@ import math
 
 def log_fft(freq,bw,prefix,fft):
     
+    if (len(fft) < 2):
+        return
+    
     ltp = time.gmtime(time.time())
     date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
     fp = open(prefix+date+"-fft.csv", "a")
@@ -223,7 +226,34 @@ def log_fft(freq,bw,prefix,fft):
     # So we start at the high end and work our way backwards
     #
     for i in range(len(fft)-1,-1,-1):
-        fp.write("%.2f," % (10.0*math.log10(fft[i]/len(fft))))
+        if (fft[i] <= 0.0):
+            fp.write("??,")
+        else:
+            fp.write("%.2f," % (10.0*math.log10(fft[i]/len(fft))))
     fp.write("\n")
     fp.close()
     
+def dm_to_bins(dm,freq,bw):
+    for tbw in [500e3,250e3,125e3,62.5e3,31.25e3]:
+        f_lower = freq-(tbw/2.0)
+        f_upper = freq+(tbw/2.0)
+        f_lower /= 1.0e6
+        f_upper /= 1.0e6
+        Dt = dm/2.41e-4 * (1.0/(f_lower*f_lower)-1.0/(f_upper*f_upper))
+        if (Dt < 0.0002):
+            break
+        
+    bins = bw/tbw
+    bins = math.log(bins)/math.log(2.0)
+    if (abs(bins-int(bins)) != 0):
+        bins += 1
+    
+    bins = int(bins)
+    return(int(2**bins))
+
+        
+    
+    
+    
+
+

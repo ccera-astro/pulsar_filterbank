@@ -120,33 +120,6 @@
     <key>variable</key>
     <param>
       <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1504, 20)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fbdiv</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1 if 'x86' in platform.machine() else 4</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
       <value>Output sample rate for each channel</value>
     </param>
     <param>
@@ -194,34 +167,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>fbsize_i / fbdiv</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1424, 20)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fbsize_i</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1024 if samp_rate &gt; 5.0e6 else 512</value>
+      <value>fb_helper.dm_to_bins(dm,freq,samp_rate)</value>
     </param>
   </block>
   <block>
@@ -1242,6 +1188,53 @@ Thus disabling HP filter</value>
     </param>
   </block>
   <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(536, 872)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>dm</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Dispersion Measure</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>50.0</value>
+    </param>
+  </block>
+  <block>
     <key>epy_module</key>
     <param>
       <key>alias</key>
@@ -1259,7 +1252,7 @@ import time
 #  ONCE on startup.
 #
 def determine_rate(srate,fbsize,pw50):
-    decims = [32,16,8,4,2,1]
+    decims = [128,64,32,16,8,4,2,1]
     target_rate = (1.0/pw50)
     target_rate *= 9.0
     target_rate *= 2.0
@@ -1461,6 +1454,9 @@ import math
 
 def log_fft(freq,bw,prefix,fft):
     
+    if (len(fft) &lt; 2):
+        return
+    
     ltp = time.gmtime(time.time())
     date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
     fp = open(prefix+date+"-fft.csv", "a")
@@ -1474,10 +1470,37 @@ def log_fft(freq,bw,prefix,fft):
     # So we start at the high end and work our way backwards
     #
     for i in range(len(fft)-1,-1,-1):
-        fp.write("%.2f," % (10.0*math.log10(fft[i]/len(fft))))
+        if (fft[i] &lt;= 0.0):
+            fp.write("??,")
+        else:
+            fp.write("%.2f," % (10.0*math.log10(fft[i]/len(fft))))
     fp.write("\n")
     fp.close()
     
+def dm_to_bins(dm,freq,bw):
+    for tbw in [500e3,250e3,125e3,62.5e3,31.25e3]:
+        f_lower = freq-(tbw/2.0)
+        f_upper = freq+(tbw/2.0)
+        f_lower /= 1.0e6
+        f_upper /= 1.0e6
+        Dt = dm/2.41e-4 * (1.0/(f_lower*f_lower)-1.0/(f_upper*f_upper))
+        if (Dt &lt; 0.0002):
+            break
+        
+    bins = bw/tbw
+    bins = math.log(bins)/math.log(2.0)
+    if (abs(bins-int(bins)) != 0):
+        bins += 1
+    
+    bins = int(bins)
+    return(int(2**bins))
+
+        
+    
+    
+    
+
+
 </value>
     </param>
     <param>
