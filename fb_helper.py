@@ -60,6 +60,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     #
     f_off=bw/fbsize
     f_off /= 1.0e6
+    f_off *= -1
     
     #
     # Highest frequency represented in FB, in MHz
