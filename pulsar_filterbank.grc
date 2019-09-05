@@ -470,7 +470,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>poll_rate</key>
-      <value>10</value>
+      <value>15</value>
     </param>
   </block>
   <block>
@@ -653,6 +653,57 @@ format every 10 seconds</value>
     <param>
       <key>value</key>
       <value>10</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_add_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(288, 592)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_add_xx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1297,6 +1348,65 @@ Thus disabling HP filter</value>
     </param>
   </block>
   <block>
+    <key>blocks_tags_strobe</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(48, 692)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_tags_strobe_0</value>
+    </param>
+    <param>
+      <key>key</key>
+      <value>pmt.intern("local_tick")</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>nsamps</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>pmt.from_bool(True)</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -1719,10 +1829,13 @@ def dm_to_bins(dm,freq,bw):
 
 import pmt
 tag_dict = {} 
-
+first_tag = None
 def process_tag(tags):
+    global first_tag
     for tag in tags:
         tag_dict[pmt.to_python(tag.key)] = pmt.to_python(tag.value)
+        if (first_tag == None):
+            first_tag = time.time()
     
 
 def get_tag(key):
@@ -1743,28 +1856,39 @@ def update_header(pacer,runtime):
     global didit
     global grab_time
     global started
+    global first_tag
 
-    if (grab_time == False):
-        started = time.time()
-        grab_time = True
-    endtime = started+runtime
-    endtime -= 0.5
+    #
+    # If we haven't seen our first tag yet, data flow hasn't started
+    #
+    if (first_tag == None):
+        return None
+    else:
+        endtime = first_tag + runtime
     
     #
     # This little dance ensures that we only update the header and concatenate
     #   the live sample data when:
     #
-    #   o   There's an available 'rx_time" tag
     #   o   We're close to the end of the run
     #   o   We haven't already done this
     #
-    if (get_tag("rx_time") != None and (time.time() &gt;= endtime) and didit == False):
+    if ((time.time() &gt;= endtime) and didit == False):
         
         #
         # We retrieve the previously-cached "rx_time" tag
         #
+        # If "none", then 
+        #
         times = get_tag("rx_time")
-        seconds = float(times[0])+float(times[1])
+        if (times != None):
+            seconds = float(times[0])+float(times[1])
+        else:
+            # 
+            # This will result in a very-rough approximation
+            #
+            seconds = first_tag
+            print "No rx_time tag, start time will be approximate."
         
         #
         # Turn real seconds into MJD
@@ -5631,7 +5755,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 620)</value>
+      <value>(272, 684)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5647,7 +5771,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>filter</key>
-      <value>rx_time</value>
+      <value></value>
     </param>
     <param>
       <key>name</key>
@@ -5906,6 +6030,12 @@ gr-osmsdr source.</value>
     </param>
   </block>
   <connection>
+    <source_block_id>blocks_add_xx_0</source_block_id>
+    <sink_block_id>tag_retrieve</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_complex_to_float_0</source_block_id>
     <sink_block_id>blocks_float_to_complex_0</sink_block_id>
     <source_key>1</source_key>
@@ -5961,7 +6091,7 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>blocks_keep_one_in_n_1</source_block_id>
-    <sink_block_id>tag_retrieve</sink_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -5988,6 +6118,12 @@ gr-osmsdr source.</value>
     <sink_block_id>blocks_float_to_short_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_tags_strobe_0</source_block_id>
+    <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>fft_vxx_0_0</source_block_id>

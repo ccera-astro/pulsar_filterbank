@@ -272,10 +272,13 @@ def dm_to_bins(dm,freq,bw):
 
 import pmt
 tag_dict = {} 
-
+first_tag = None
 def process_tag(tags):
+    global first_tag
     for tag in tags:
         tag_dict[pmt.to_python(tag.key)] = pmt.to_python(tag.value)
+        if (first_tag == None):
+            first_tag = time.time()
     
 
 def get_tag(key):
@@ -296,28 +299,39 @@ def update_header(pacer,runtime):
     global didit
     global grab_time
     global started
+    global first_tag
 
-    if (grab_time == False):
-        started = time.time()
-        grab_time = True
-    endtime = started+runtime
-    endtime -= 0.5
+    #
+    # If we haven't seen our first tag yet, data flow hasn't started
+    #
+    if (first_tag == None):
+        return None
+    else:
+        endtime = first_tag + runtime
     
     #
     # This little dance ensures that we only update the header and concatenate
     #   the live sample data when:
     #
-    #   o   There's an available 'rx_time" tag
     #   o   We're close to the end of the run
     #   o   We haven't already done this
     #
-    if (get_tag("rx_time") != None and (time.time() >= endtime) and didit == False):
+    if ((time.time() >= endtime) and didit == False):
         
         #
         # We retrieve the previously-cached "rx_time" tag
         #
+        # If "none", then 
+        #
         times = get_tag("rx_time")
-        seconds = float(times[0])+float(times[1])
+        if (times != None):
+            seconds = float(times[0])+float(times[1])
+        else:
+            # 
+            # This will result in a very-rough approximation
+            #
+            seconds = first_tag
+            print "No rx_time tag, start time will be approximate."
         
         #
         # Turn real seconds into MJD
