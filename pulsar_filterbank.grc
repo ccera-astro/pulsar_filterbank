@@ -512,33 +512,6 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(328, 156)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>skiptime</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>int((startt-time.time())*samp_rate)</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
       <value>(392, 700)</value>
     </param>
     <param>
@@ -1192,57 +1165,6 @@ Thus disabling HP filter</value>
     <param>
       <key>vlen</key>
       <value>fbsize</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_skiphead</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(192, 92)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_skiphead_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>num_items</key>
-      <value>0 if skiptime &lt; 0 else skiptime</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
     </param>
   </block>
   <block>
@@ -5656,53 +5578,6 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(392, 872)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>startt</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Start Time</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>hide</key>
-      <value>none</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>int(time.time())+5</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
       <value>(328, 1064)</value>
     </param>
     <param>
@@ -6105,12 +5980,6 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_skiphead_0</source_block_id>
-    <sink_block_id>blocks_head_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>blocks_stream_to_vector_0</source_block_id>
     <sink_block_id>fft_vxx_0_0</sink_block_id>
     <source_key>0</source_key>
@@ -6166,7 +6035,7 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>virtual_source_0</source_block_id>
-    <sink_block_id>blocks_skiphead_0</sink_block_id>
+    <sink_block_id>blocks_head_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
