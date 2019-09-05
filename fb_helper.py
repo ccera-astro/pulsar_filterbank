@@ -287,27 +287,30 @@ def get_tag(key):
     else:
         return None
         
-started = time.time()
-grab_time = False
 didit = False
 #
 # Basically, near the end of the run, concatenates the correct header data
 #  and the live sample data, and produces a final ".fil" output file.
 #
 def update_header(pacer,runtime):
-    global started
     global didit
-    global grab_time
-    global started
     global first_tag
 
     #
     # If we haven't seen our first tag yet, data flow hasn't started
     #
+    # The first tag showing up triggers us to record the local time.
+    #
+    # This allows us to form a rough estimate of when to do the
+    #  file-merge, and also, will be our starting timestamp if the
+    #  data stream never had an rx_time tag.
+    #
+    #
     if (first_tag == None):
         return None
     else:
         endtime = first_tag + runtime
+        endtime -= 0.5
     
     #
     # This little dance ensures that we only update the header and concatenate
@@ -321,7 +324,7 @@ def update_header(pacer,runtime):
         #
         # We retrieve the previously-cached "rx_time" tag
         #
-        # If "none", then 
+        # If "none", then we use "first_tag" value
         #
         times = get_tag("rx_time")
         if (times != None):
