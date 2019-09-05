@@ -1,5 +1,7 @@
 # this module will be imported in the into your flowgraph
 import time
+import os
+import shutil
 
 #
 # Determine FBSIZE and FBRATE given input sample rate
@@ -26,7 +28,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     f.write("frequency=%.5f\n" % freq)
     f.write("RF sample rate=%.5f\n" % bw)
     f.write("Filterbank Size=%d\n" % fbsize)
-    f.write("Filterbank output rate=%.3f\n" % fbrate)
+    f.write("Filterbank output rate=%.6f\n" % fbrate)
     f.write("Approx start UTC Date=%04d%02d%02d\n" % (ltp.tm_year,
         ltp.tm_mon, ltp.tm_mday))
     f.write("Approx start UTC Time=%02d:%02d:%02d\n" % (ltp.tm_hour,
@@ -42,13 +44,24 @@ def synched(startt,dummy):
 
 import os
 import struct
+header_args = {}
 #
 # This will cause a header block to be prepended to the output file
 #
 # Thanks to Guillermo Gancio (ganciogm@gmail.com) for the inspiration
 #   and much of the code
 #
-def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize):
+def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize,rx_time):
+
+    header_args["outfile"] = outfile
+    header_args["source_name"] = source_name
+    header_args["source_ra"] = source_ra
+    header_args["source_dec"] = source_dec
+    header_args["freq"] = freq
+    header_args["bw"] = bw
+    header_args["fbrate"] = fbrate
+    header_args["fbsize"] = fbsize
+
 
     #
     # Time for one sample, in sec
@@ -84,9 +97,13 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     #
     # Determine MJD from file timestamp
     #
-    fp = open(outfile, "w")
-    t_start = (os.path.getmtime(outfile) / 86400) + 40587
-    
+    if (rx_time == None):
+        fp = open(outfile, "w")
+        t_start = (os.path.getmtime(outfile) / 86400) + 40587
+    else:
+        fp = open(outfile, "w")
+        t_start = rx_time
+ 
     #
     # The rest here is mostly due to Guillermo Gancio ganciogm@gmail.com
     #
@@ -241,7 +258,7 @@ def dm_to_bins(dm,freq,bw):
         f_lower /= 1.0e6
         f_upper /= 1.0e6
         Dt = dm/2.41e-4 * (1.0/(f_lower*f_lower)-1.0/(f_upper*f_upper))
-        if (Dt <= 0.000250):
+        if (Dt <= 0.0000625):
             break
         
     bins = bw/tbw
@@ -252,9 +269,90 @@ def dm_to_bins(dm,freq,bw):
     bins = int(bins)
     return(int(2**bins))
 
+
+import pmt
+tag_dict = {} 
+
+def process_tag(tags):
+    for tag in tags:
+        tag_dict[pmt.to_python(tag.key)] = pmt.to_python(tag.value)
+    
+
+def get_tag(key):
+    if (key in tag_dict):
+        return (tag_dict[key])
+    else:
+        return None
         
+started = time.time()
+grab_time = False
+didit = False
+#
+# Basically, near the end of the run, concatenates the correct header data
+#  and the live sample data, and produces a final ".fil" output file.
+#
+def update_header(pacer,runtime):
+    global started
+    global didit
+    global grab_time
+    global started
+
+    if (grab_time == False):
+        started = time.time()
+        grab_time = True
+    endtime = started+runtime
+    endtime -= 0.5
     
-    
-    
+    #
+    # This little dance ensures that we only update the header and concatenate
+    #   the live sample data when:
+    #
+    #   o   There's an available 'rx_time" tag
+    #   o   We're close to the end of the run
+    #   o   We haven't already done this
+    #
+    if (get_tag("rx_time") != None and (time.time() >= endtime) and didit == False):
+        
+        #
+        # We retrieve the previously-cached "rx_time" tag
+        #
+        times = get_tag("rx_time")
+        seconds = float(times[0])+float(times[1])
+        
+        #
+        # Turn real seconds into MJD
+        #
+        MJD = seconds/86400.0
+        MJD += 40587.0
+        build_header_info(header_args["outfile"],
+            header_args["source_name"],
+            header_args["source_ra"],
+            header_args["source_dec"],
+            header_args["freq"],
+            header_args["bw"],
+            header_args["fbrate"],
+            header_args["fbsize"],
+            MJD)
+        dataname = header_args["outfile"].replace(".fil", ".filtmp")
+        try:
+            inf = open(dataname, "r")
+            outf = open(header_args["outfile"], "a")
+            #
+            # Concatenate the live sample data onto the .fil file, which
+            #   at this point, only contains the header data
+            #
+            shutil.copyfileobj(inf, outf)
+            inf.close()
+            outf.close()
+            didit = True
+            #
+            # We don't need the ".filtmp" file anymore, blow it away
+            #
+            os.remove(dataname)
+        except:
+            pass
+        
+    return None
+
 
 

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.12'?>
+<?grc format='1' created='3.7.13'?>
 <flow_graph>
   <timestamp>Tue Dec  4 02:45:36 2018</timestamp>
   <block>
@@ -249,11 +249,11 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1400, 676)</value>
+      <value>(1488, 748)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -265,7 +265,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.build_header_info(pfname,source,ra,dec,freq,srate,fbrate,fbsize)</value>
+      <value>fb_helper.build_header_info(pfname+".fil",source,ra,dec,freq,srate,fbrate,fbsize,None)</value>
     </param>
   </block>
   <block>
@@ -427,7 +427,50 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>prefix+"psr-"+timestr+".fil"</value>
+      <value>prefix+"psr-"+timestr</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_function_probe</key>
+    <param>
+      <key>block_id</key>
+      <value>tag_retrieve</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>function_args</key>
+      <value></value>
+    </param>
+    <param>
+      <key>function_name</key>
+      <value>current_tags</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(392, 616)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rx_time_tags</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[]</value>
+    </param>
+    <param>
+      <key>poll_rate</key>
+      <value>10</value>
     </param>
   </block>
   <block>
@@ -488,6 +531,33 @@ format every 10 seconds</value>
     <key>variable</key>
     <param>
       <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(392, 700)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tag_stash_result</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.process_tag(rx_time_tags)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
       <value>Filename forming</value>
     </param>
     <param>
@@ -512,6 +582,33 @@ format every 10 seconds</value>
     </param>
   </block>
   <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(544, 732)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>update_result</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.update_header(rx_time_tags,runtime)</value>
+    </param>
+  </block>
+  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -527,7 +624,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(240, 696)</value>
+      <value>(240, 872)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -578,7 +675,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(288, 448)</value>
+      <value>(448, 448)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -645,6 +742,61 @@ format every 10 seconds</value>
     </param>
   </block>
   <block>
+    <key>blocks_copy</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(232, 436)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_copy_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>showports</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_file_sink</key>
     <param>
       <key>append</key>
@@ -668,7 +820,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>file</key>
-      <value>pfname</value>
+      <value>pfname+".filtmp"</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -688,7 +840,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>unbuffered</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>vlen</key>
@@ -715,7 +867,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(512, 496)</value>
+      <value>(624, 456)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -886,6 +1038,57 @@ sample rate</value>
     <param>
       <key>vlen</key>
       <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_keep_one_in_n</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(312, 532)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_keep_one_in_n_1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n</key>
+      <value>int(samp_rate/10.0)</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -1109,7 +1312,7 @@ Thus disabling HP filter</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(280, 784)</value>
+      <value>(280, 968)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1156,7 +1359,7 @@ Thus disabling HP filter</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(296, 608)</value>
+      <value>(144, 784)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1203,7 +1406,7 @@ Thus disabling HP filter</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(536, 872)</value>
+      <value>(536, 1056)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1244,6 +1447,8 @@ Thus disabling HP filter</value>
       <key>source_code</key>
       <value># this module will be imported in the into your flowgraph
 import time
+import os
+import shutil
 
 #
 # Determine FBSIZE and FBRATE given input sample rate
@@ -1270,7 +1475,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     f.write("frequency=%.5f\n" % freq)
     f.write("RF sample rate=%.5f\n" % bw)
     f.write("Filterbank Size=%d\n" % fbsize)
-    f.write("Filterbank output rate=%.3f\n" % fbrate)
+    f.write("Filterbank output rate=%.6f\n" % fbrate)
     f.write("Approx start UTC Date=%04d%02d%02d\n" % (ltp.tm_year,
         ltp.tm_mon, ltp.tm_mday))
     f.write("Approx start UTC Time=%02d:%02d:%02d\n" % (ltp.tm_hour,
@@ -1286,13 +1491,24 @@ def synched(startt,dummy):
 
 import os
 import struct
+header_args = {}
 #
 # This will cause a header block to be prepended to the output file
 #
 # Thanks to Guillermo Gancio (ganciogm@gmail.com) for the inspiration
 #   and much of the code
 #
-def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize):
+def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize,rx_time):
+
+    header_args["outfile"] = outfile
+    header_args["source_name"] = source_name
+    header_args["source_ra"] = source_ra
+    header_args["source_dec"] = source_dec
+    header_args["freq"] = freq
+    header_args["bw"] = bw
+    header_args["fbrate"] = fbrate
+    header_args["fbsize"] = fbsize
+
 
     #
     # Time for one sample, in sec
@@ -1328,9 +1544,13 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     #
     # Determine MJD from file timestamp
     #
-    fp = open(outfile, "w")
-    t_start = (os.path.getmtime(outfile) / 86400) + 40587
-    
+    if (rx_time == None):
+        fp = open(outfile, "w")
+        t_start = (os.path.getmtime(outfile) / 86400) + 40587
+    else:
+        fp = open(outfile, "w")
+        t_start = rx_time
+ 
     #
     # The rest here is mostly due to Guillermo Gancio ganciogm@gmail.com
     #
@@ -1485,7 +1705,7 @@ def dm_to_bins(dm,freq,bw):
         f_lower /= 1.0e6
         f_upper /= 1.0e6
         Dt = dm/2.41e-4 * (1.0/(f_lower*f_lower)-1.0/(f_upper*f_upper))
-        if (Dt &lt;= 0.000250):
+        if (Dt &lt;= 0.0000625):
             break
         
     bins = bw/tbw
@@ -1496,10 +1716,91 @@ def dm_to_bins(dm,freq,bw):
     bins = int(bins)
     return(int(2**bins))
 
+
+import pmt
+tag_dict = {} 
+
+def process_tag(tags):
+    for tag in tags:
+        tag_dict[pmt.to_python(tag.key)] = pmt.to_python(tag.value)
+    
+
+def get_tag(key):
+    if (key in tag_dict):
+        return (tag_dict[key])
+    else:
+        return None
         
+started = time.time()
+grab_time = False
+didit = False
+#
+# Basically, near the end of the run, concatenates the correct header data
+#  and the live sample data, and produces a final ".fil" output file.
+#
+def update_header(pacer,runtime):
+    global started
+    global didit
+    global grab_time
+    global started
+
+    if (grab_time == False):
+        started = time.time()
+        grab_time = True
+    endtime = started+runtime
+    endtime -= 0.5
     
-    
-    
+    #
+    # This little dance ensures that we only update the header and concatenate
+    #   the live sample data when:
+    #
+    #   o   There's an available 'rx_time" tag
+    #   o   We're close to the end of the run
+    #   o   We haven't already done this
+    #
+    if (get_tag("rx_time") != None and (time.time() &gt;= endtime) and didit == False):
+        
+        #
+        # We retrieve the previously-cached "rx_time" tag
+        #
+        times = get_tag("rx_time")
+        seconds = float(times[0])+float(times[1])
+        
+        #
+        # Turn real seconds into MJD
+        #
+        MJD = seconds/86400.0
+        MJD += 40587.0
+        build_header_info(header_args["outfile"],
+            header_args["source_name"],
+            header_args["source_ra"],
+            header_args["source_dec"],
+            header_args["freq"],
+            header_args["bw"],
+            header_args["fbrate"],
+            header_args["fbsize"],
+            MJD)
+        dataname = header_args["outfile"].replace(".fil", ".filtmp")
+        try:
+            inf = open(dataname, "r")
+            outf = open(header_args["outfile"], "a")
+            #
+            # Concatenate the live sample data onto the .fil file, which
+            #   at this point, only contains the header data
+            #
+            shutil.copyfileobj(inf, outf)
+            inf.close()
+            outf.close()
+            didit = True
+            #
+            # We don't need the ".filtmp" file anymore, blow it away
+            #
+            os.remove(dataname)
+        except:
+            pass
+        
+    return None
+
 
 
 </value>
@@ -1512,7 +1813,8 @@ def dm_to_bins(dm,freq,bw):
 - determine suitable FB size
 - write header info
 - provide a synchronization helper
-- provide a .FIL file header writer</value>
+- provide a .FIL file header writer
+- process rx_time tag and update header</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1650,7 +1952,7 @@ to provide long-averaged FFT for the logger.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 696)</value>
+      <value>(672, 864)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1697,7 +1999,7 @@ to provide long-averaged FFT for the logger.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(536, 784)</value>
+      <value>(536, 968)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1744,7 +2046,7 @@ to provide long-averaged FFT for the logger.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 696)</value>
+      <value>(144, 872)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1791,7 +2093,7 @@ to provide long-averaged FFT for the logger.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 228)</value>
+      <value>(128, 212)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1853,7 +2155,7 @@ to provide long-averaged FFT for the logger.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 276)</value>
+      <value>(128, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1897,6 +2199,1573 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>note</key>
+      <value></value>
+    </param>
+  </block>
+  <block>
+    <key>note</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value>The trick here is to decimate the input so that
+the input to the tag_debug is slowed down to
+10SPS, via the keep-one-in-N.
+
+This is because tag_debug resets its
+local cache of tags every time its work
+function is called, which at high sample
+rates means 0 probability of catching it
+in a "full" state.</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(568, 548)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>note_1</value>
+    </param>
+    <param>
+      <key>note</key>
+      <value></value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(216, 1064)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pps</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>PPS source</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"internal"</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(40, 784)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>prefix</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>File prefix</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"./"</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(408, 968)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>pw50</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Pulsar PW50</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.00375</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(168, 968)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ra</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Source RA</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>3.51</value>
+    </param>
+  </block>
+  <block>
+    <key>uhd_usrp_source</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>ant0</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw0</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq0</key>
+      <value>freq</value>
+    </param>
+    <param>
+      <key>dc_offs_enb0</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb0</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain0</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain0</key>
+      <value>rfgain</value>
+    </param>
+    <param>
+      <key>lo_export0</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source0</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant10</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw10</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq10</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb10</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb10</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain10</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain10</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export10</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source10</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant11</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw11</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq11</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb11</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb11</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain11</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain11</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export11</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source11</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant12</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw12</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq12</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb12</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb12</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain12</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain12</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export12</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source12</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant13</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw13</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq13</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb13</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb13</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain13</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain13</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export13</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source13</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant14</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw14</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq14</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb14</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb14</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain14</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain14</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export14</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source14</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant15</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw15</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq15</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb15</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb15</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain15</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain15</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export15</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source15</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant16</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw16</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq16</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb16</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb16</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain16</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain16</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export16</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source16</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant17</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw17</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq17</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb17</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb17</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain17</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain17</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export17</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source17</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant18</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw18</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq18</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb18</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb18</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain18</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain18</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export18</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source18</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant19</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw19</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq19</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb19</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb19</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain19</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain19</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export19</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source19</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw1</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq1</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb1</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb1</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain1</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain1</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export1</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source1</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant20</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw20</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq20</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb20</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb20</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain20</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain20</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export20</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source20</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant21</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw21</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq21</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb21</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb21</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain21</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain21</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export21</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source21</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant22</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw22</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq22</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb22</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb22</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain22</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain22</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export22</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source22</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant23</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw23</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq23</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb23</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb23</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain23</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain23</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export23</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source23</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant24</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw24</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq24</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb24</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb24</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain24</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain24</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export24</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source24</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant25</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw25</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq25</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb25</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb25</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain25</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain25</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export25</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source25</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant26</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw26</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq26</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb26</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb26</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain26</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain26</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export26</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source26</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant27</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw27</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq27</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb27</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb27</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain27</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain27</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export27</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source27</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant28</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw28</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq28</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb28</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb28</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain28</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain28</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export28</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source28</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant29</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw29</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq29</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb29</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb29</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain29</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain29</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export29</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source29</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw2</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq2</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb2</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb2</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain2</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain2</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export2</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source2</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant30</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw30</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq30</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb30</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb30</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain30</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain30</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export30</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source30</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant31</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw31</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq31</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb31</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb31</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain31</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain31</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export31</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source31</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw3</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq3</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb3</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb3</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain3</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain3</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export3</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source3</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw4</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq4</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb4</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb4</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain4</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain4</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export4</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source4</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant5</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw5</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq5</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb5</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb5</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain5</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain5</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export5</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source5</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant6</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw6</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq6</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb6</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb6</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain6</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain6</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export6</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source6</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant7</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw7</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq7</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb7</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb7</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain7</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain7</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export7</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source7</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant8</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw8</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq8</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb8</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb8</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain8</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain8</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export8</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source8</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>ant9</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw9</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq9</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb9</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb9</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>norm_gain9</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain9</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>lo_export9</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>lo_source9</key>
+      <value>internal</value>
+    </param>
+    <param>
+      <key>clock_rate</key>
+      <value>0.0</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value>If you enable the UHD source, disable the
+gr-osmsdr source.</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>dev_addr</key>
+      <value>device</value>
+    </param>
+    <param>
+      <key>dev_args</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(16, 536)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>radio</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>clock_source0</key>
+      <value>refclock</value>
+    </param>
+    <param>
+      <key>sd_spec0</key>
+      <value>subdev</value>
+    </param>
+    <param>
+      <key>time_source0</key>
+      <value>pps</value>
+    </param>
+    <param>
+      <key>clock_source1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source5</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec5</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source5</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source6</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec6</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source6</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source7</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec7</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source7</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>num_mboards</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>fc32</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>hide_cmd_port</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>hide_lo_controls</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>stream_args</key>
+      <value></value>
+    </param>
+    <param>
+      <key>stream_chans</key>
+      <value>[]</value>
+    </param>
+    <param>
+      <key>sync</key>
+      <value></value>
+    </param>
+    <param>
+      <key>otw</key>
       <value></value>
     </param>
   </block>
@@ -3204,7 +5073,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 384)</value>
+      <value>(8, 312)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3212,7 +5081,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>id</key>
-      <value>osmosdr_source_0</value>
+      <value>radio</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -3220,11 +5089,11 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>clock_source0</key>
-      <value>external</value>
+      <value>refclock</value>
     </param>
     <param>
       <key>time_source0</key>
-      <value></value>
+      <value>pps</value>
     </param>
     <param>
       <key>clock_source1</key>
@@ -3323,7 +5192,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(192, 608)</value>
+      <value>(32, 1064)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3331,11 +5200,11 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>id</key>
-      <value>prefix</value>
+      <value>refclock</value>
     </param>
     <param>
       <key>label</key>
-      <value>File prefix</value>
+      <value>Reference Clock Source</value>
     </param>
     <param>
       <key>short_id</key>
@@ -3351,7 +5220,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>value</key>
-      <value>"./"</value>
+      <value>"internal"</value>
     </param>
   </block>
   <block>
@@ -3370,101 +5239,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 784)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>pw50</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Pulsar PW50</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>hide</key>
-      <value>none</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>eng_float</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0.00375</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(168, 784)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>ra</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Source RA</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>hide</key>
-      <value>none</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>eng_float</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>3.51</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(32, 696)</value>
+      <value>(32, 872)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3511,7 +5286,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 608)</value>
+      <value>(504, 864)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3660,7 +5435,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 784)</value>
+      <value>(32, 968)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3707,7 +5482,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(472, 608)</value>
+      <value>(320, 784)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3754,7 +5529,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(392, 696)</value>
+      <value>(392, 872)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3786,6 +5561,108 @@ Only enabled if "hp == 1"</value>
     </param>
   </block>
   <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(328, 1064)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>subdev</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Subdev spec, UHD-version only</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"A:0"</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_tag_debug</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>display</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(272, 620)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tag_retrieve</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>filter</key>
+      <value>rx_time</value>
+    </param>
+    <param>
+      <key>name</key>
+      <value></value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>virtual_sink</key>
     <param>
       <key>comment</key>
@@ -3797,7 +5674,7 @@ Only enabled if "hp == 1"</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(696, 508)</value>
+      <value>(784, 388)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4047,6 +5924,18 @@ Only enabled if "hp == 1"</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_copy_0</source_block_id>
+    <sink_block_id>blocks_complex_to_float_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_copy_0</source_block_id>
+    <sink_block_id>blocks_keep_one_in_n_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_float_to_complex_0</source_block_id>
     <sink_block_id>virtual_sink_0</sink_block_id>
     <source_key>0</source_key>
@@ -4067,6 +5956,12 @@ Only enabled if "hp == 1"</value>
   <connection>
     <source_block_id>blocks_keep_one_in_n_0</source_block_id>
     <sink_block_id>virtual_sink_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_keep_one_in_n_1</source_block_id>
+    <sink_block_id>tag_retrieve</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -4101,8 +5996,14 @@ Only enabled if "hp == 1"</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>osmosdr_source_0</source_block_id>
-    <sink_block_id>blocks_complex_to_float_0</sink_block_id>
+    <source_block_id>radio</source_block_id>
+    <sink_block_id>blocks_copy_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>radio</source_block_id>
+    <sink_block_id>blocks_copy_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
