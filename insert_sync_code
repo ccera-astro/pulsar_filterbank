@@ -1,0 +1,109 @@
+#!/bin/bash
+cat >tmp$$ <<"!EOF!"
+#####################################################
+# GRC 'helper' code to add lock-to-gps or lock-to-host
+#
+# We assume that you have some external quality reference source for
+#  the 10Mhz clock and 1PPS
+#
+#
+# THIS CODE HAS BEEN INSERTED AUTOMATICALLY WITH THE 'insert_sync_code' shell script
+##############################################################
+import time
+import pmt
+def lock_to_gps(uhd_src):
+	while(not uhd_src.get_mboard_sensor("gps_locked").to_bool()):
+		time.sleep(0.1)
+	time.sleep(0.2)
+	while(not uhd_src.get_mboard_sensor("ref_locked").to_bool()):
+		time.sleep(0.1)
+	time.sleep(0.2)
+
+	# Spin, waiting for PPS transition
+	t = uhd_src.get_time_last_pps()
+	while (t == uhd_src.get_time_last_pps()):
+		time.sleep(0.05)
+	#Set the time from the GPS time
+	gps_time = uhd_src.get_mboard_sensor("gps_time").to_int()
+	uhd_src.set_time_next_pps(uhd.time_spec(gps_time+1))
+	#This sleep is recomended to stabilize the clocks
+	time.sleep(1.5)
+
+def lock_to_host(uhd_src):
+	# Wait for reference lock
+	while(not uhd_src.get_mboard_sensor("ref_locked").to_bool()):
+		time.sleep(0.1)
+	time.sleep(0.2)
+	# Spin, waiting for PPS transition
+	t = uhd_src.get_time_last_pps()
+	while (t == uhd_src.get_time_last_pps()):
+		time.sleep(0.05)
+	#
+	# Set time to host time
+	# If host is running NTP, this will be "not bad(tm)"
+	#
+	host_time = int(time.time())
+	uhd_src.set_time_next_pps(uhd.time_spec(host_time+1))
+	time.sleep(1.5)
+
+#################################################################
+# END inserted global functions
+#################################################################
+!EOF!
+
+function do_host
+{
+	ed $1 >/dev/null 2>&1 <<!EOF!
+/usr.bin.env/+1r tmp$$
+/# Connections/-1i
+        #
+        # BEGIN inserted code: Sync to HOST
+        #
+        lock_to_host(self.$2)
+        #
+        # END inserted code
+        #
+.
+w
+q
+!EOF!
+}
+
+function do_gps
+{
+	ed $1 >/dev/null 2>&1 <<!EOF!
+/usr.bin.env/+1r tmp$$
+/# Connections/-1i
+        #
+        # BEGIN inserted code: Sync to GPS
+        #
+        lock_to_gps(self.$2)
+        #
+        # END inserted code
+        #
+.
+w
+q
+!EOF!
+}
+
+if [ $# -ne  3 ]
+then
+	echo "Usage: $0 python-filename 'gps' | 'host' UHD-block-name"
+	exit
+fi
+case $2 in
+	host)
+		do_host $1  $3
+		;;
+	gps)
+		do_gps $1  $3
+		;;
+esac
+rm -f tmp$$
+if  grep -q lock_to_ $1 
+then
+	echo Success in patching $1
+else
+	echo Failed to patch $1
+fi

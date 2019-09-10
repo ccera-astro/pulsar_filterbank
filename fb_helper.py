@@ -295,6 +295,9 @@ didit = False
 def update_header(pacer,runtime):
     global didit
     global first_tag
+    import time
+    import shutil
+    import os
 
     #
     # If we haven't seen our first tag yet, data flow hasn't started
@@ -306,11 +309,18 @@ def update_header(pacer,runtime):
     #  data stream never had an rx_time tag.
     #
     #
-    if (first_tag == None):
-        return None
+    if (runtime != None):
+        if (first_tag == None):
+            return None
+        else:
+            endtime = first_tag + runtime
+            endtime -= 0.5
+    #
+    # We're being called as an exit handler
+    # 
     else:
-        endtime = first_tag + runtime
-        endtime -= 0.5
+        endtime = time.time() - 30.0
+        didit = False
     
     #
     # This little dance ensures that we only update the header and concatenate
@@ -333,7 +343,10 @@ def update_header(pacer,runtime):
             # 
             # This will result in a very-rough approximation
             #
-            seconds = first_tag
+            if (first_tag != None):
+                seconds = first_tag
+            else:
+                seconds = time.time()
             print "No rx_time tag, start time will be approximate."
         
         #
@@ -370,6 +383,4 @@ def update_header(pacer,runtime):
             pass
         
     return None
-
-
 

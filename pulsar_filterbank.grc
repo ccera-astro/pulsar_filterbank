@@ -101,6 +101,33 @@
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(656, 732)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>atexit_result</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>atexit.register(fb_helper.update_header, None, None)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(1248, 20)</value>
     </param>
     <param>
@@ -562,7 +589,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -597,7 +624,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(240, 872)</value>
+      <value>(240, 992)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -648,7 +675,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(288, 592)</value>
+      <value>(304, 696)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1084,7 +1111,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(312, 532)</value>
+      <value>(288, 524)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1289,7 +1316,7 @@ Thus disabling HP filter</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 692)</value>
+      <value>(48, 772)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1344,7 +1371,7 @@ Thus disabling HP filter</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(280, 968)</value>
+      <value>(280, 1088)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1391,7 +1418,7 @@ Thus disabling HP filter</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 784)</value>
+      <value>(144, 904)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1438,7 +1465,7 @@ Thus disabling HP filter</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(536, 1056)</value>
+      <value>(536, 1176)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1774,6 +1801,9 @@ didit = False
 def update_header(pacer,runtime):
     global didit
     global first_tag
+    import time
+    import shutil
+    import os
 
     #
     # If we haven't seen our first tag yet, data flow hasn't started
@@ -1785,11 +1815,18 @@ def update_header(pacer,runtime):
     #  data stream never had an rx_time tag.
     #
     #
-    if (first_tag == None):
-        return None
+    if (runtime != None):
+        if (first_tag == None):
+            return None
+        else:
+            endtime = first_tag + runtime
+            endtime -= 0.5
+    #
+    # We're being called as an exit handler
+    # 
     else:
-        endtime = first_tag + runtime
-        endtime -= 0.5
+        endtime = time.time() - 30.0
+        didit = False
     
     #
     # This little dance ensures that we only update the header and concatenate
@@ -1812,7 +1849,10 @@ def update_header(pacer,runtime):
             # 
             # This will result in a very-rough approximation
             #
-            seconds = first_tag
+            if (first_tag != None):
+                seconds = first_tag
+            else:
+                seconds = time.time()
             print "No rx_time tag, start time will be approximate."
         
         #
@@ -1849,8 +1889,6 @@ def update_header(pacer,runtime):
             pass
         
     return None
-
-
 
 </value>
     </param>
@@ -2001,7 +2039,7 @@ to provide long-averaged FFT for the logger.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(672, 864)</value>
+      <value>(512, 896)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2048,7 +2086,7 @@ to provide long-averaged FFT for the logger.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(536, 968)</value>
+      <value>(536, 1088)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2095,7 +2133,7 @@ to provide long-averaged FFT for the logger.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 872)</value>
+      <value>(144, 992)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2220,6 +2258,37 @@ to provide long-averaged FFT for the logger.</value>
     </param>
   </block>
   <block>
+    <key>import</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(8, 228)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>import_1</value>
+    </param>
+    <param>
+      <key>import</key>
+      <value>import atexit</value>
+    </param>
+  </block>
+  <block>
     <key>note</key>
     <param>
       <key>alias</key>
@@ -2306,7 +2375,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 1064)</value>
+      <value>(216, 1184)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2353,7 +2422,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 784)</value>
+      <value>(40, 904)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2400,7 +2469,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 968)</value>
+      <value>(408, 1088)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2447,7 +2516,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(168, 968)</value>
+      <value>(168, 1088)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3659,7 +3728,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5118,7 +5187,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -5241,7 +5310,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 1064)</value>
+      <value>(32, 1184)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5288,7 +5357,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 872)</value>
+      <value>(32, 992)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5335,7 +5404,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(504, 864)</value>
+      <value>(504, 984)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5484,7 +5553,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 968)</value>
+      <value>(32, 1088)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5531,7 +5600,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(320, 784)</value>
+      <value>(320, 904)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5578,7 +5647,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(328, 1064)</value>
+      <value>(328, 1184)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5633,7 +5702,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 684)</value>
+      <value>(272, 780)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6000,12 +6069,6 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>fft_vxx_0_0</source_block_id>
     <sink_block_id>blocks_complex_to_mag_squared_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>radio</source_block_id>
-    <sink_block_id>blocks_copy_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
