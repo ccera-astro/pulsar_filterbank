@@ -92,18 +92,23 @@ then
 	echo "Usage: $0 python-filename 'gps' | 'host' UHD-block-name"
 	exit
 fi
-case $2 in
-	host)
-		do_host $1  $3
-		;;
-	gps)
-		do_gps $1  $3
-		;;
-esac
-rm -f tmp$$
-if  grep -q lock_to_ $1 
+if grep -q $3 $1
 then
-	echo Success in patching $1
+	case $2 in
+		host)
+			do_host $1  $3
+			;;
+		gps)
+			do_gps $1  $3
+			;;
+	esac
+	rm -f tmp$$
+	if  grep -q lock_to_ $1 
+	then
+		echo Success in patching $1
+	else
+		echo Failed to patch $1
+	fi
 else
-	echo Failed to patch $1
+	echo Graph doesnt use $3 as source--doing nothing
 fi

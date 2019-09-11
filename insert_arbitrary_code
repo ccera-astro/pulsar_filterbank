@@ -1,0 +1,24 @@
+#!/bin/bash
+
+function do_insertion
+{
+	ed $1 >/dev/null 2>&1 <<!EOF!
+/$2/a
+$3
+.
+w
+q
+!EOF!
+}
+
+if [ $# -ne  3 ]
+then
+	echo "Usage: $0 python-filename search-term code"
+	exit
+fi
+if grep -q $2 $1
+then
+	do_insertion $1 "$2" "$3"
+else
+	echo Search term "$2" does not appear in graph--doing nothing
+fi

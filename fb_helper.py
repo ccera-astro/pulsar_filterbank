@@ -35,12 +35,6 @@ def write_header(fn, freq, bw, fbsize, fbrate):
         ltp.tm_min, ltp.tm_sec))
     f.write("Expected disk write rate: %6.2f mbyte/sec\n" % ((fbsize*fbrate*2.0)/1.0e6))
     
-def synched(startt,dummy):
-    
-    if (time.time() > startt):
-        return True
-    else:
-        return False
 
 import os
 import struct
