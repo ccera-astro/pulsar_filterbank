@@ -1,22 +1,61 @@
-TARGETS=pulsar_filterbank.py
+TARGETS=pulsar_filterbank_gps.py pulsar_filterbank_ntp.py pulsar_filterbank_none.py
 PY=fb_helper.py
 SOURCES=pulsar_filterbank.grc
+DESTDIR=/usr/local/bin
 
-#
-# Generate the .py from the .grc
-#
-%.py: %.grc
-	-grcc -d . $<
-# Insert the synchronization code (if it's a UHD source)
-	-./insert_sync_code $@ gps uhd_radio
-# Inser the update-header code right after 'tb.wait' in the flow-graph
-	-./insert_arbitrary_code $@ '    tb.wait'    '    fb_helper.update_header(None, None)'
 
 all: $(TARGETS)
 
+pulsar_filterbank_uhd.grc: pulsar_filterbank.grc
+	./grc_parser.py pulsar_filterbank.grc pulsar_filterbank_uhd.grc uhd_edits.txt
+
+pulsar_filterbank_osmo.grc: pulsar_filterbank.grc
+	./grc_parser.py pulsar_filterbank.grc pulsar_filterbank_osmo.grc osmo_edits.txt
+
+pulsar_filterbank_uhd.py: pulsar_filterbank_uhd.grc
+#
+# Generate the .py from the .grc
+#
+	-grcc -d . pulsar_filterbank_uhd.grc
+
+pulsar_filterbank_osmo.py: pulsar_filterbank_osmo.grc
+	-grcc -d . pulsar_filterbank_osmo.grc
+
+pulsar_filterbank_gps.py: pulsar_filterbank_uhd.py
+	cp pulsar_filterbank_uhd.py pulsar_filterbank_gps.py
+# Insert the synchronization code (if it's a UHD source)
+	-./insert_sync_code pulsar_filterbank_gps.py gps uhd_radio
+# Insert the update-header code right after 'tb.wait' in the flow-graph
+#  Should probably have something that does automatic indent detection and
+#  arranges for the inserted code to follow the existing indent.
+#
+	-./insert_arbitrary_code pulsar_filterbank_gps.py '    tb.wait()'    '    fb_helper.update_header(None, None)'
+
+pulsar_filterbank_ntp.py: pulsar_filterbank_uhd.py
+	cp pulsar_filterbank_uhd.py pulsar_filterbank_ntp.py
+# Insert the synchronization code (if it's a UHD source)
+	-./insert_sync_code pulsar_filterbank_ntp.py host uhd_radio
+# Insert the update-header code right after 'tb.wait' in the flow-graph
+#  Should probably have something that does automatic indent detection and
+#  arranges for the inserted code to follow the existing indent.
+#
+	-./insert_arbitrary_code pulsar_filterbank_ntp.py '    tb.wait()'    '    fb_helper.update_header(None, None)'
+
+
+pulsar_filterbank_none.py: pulsar_filterbank_osmo.py
+	cp pulsar_filterbank_osmo.py pulsar_filterbank_none.py
+#
+# Insert the update-header code right after 'tb.wait' in the flow-graph
+#  Should probably have something that does automatic indent detection and
+#  arranges for the inserted code to follow the existing indent.
+#
+	-./insert_arbitrary_code pulsar_filterbank_none.py '    tb.wait()'    '    fb_helper.update_header(None, None)'
+
+
 install: $(TARGETS) $(PY)
-	cp $(TARGETS) $(PY) /usr/local/bin
+	cp $(TARGETS) $(PY) $(DESTDIR)
 
 clean:
-	rm -f pulsar_filterbank.py
+	rm -f pulsar_filterbank*.py
+	rm -f pulsar_filterbank_uhd.grc pulsar_filterbank_osmo.grc
 	rm -f *.header *.fil *.csv

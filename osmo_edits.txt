@@ -1,0 +1,4 @@
+update_block("osmosdr_source", "osmo_radio", {"_enabled" : "1"})
+update_block("uhd_usrp_source", "uhd_radio", {"_enabled" : "0"})
+update_connection("uhd_radio", "copyblock", "osmo_radio")
+update_block("options", "pulsar_filterbank", {"id" : "pulsar_filterbank_osmo"})
