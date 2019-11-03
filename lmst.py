@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import ephem
 import os
 import sys
