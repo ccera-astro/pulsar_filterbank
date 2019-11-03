@@ -12,8 +12,7 @@ import shutil
 def determine_rate(srate,fbsize,pw50):
     decims = [1024,512,256,128,64,32,16,8,4,2,1]
     target_rate = (1.0/pw50)
-    target_rate *= 9.0
-    target_rate *= 2.0
+    target_rate *= 10.0
     for d in decims:
         if ((srate/fbsize)/d >= target_rate):
             return d

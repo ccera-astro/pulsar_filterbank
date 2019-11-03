@@ -140,7 +140,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>(float(samp_rate)/float(fbsize))/fbdecim</value>
+      <value>(float(samp_rate)/float(fbsize))/float(fbdecim)</value>
     </param>
   </block>
   <block>
@@ -167,7 +167,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.dm_to_bins(dm,freq,samp_rate)</value>
+      <value>fb_helper.dm_to_bins(dm,freq,samp_rate)*resolution</value>
     </param>
   </block>
   <block>
@@ -1464,8 +1464,7 @@ import shutil
 def determine_rate(srate,fbsize,pw50):
     decims = [1024,512,256,128,64,32,16,8,4,2,1]
     target_rate = (1.0/pw50)
-    target_rate *= 9.0
-    target_rate *= 2.0
+    target_rate *= 10.0
     for d in decims:
         if ((srate/fbsize)/d &gt;= target_rate):
             return d
@@ -3845,7 +3844,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>value</key>
-      <value>0.00375</value>
+      <value>6.6e-3</value>
     </param>
   </block>
   <block>
@@ -3940,6 +3939,53 @@ in a "full" state.</value>
     <param>
       <key>value</key>
       <value>"internal"</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(656, 888)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>resolution</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>FB resolution multiplier</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
     </param>
   </block>
   <block>
