@@ -67,6 +67,7 @@ pulsar_filterbank_none.py: pulsar_filterbank_osmo.py
 
 install: $(TARGETS) $(PY)
 	cp $(TARGETS) $(PY) $(DESTDIR)
+	chmod 755 $(DESTDIR)/pulsar_*.py
 
 clean:
 	rm -f pulsar_filterbank*.py

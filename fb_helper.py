@@ -10,7 +10,7 @@ import shutil
 #  ONCE on startup.
 #
 def determine_rate(srate,fbsize,pw50):
-    decims = [128,64,32,16,8,4,2,1]
+    decims = [1024,512,256,128,64,32,16,8,4,2,1]
     target_rate = (1.0/pw50)
     target_rate *= 9.0
     target_rate *= 2.0
@@ -246,13 +246,14 @@ def log_fft(freq,bw,prefix,fft):
     fp.close()
     
 def dm_to_bins(dm,freq,bw):
-    for tbw in [500e3,250e3,125e3,62.5e3,31.25e3]:
+    for tbw in [1.0e6,500e3,250e3,125e3,62.5e3,31.25e3]:
         f_lower = freq-(tbw/2.0)
         f_upper = freq+(tbw/2.0)
         f_lower /= 1.0e6
         f_upper /= 1.0e6
-        Dt = dm/2.41e-4 * (1.0/(f_lower*f_lower)-1.0/(f_upper*f_upper))
-        if (Dt <= 0.0000625):
+        Dt = 4.15e6 * (math.pow(f_lower,-2.0)-math.pow(f_upper,-2.0))
+        Dt *= dm
+        if (Dt <= 0.250):
             break
         
     bins = bw/tbw
