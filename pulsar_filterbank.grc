@@ -167,7 +167,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.dm_to_bins(dm,freq,samp_rate)*resolution</value>
+      <value>fb_helper.dm_to_bins(dm,freq,samp_rate,pw50)*resolution</value>
     </param>
   </block>
   <block>
@@ -1456,7 +1456,9 @@ import os
 import shutil
 
 #
-# Determine FBSIZE and FBRATE given input sample rate
+# Determine reasonable decimation value, given sample-rate,
+#  filterbank-size (already determined) and pw50 for the
+#  target pulsar.
 #
 # This is not stunningly efficient, but it only has to run
 #  ONCE on startup.
@@ -1469,6 +1471,44 @@ def determine_rate(srate,fbsize,pw50):
         if ((srate/fbsize)/d &gt;= target_rate):
             return d
     return 1
+
+#
+# Convert DM to a reasonable number of FFT bins, given
+#  DM, center-frequency, bandwidth, and pw50
+# 
+def dm_to_bins(dm,freq,bw,pw50):
+	
+	#
+	# Convert to milliseconds (sigh)
+	#
+    p50ms = pw50 * 1000.0
+    
+    f_lower = (freq-(bw/2.0))*1.0e-6
+    f_upper = (freq+(bw/2.0))*1.0e-6
+    Dt = 4.15e6 * (math.pow(f_lower,-2.0)-math.pow(f_upper,-2.0))
+    Dt *= dm
+    
+    #
+    # So that there's only 5% (of W50) residual smearing in each channel of the FB
+    #
+    required_bins = Dt/(p50ms/20.0)
+    
+    #
+    # We do a bit of base2 math to make this a nice FFT size
+    #
+    bins = math.log(required_bins)/math.log(2.0)
+    if (abs(bins-int(bins)) &gt; 0.2):
+        bins += 1
+    
+    bins = int(bins)
+    
+    #
+    # No sense making the filterbank too small
+    # Set bins so that minimum is 32 channels
+    if bins &lt; 5:
+        bins = 5
+
+    return(int(2**bins))
 
 #
 # Write an external, text, header file
@@ -1695,27 +1735,7 @@ def log_fft(freq,bw,prefix,fft):
             fp.write("%.2f," % (10.0*math.log10(fft[i]/len(fft))))
     fp.write("\n")
     fp.close()
-    
-def dm_to_bins(dm,freq,bw):
-    for tbw in [1.0e6,500e3,250e3,125e3,62.5e3,31.25e3]:
-        f_lower = freq-(tbw/2.0)
-        f_upper = freq+(tbw/2.0)
-        f_lower /= 1.0e6
-        f_upper /= 1.0e6
-        Dt = 4.15e6 * (math.pow(f_lower,-2.0)-math.pow(f_upper,-2.0))
-        Dt *= dm
-        if (Dt &lt;= 0.250):
-            break
-        
-    bins = bw/tbw
-    bins = math.log(bins)/math.log(2.0)
-    if (abs(bins-int(bins)) &gt; 0.2):
-        bins += 1
-    
-    bins = int(bins)
-    if bins &lt; 5:
-        bins = 5
-    return(int(2**bins))
+
 
 
 import pmt

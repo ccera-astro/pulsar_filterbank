@@ -5,18 +5,33 @@
 PATH=$PATH:/usr/local/bin
 export PATH
 
+#
+# Figure out where to write output files
+#
 if [ -e /mnt/extra ]
 then
 	PREFIX=/mnt/extra/
 else
     PREFIX=$HOME/
 fi
+
+#
+# If this environment variable exists, it overrides previous decisions
+#
+if [ @$PSR_DATA_LOCATION@ != "@@" ]
+then
+	PREFIX=${PSR_DATA_LOCATION}/
+fi
+
+#
+# Check command line args
+#
 if [ $# -lt 6 ]
 then
 	echo Usage:  observe_pulsar name freq bandwidth gain obs-time longitude
 	exit
 fi
-lsusb >tmp$$
+
 DEVICE="None"
 SRATE=`python -c "print ($3 * 1.0e6)"`
 FREQ=`python -c "print ($2 * 1.0e6)"`
@@ -26,6 +41,11 @@ SUBDEV="A:A"
 SUPPORTED="usrp rtlsdr airspy hackrf limesdr"
 PPS=internal
 CLOCK=internal
+LONGITUDE=$6
+
+#
+# Figure out where the PSR database is
+#
 DB=/usr/local/share/psr_db.txt
 dbfile=$HOME/psr_db.txt
 if [ -e ./psr_db.txt ]
@@ -49,6 +69,17 @@ else
 	echo "Could not find pulsar params in database for: $1"
 	exit
 fi
+
+#
+# Check the USB bus on the system
+#
+
+lsusb >tmp$$
+
+#
+# Then look for possible SDR devices on USB first
+#
+
 #
 # UHD USB B200 devices
 #
@@ -90,10 +121,10 @@ elif grep -q "1d50:6089" tmp$$
 then
   DEVICE="hackrf=0"
   EXEC=pulsar_filterbank_none.py
-elif grep -q "1d50:6108" tmp$$
 #
 # LimeSDR
 #
+elif grep -q "1d50:6108" tmp$$
 then
   DEVICE="soapy,driver=lime"
   EXEC=pulsar_filterbank_none.py
@@ -108,7 +139,7 @@ rm -f tmp$$
 #
 # Still nothing from USB scan, try for a net-connected UHD device
 #
-# Make brash assumptions about inet addy
+# Make brash assumptions about inet addy and subdev name
 #
 if [ $DEVICE = None ]
 then
@@ -141,6 +172,26 @@ echo Found $DEVICE running at $SRATE on $FREQ
 echo Will run for $OBSTIME seconds
 echo PSR params: PW50 $PW50 DM $DM RA $RA DEC $DEC
 
+#
+# Wait for pulsar to "rise" -- to be within obstime/2 of transit
+#
+target=`python -c "print ($RA - ($OBSTIME/3600.0)/1.95)"`
+while true
+do
+	lmst=`lmst.py $LONGITUDE`
+	truth=`python -c "t=True if abs($target-$lmst) <  0.05 else False; print t"`
+	if [ $truth = True ]
+	then
+		echo Starting receiver at $lmst
+		break
+	fi
+	echo Waiting for pulsar to rise at: $target, current LMST is $lmst
+	sleep 15
+done
+
+#
+# Call the appropriate version of the Gnu Radio flow-graph
+#
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ --hp 1 \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $1 --srate $SRATE --subdev $SUBDEV
