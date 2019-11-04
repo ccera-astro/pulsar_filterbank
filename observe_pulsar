@@ -1,0 +1,146 @@
+#!/bin/bash
+#
+# Usage:  observe_pulsar name freq bandwidth gain obs-time longitude
+#
+PATH=$PATH:/usr/local/bin
+export PATH
+
+if [ -e /mnt/extra ]
+then
+	PREFIX=/mnt/extra/
+else
+    PREFIX=$HOME/
+fi
+if [ $# -lt 6 ]
+then
+	echo Usage:  observe_pulsar name freq bandwidth gain obs-time longitude
+	exit
+fi
+lsusb >tmp$$
+DEVICE="None"
+SRATE=`python -c "print ($3 * 1.0e6)"`
+FREQ=`python -c "print ($2 * 1.0e6)"`
+OBSTIME=`expr $5 '*' 60`
+RFGAIN=$4
+SUBDEV="A:A"
+SUPPORTED="usrp rtlsdr airspy hackrf limesdr"
+PPS=internal
+CLOCK=internal
+DB=/usr/local/share/psr_db.txt
+dbfile=$HOME/psr_db.txt
+if [ -e ./psr_db.txt ]
+then
+	dbfile=./psr_db.txt
+elif [ -e $HOME/psr_db.txt ]
+then
+	dbfile=$HOME/psr_db.txt
+elif [ -e $DB ]
+then
+	dbfile=$DB
+else
+	echo Cannot find PSR database file
+	exit
+fi
+cased=`echo $1 |tr [A-Z] [a-z]`
+if grep -qi $cased $dbfile
+then
+	eval `grep $cased $dbfile`
+else
+	echo "Could not find pulsar params in database for: $1"
+	exit
+fi
+#
+# UHD USB B200 devices
+#
+if grep -q '2500:002[0123]' tmp$$
+then
+   DEVICE="type=b200,num_recv_frames=128"
+   uhd_usrp_probe --args type=b200 >usrp$$ 2>&1
+   SUBDEV="A:A"
+   if grep -i -q "no.*gps.*found" usrp$$
+   then
+	EXEC=pulsar_filterbank_ntp.py
+	PPS=external
+	CLOCK=external
+   else
+    EXEC=pulsar_filterbank_gps.py
+    PPS=gpsdo
+    CLOCK=gpsdo
+   fi
+   rm -f usrp$$
+#
+# RTLSDR
+#
+elif grep -q "0bda:283[28]" tmp$$
+then
+  DEVICE="rtl=0"
+  EXEC=pulsar_filterbank_none.py
+  SRATE=`python -c "rate=$SRATE if $SRATE < 2500000 else 2500000; print rate"`
+#
+# AIRSPY
+#
+elif grep -q "id50:60a1" tmp$$
+then
+  DEVICE="airspy=0"
+  EXEC=pulsar_filterbank_none.py
+#
+# HackRF
+#
+elif grep -q "1d50:6089" tmp$$
+then
+  DEVICE="hackrf=0"
+  EXEC=pulsar_filterbank_none.py
+elif grep -q "1d50:6108" tmp$$
+#
+# LimeSDR
+#
+then
+  DEVICE="soapy,driver=lime"
+  EXEC=pulsar_filterbank_none.py
+elif grep -q "0403:601f" tmp$$
+then
+  DEVICE="soapy,driver=lime"
+  EXEC=pulsar_filterbank_none.py
+fi
+
+rm -f tmp$$
+
+#
+# Still nothing from USB scan, try for a net-connected UHD device
+#
+# Make brash assumptions about inet addy
+#
+if [ $DEVICE = None ]
+then
+	uhd_find_devices >usrp$$ 2>&1
+	if grep -q "Device Address" usrp$$
+	then
+	    DEVICE="addr=192.168.10.2"
+	    SUBDEV="A:0"
+	    uhd_usrp_probe --args $DEVICE >usrp$$ 2>&1
+	    if grep -i -q "no.*gps.*found" usrp$$
+	    then
+			EXEC=pulsar_filterbank_ntp.py
+			PPS=external
+			CLOCK=external
+		else
+		    EXEC=pulsar_filterbank_gps.py
+		    PPS=gpsdo
+		    CLOCK=gpsdo
+		fi
+     fi
+     rm -f usrp$$
+fi
+
+if [ $DEVICE = None ]
+then
+	echo "No supported SDR devices found: $SUPPORTED"
+	exit
+fi
+echo Found $DEVICE running at $SRATE on $FREQ
+echo Will run for $OBSTIME seconds
+echo PSR params: PW50 $PW50 DM $DM RA $RA DEC $DEC
+
+$EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ --hp 1 \
+   --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
+   --source $1 --srate $SRATE --subdev $SUBDEV

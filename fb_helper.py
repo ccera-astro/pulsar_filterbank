@@ -261,6 +261,8 @@ def dm_to_bins(dm,freq,bw):
         bins += 1
     
     bins = int(bins)
+    if bins < 5:
+        bins = 5
     return(int(2**bins))
 
 

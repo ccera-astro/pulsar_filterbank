@@ -1,7 +1,10 @@
 TARGETS=pulsar_filterbank_gps.py pulsar_filterbank_ntp.py pulsar_filterbank_none.py
-PY=fb_helper.py
+PY=fb_helper.py lmst.py
+SCRIPTS=observe_pulsar
 SOURCES=pulsar_filterbank.grc
 DESTDIR=/usr/local/bin
+DBDIR=/usr/local/share
+DBFILE=psr_db.txt
 
 
 all: $(TARGETS)
@@ -40,6 +43,7 @@ pulsar_filterbank_gps.py: pulsar_filterbank_uhd.py
 #  arranges for the inserted code to follow the existing indent.
 #
 	-./insert_arbitrary_code pulsar_filterbank_gps.py '    tb.wait()'    '    fb_helper.update_header(None, None)'
+	chmod 755 pulsar_filterbank_gps.py
 
 pulsar_filterbank_ntp.py: pulsar_filterbank_uhd.py
 	cp pulsar_filterbank_uhd.py pulsar_filterbank_ntp.py
@@ -50,6 +54,7 @@ pulsar_filterbank_ntp.py: pulsar_filterbank_uhd.py
 #  arranges for the inserted code to follow the existing indent.
 #
 	-./insert_arbitrary_code pulsar_filterbank_ntp.py '    tb.wait()'    '    fb_helper.update_header(None, None)'
+	chmod 755 pulsar_filterbank_ntp.py
 
 #
 # No sync code for this, and might as well just build for osmo source, since
@@ -57,6 +62,7 @@ pulsar_filterbank_ntp.py: pulsar_filterbank_uhd.py
 #
 pulsar_filterbank_none.py: pulsar_filterbank_osmo.py
 	cp pulsar_filterbank_osmo.py pulsar_filterbank_none.py
+	chmod 755 pulsar_filterbank_none.py
 #
 # Insert the update-header code right after 'tb.wait' in the flow-graph
 #  Should probably have something that does automatic indent detection and
@@ -66,8 +72,8 @@ pulsar_filterbank_none.py: pulsar_filterbank_osmo.py
 
 
 install: $(TARGETS) $(PY)
-	cp $(TARGETS) $(PY) $(DESTDIR)
-	chmod 755 $(DESTDIR)/pulsar_*.py
+	cp $(TARGETS) $(PY) $(SCRIPTS) $(DESTDIR)
+	cp $(DBFILE) $(DBDIR)
 
 clean:
 	rm -f pulsar_filterbank*.py
