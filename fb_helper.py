@@ -25,10 +25,10 @@ def determine_rate(srate,fbsize,pw50):
 #  DM, center-frequency, bandwidth, and pw50
 # 
 def dm_to_bins(dm,freq,bw,pw50):
-	
-	#
-	# Convert to milliseconds (sigh)
-	#
+    
+    #
+    # Convert to milliseconds (sigh)
+    #
     p50ms = pw50 * 1000.0
     
     f_lower = (freq-(bw/2.0))*1.0e-6
@@ -78,6 +78,15 @@ def write_header(fn, freq, bw, fbsize, fbrate):
 import os
 import struct
 header_args = {}
+
+def convert_sigproct(v):
+    itime = int(v*3600.0)
+    hours = itime/3600
+    minutes = (itime-(hours*3600))/60
+    seconds = itime - (hours*3600) - (minutes*60)
+    timestr="%02d%02d%02d.0" % (hours, minutes, seconds)
+    return(float(timestr))
+  
 #
 # This will cause a header block to be prepended to the output file
 #
@@ -152,6 +161,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     #--
     aux="src_raj"
     aux=struct.pack('i', len(aux))+aux
+    source_ra = convert_sigproct(source_ra)
     fp.write(aux)
     aux=struct.pack('d', source_ra)
     fp.write(aux)
@@ -161,6 +171,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     aux="src_dej"
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
+    source_dec= convert_sigproct(source_dec)
     aux=struct.pack('d', source_dec)
     fp.write(aux)
     #--
