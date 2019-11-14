@@ -782,7 +782,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>unbuffered</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>vlen</key>
