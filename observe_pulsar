@@ -163,6 +163,9 @@ then
      rm -f usrp$$
 fi
 
+rm -f usrp$$
+rm -f tmp$$
+
 if [ $DEVICE = None ]
 then
 	echo "No supported SDR devices found: $SUPPORTED"
