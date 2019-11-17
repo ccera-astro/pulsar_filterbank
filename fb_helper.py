@@ -270,10 +270,18 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
 
 import math
 
+
+next_fft = time.time() + 10.0
 def log_fft(freq,bw,prefix,fft):
+    global next_fft
     
     if (len(fft) < 2):
         return
+    
+    if (time.time() < next_fft):
+        return
+    
+    next_fft = time.time() + 10.0
     
     ltp = time.gmtime(time.time())
     date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
@@ -411,3 +419,31 @@ def update_header(pacer,runtime):
         
     return None
 
+def static_mask(freq,bw,fbsize,rfilist):
+    if (rfilist == "" or len(rfilist) == 0 or rfilist == None):
+        return ([1.0]*fbsize)
+    
+    step = bw/fbsize
+    start = freq-(bw/2.0)
+    end = freq+(bw/2.0)
+    rfi = rfilist.split(",")
+    mask = [1.0]*fbsize
+    for r in rfi:
+        ndx = float(r)-start
+        ndx = ndx/step
+        ndx = int(ndx)
+        mask[ndx] = 0.0
+    return(mask)
+
+import numpy
+def dynamic_mask(fft,smask):
+    nzero = smask.count(0.0)
+    mean = sum(numpy.multiply(smask,fft))
+    mean = mean/(len(fft)-nzero)
+    mask = [0.0]*len(smask)
+    i = 0
+    for s in smask:
+        if (s == 0.0):
+            mask[i] = random.uniform(mean*0.98,mean*1.02)
+        i += 1
+    return(mask)

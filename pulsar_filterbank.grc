@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.12'?>
+<?grc format='1' created='3.7.13'?>
 <flow_graph>
   <timestamp>Tue Dec  4 02:45:36 2018</timestamp>
   <block>
@@ -238,7 +238,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>poll_rate</key>
-      <value>0.1</value>
+      <value>50</value>
     </param>
   </block>
   <block>
@@ -401,6 +401,60 @@ format every 10 seconds</value>
     <param>
       <key>value</key>
       <value>prefix+"psr-"+timestr</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(968, 212)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rfi_mask</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.static_mask(freq,samp_rate,fbsize,rfilist)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1152, 212)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rfi_mask2</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.dynamic_mask(fft_poll,rfi_mask)</value>
     </param>
   </block>
   <block>
@@ -572,6 +626,57 @@ format every 10 seconds</value>
     <param>
       <key>value</key>
       <value>10</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_add_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>rfi_mask2</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1192, 148)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_add_const_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
     </param>
   </block>
   <block>
@@ -1004,6 +1109,57 @@ sample rate</value>
     <param>
       <key>vlen</key>
       <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>rfi_mask</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1016, 148)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
     </param>
   </block>
   <block>
@@ -1592,10 +1748,18 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
 
 import math
 
+
+next_fft = time.time() + 10.0
 def log_fft(freq,bw,prefix,fft):
+    global next_fft
     
     if (len(fft) &lt; 2):
         return
+    
+    if (time.time() &lt; next_fft):
+        return
+    
+    next_fft = time.time() + 10.0
     
     ltp = time.gmtime(time.time())
     date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
@@ -1733,6 +1897,34 @@ def update_header(pacer,runtime):
         
     return None
 
+def static_mask(freq,bw,fbsize,rfilist):
+    if (rfilist == "" or len(rfilist) == 0 or rfilist == None):
+        return ([1.0]*fbsize)
+    
+    step = bw/fbsize
+    start = freq-(bw/2.0)
+    end = freq+(bw/2.0)
+    rfi = rfilist.split(",")
+    mask = [1.0]*fbsize
+    for r in rfi:
+        ndx = float(r)-start
+        ndx = ndx/step
+        ndx = int(ndx)
+        mask[ndx] = 0.0
+    return(mask)
+
+import numpy
+def dynamic_mask(fft,smask):
+    nzero = smask.count(0.0)
+    mean = sum(numpy.multiply(smask,fft))
+    mean = mean/(len(fft)-nzero)
+    mask = [0.0]*len(smask)
+    i = 0
+    for s in smask:
+        if (s == 0.0):
+            mask[i] = random.uniform(mean*0.98,mean*1.02)
+        i += 1
+    return(mask)
 </value>
     </param>
     <param>
@@ -3922,6 +4114,53 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(712, 984)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rfilist</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>RFI frequency list</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>""</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(504, 984)</value>
     </param>
     <param>
@@ -5711,7 +5950,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 116)</value>
+      <value>(816, 148)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5781,6 +6020,12 @@ gr-osmsdr source.</value>
     </param>
   </block>
   <connection>
+    <source_block_id>blocks_add_const_vxx_0</source_block_id>
+    <sink_block_id>blocks_float_to_short_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_add_xx_0</source_block_id>
     <sink_block_id>tag_retrieve</sink_block_id>
     <source_key>0</source_key>
@@ -5831,6 +6076,12 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>blocks_keep_one_in_n_1</source_block_id>
     <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
+    <sink_block_id>blocks_add_const_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -5890,7 +6141,7 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>virtual_source_1</source_block_id>
-    <sink_block_id>blocks_float_to_short_0</sink_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
