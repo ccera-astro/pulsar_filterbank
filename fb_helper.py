@@ -433,7 +433,7 @@ def static_mask(freq,bw,fbsize,rfilist):
         ndx = ndx/step
         ndx = int(ndx)
         mask[ndx] = 0.0
-    return(mask)
+    return(mask.reverse())
 
 import numpy
 def dynamic_mask(fft,smask):

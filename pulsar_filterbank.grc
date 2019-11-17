@@ -195,7 +195,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.log_fft(freq,samp_rate,prefix,fft_poll)</value>
+      <value>fb_helper.log_fft(freq,samp_rate,prefix,fft_poll2)</value>
     </param>
   </block>
   <block>
@@ -239,6 +239,49 @@ format every 10 seconds</value>
     <param>
       <key>poll_rate</key>
       <value>50</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_function_probe</key>
+    <param>
+      <key>block_id</key>
+      <value>fft_probe</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>function_args</key>
+      <value></value>
+    </param>
+    <param>
+      <key>function_name</key>
+      <value>level</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1216, 520)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fft_poll2</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[1.0e-15]*fbsize</value>
+    </param>
+    <param>
+      <key>poll_rate</key>
+      <value>5</value>
     </param>
   </block>
   <block>
@@ -319,7 +362,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fbrate/2.3</value>
+      <value>fbrate/2.15</value>
     </param>
   </block>
   <block>
@@ -1911,7 +1954,7 @@ def static_mask(freq,bw,fbsize,rfilist):
         ndx = ndx/step
         ndx = int(ndx)
         mask[ndx] = 0.0
-    return(mask)
+    return(mask.reverse())
 
 import numpy
 def dynamic_mask(fft,smask):
@@ -4247,7 +4290,7 @@ in a "full" state.</value>
     <key>single_pole_iir_filter_xx</key>
     <param>
       <key>alpha</key>
-      <value>1.0-math.pow(math.e,-2.0*(20.0/fbrate))</value>
+      <value>1.0-math.pow(math.e,-2.0*(5.0/fbrate))</value>
     </param>
     <param>
       <key>alias</key>
