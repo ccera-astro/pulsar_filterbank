@@ -2,6 +2,11 @@
 import time
 import os
 import shutil
+import math
+import struct
+import pmt
+import numpy
+import random
 
 #
 # Determine reasonable decimation value, given sample-rate,
@@ -75,10 +80,13 @@ def write_header(fn, freq, bw, fbsize, fbrate):
     f.write("Expected disk write rate: %6.2f mbyte/sec\n" % ((fbsize*fbrate*2.0)/1.0e6))
     
 
-import os
-import struct
+
 header_args = {}
 
+#
+# Convert to the weirdness that is the hybrid floating-point
+#  time format used by SIGPROC
+#
 def convert_sigproct(v):
     itime = int(v*3600.0)
     hours = itime/3600
@@ -268,25 +276,45 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     fp.close
     return True
 
-import math
 
-
+#
+# We're called fairly frequently, but we only want to log every 10 seconds
+#
 next_fft = time.time() + 10.0
 def log_fft(freq,bw,prefix,fft):
     global next_fft
     
+    #
+    # Degenerate FFT length--sometimes on startup
+    #
     if (len(fft) < 2):
         return
     
+    #
+    # Not yet time
+    #
     if (time.time() < next_fft):
         return
     
+    #
+    # Schedule our next one
+    #
     next_fft = time.time() + 10.0
     
+    #
+    # Get current time, break out into "struct tm" style time fields
+    #
     ltp = time.gmtime(time.time())
+    
+    #
+    # Constract filename from parts
+    #
     date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
     fp = open(prefix+date+"-fft.csv", "a")
     
+    #
+    # Write UTC header
+    #
     fp.write("%02d:%02d:%02d," % (ltp.tm_hour, ltp.tm_min, ltp.tm_sec))
     
     #
@@ -305,7 +333,16 @@ def log_fft(freq,bw,prefix,fft):
 
 
 
-import pmt
+
+#
+# This is called from a 10s-of-Hz poll with a list of "current_tags"
+#
+# We record the time that the first tag flashes past us.
+#
+#
+# We maintain a static tag dictionary for use later by the header
+#  update code
+#
 tag_dict = {} 
 first_tag = None
 def process_tag(tags):
@@ -315,7 +352,9 @@ def process_tag(tags):
         if (first_tag == None):
             first_tag = time.time()
     
-
+#
+# Used to find a tag in the tag_dict
+#
 def get_tag(key):
     if (key in tag_dict):
         return (tag_dict[key])
@@ -419,32 +458,87 @@ def update_header(pacer,runtime):
         
     return None
 
+#
+# Calculate a "static" RFI mask--basically a vector of either 1.0 or 0.0
+#   depending on whether this bin is "in" or excised
+#
+# Input is an RFI list, as a string, with comma-separated frequency values
+#   in Hz.
+#
+# This mask will get multiplied by the filterbank outputs--so at a position
+#   with a "1.0", that filterbank bin will be included, else it won't.
+#
 def static_mask(freq,bw,fbsize,rfilist):
+    
+    #
+    # If no RFI list, the mask is all 1.0
+    #
     if (rfilist == "" or len(rfilist) == 0 or rfilist == None):
         return ([1.0]*fbsize)
     
+    #
+    # Step size is the bandwidth over the filterbank size
+    #   (bin width, basically, in Hz)
+    #
     step = bw/fbsize
     start = freq-(bw/2.0)
     end = freq+(bw/2.0)
+    
+    #
+    # Parse the RFI list, do a little sanity checking
+    #  on the values.
+    #
     rfi = rfilist.split(",")
     mask = [1.0]*fbsize
     for r in rfi:
-        ndx = float(r)-start
-        ndx = ndx/step
-        ndx = int(ndx)
-        mask[ndx] = 0.0
+        try:
+            ndx = float(r)-start
+            ndx = ndx/step
+            ndx = int(ndx)
+            if (ndx >= 0 and ndx < len(mask)):
+                mask[ndx] = 0.0
+        except:
+            pass
     mask.reverse()
     return(mask)
 
-import numpy
-import random
+#
+# Compute a "dynamic mask".  This is part of a two-stage process for
+#  implementing spectral-based RFI excision.  The first stage "blanks"
+#  the excised channels.  The second stage arranges for the "blanked"
+#  channels to have a median estimate +/- a small amount of noise
+#  in them.  This is better than a sudden "empty" channel for post-facto
+#  folding.
+#
+# Since this second mask is incorporated by a vector addition operation, the
+#  "good" channels will have a 0.0 in the mask, and the "bad" channels
+#  will have the locally-estimated mean in them.
+#
 def dynamic_mask(fft,smask):
+    #
+    # How many blanked/excised channels in the static mask?
+    #
     nzero = smask.count(0.0)
+    
+    #
+    # Compute the mean
+    # First: sum the fft, and apply the static blanking mask
+    #
     mean = sum(numpy.multiply(smask,fft))
+    
+    #
+    # Then: divide by length - count of blanked channels
+    #
     mean = mean/(len(fft)-nzero)
     mask = [0.0]*len(smask)
     i = 0
     for s in smask:
+        
+        #
+        # We apply the locally-estimated mean, and then dither by a
+        #  small amount--this makes sure that the correlation of the
+        #  blanked channels tends to be poor.  I hope.
+        #
         if (s == 0.0):
             mask[i] = random.uniform(mean*0.98,mean*1.02)
         i += 1
