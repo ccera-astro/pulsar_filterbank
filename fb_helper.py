@@ -437,6 +437,7 @@ def static_mask(freq,bw,fbsize,rfilist):
     return(mask)
 
 import numpy
+import random
 def dynamic_mask(fft,smask):
     nzero = smask.count(0.0)
     mean = sum(numpy.multiply(smask,fft))
