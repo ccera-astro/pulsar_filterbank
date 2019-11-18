@@ -179,19 +179,24 @@ echo PSR params: PW50 $PW50 DM $DM RA $RA DEC $DEC
 #
 # Wait for pulsar to "rise" -- to be within obstime/2 of transit
 #
-target=`python -c "print ($RA - ($OBSTIME/3600.0)/1.95)"`
-while true
-do
-	lmst=`lmst.py $LONGITUDE`
-	truth=`python -c "t=True if abs($target-$lmst) <  0.05 else False; print t"`
-	if [ $truth = True ]
-	then
-		echo Starting receiver at $lmst
-		break
-	fi
-	echo Waiting for pulsar to rise at: $target, current LMST is $lmst
-	sleep 15
-done
+if [ $OBSTIME -gt 0 ]
+then
+	target=`python -c "print ($RA - ($OBSTIME/3600.0)/1.95)"`
+	while true
+	do
+		lmst=`lmst.py $LONGITUDE`
+		truth=`python -c "t=True if abs($target-$lmst) <  0.05 else False; print t"`
+		if [ $truth = True ]
+		then
+			echo Starting receiver at $lmst
+			break
+		fi
+		echo Waiting for pulsar to rise at: $target, current LMST is $lmst
+		sleep 15
+	done
+else
+	OBSTIME=30
+fi
 
 #
 # Call the appropriate version of the Gnu Radio flow-graph
