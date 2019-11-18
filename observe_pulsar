@@ -201,6 +201,11 @@ fi
 #
 # Call the appropriate version of the Gnu Radio flow-graph
 #
+RESOLUTION=1
+if [ "@$RFILIST@"  != "@@" ]
+then
+	RESOLUTION=2
+fi
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ --hp 0 \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
-   --source $1 --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST"
+   --source $1 --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION
