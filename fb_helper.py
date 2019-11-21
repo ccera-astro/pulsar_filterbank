@@ -522,12 +522,18 @@ def dynamic_mask(fft,smask):
     
     #
     # Compute the mean
-    # First: sum the fft, and apply the static blanking mask
+    # First: apply the mask
+    # Then trim the outer edges
     #
-    mean = sum(numpy.multiply(smask,fft))
+    # We add up all the non-masked channels
+    #
+    mean = numpy.multiply(smask,fft)
+    mean = mean[3:-3]
+    mean = sum(mean)
     
     #
     # Then: divide by length - count of blanked channels
+    #  (divide by count of non-masked channels, IOW)
     #
     mean = mean/(len(fft)-nzero)
     mask = [0.0]*len(smask)
@@ -539,7 +545,7 @@ def dynamic_mask(fft,smask):
         #  small amount--this makes sure that the correlation of the
         #  blanked channels tends to be poor.  I hope.
         #
-        if (s == 0.0):
+        if (s < 1.0):
             mask[i] = random.uniform(mean*0.98,mean*1.02)
         i += 1
     return(mask)
