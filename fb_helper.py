@@ -514,12 +514,14 @@ def static_mask(freq,bw,fbsize,rfilist):
 #  "good" channels will have a 0.0 in the mask, and the "bad" channels
 #  will have the locally-estimated mean in them.
 #
+count=0
 def dynamic_mask(fft,smask):
+    global count
     #
     # How many blanked/excised channels in the static mask?
     #
     nzero = smask.count(0.0)
-    
+
     #
     # Compute the mean
     # First: apply the mask
@@ -527,15 +529,18 @@ def dynamic_mask(fft,smask):
     #
     # We add up all the non-masked channels
     #
+    lf = len(fft)
+    ff = lf/10
     mean = numpy.multiply(smask,fft)
-    mean = mean[3:-3]
+    mean = mean[ff:-ff]
+    lnm = len(mean)
     mean = sum(mean)
     
     #
     # Then: divide by length - count of blanked channels
     #  (divide by count of non-masked channels, IOW)
     #
-    mean = mean/(len(fft)-nzero)
+    mean = mean/float(lnm-nzero)
     mask = [0.0]*len(smask)
     i = 0
     for s in smask:
@@ -546,6 +551,7 @@ def dynamic_mask(fft,smask):
         #  blanked channels tends to be poor.  I hope.
         #
         if (s < 1.0):
-            mask[i] = random.uniform(mean*0.98,mean*1.02)
+            mask[i] = random.uniform(mean*0.91,mean*1.01)
         i += 1
+    
     return(mask)
