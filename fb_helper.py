@@ -583,9 +583,13 @@ def dynamic_mask(fft,smask):
         #
         #
         for i in range(len(fft)):
+			
+			#
+			# This gives us some hysteresis
+			#
             if (fft[i] > (dmean*5.0)):
                 automask[i] = 0.0
-            else:
+            elif (fft[i] <= (dmean*2.25)):
                 automask[i] = 1.0
 
         deviation = adev/mcount
