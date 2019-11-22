@@ -515,22 +515,89 @@ def static_mask(freq,bw,fbsize,rfilist):
 #  will have the locally-estimated mean in them.
 #
 count=0
+deviation=0.0
+automask=None
 def dynamic_mask(fft,smask):
     global count
+    global deviation
+    global automask
+   
+    
+    
+    if (automask == None):
+        automask = [1.0]*len(fft)
+    
+    #
+    # Our ultimate mask is based on both the user-input static mask
+    #  and the dynamically-determined mask
+    #
+    smask = list(numpy.multiply(smask,automask))
+    
     #
     # How many blanked/excised channels in the static mask?
     #
     nzero = smask.count(0.0)
+    
+    #
+    # Determine trim range
+    #
+    lf = len(fft)
+    ff = lf/10
+    
+    #
+    # Calculate mean deviation, but only occasionally
+    # Update automask, but only occasionally
+    #
+    if ((count % 15) == 0):
+        #
+        # Make "trimmed" versions of mask and input FFT
+        #
+        trim_fft = fft[ff:-ff]
+        trim_mask = list(smask[ff:-ff])
+        
+        #
+        # Compute a quick mean
+        # Since the trim_fft bins at the trim_mask excision locations will
+        #    be zero, we can use "sum" with confidence
+        #
+        #
+        # The count for the mean will be the length of the input,
+        #   minus the number of zeros in the mask
+        #
+        mcount = len(trim_fft)-trim_mask.count(0.0)
+        dmean = sum(numpy.multiply(trim_fft,trim_mask))
+        dmean /= mcount
+        
+        #
+        # Now compute average deviation
+        #
+        adev = 0.0
+        for i in range(len(trim_fft)):
+            if (trim_mask[i]):
+                adev += abs(trim_fft[i]-dmean)
+        
+        #
+        # Automask looks for FFT values that exceed the current
+        #  mean estimate by a significant factor--a pulsar will
+        #  never do this.  Sporadic narrowband RFI will.
+        #
+        #
+        for i in range(len(fft)):
+            if (fft[i] > (dmean*5.0)):
+                automask[i] = 0.0
+            else:
+                automask[i] = 1.0
+
+        deviation = adev/mcount
+
+    count +=1
 
     #
     # Compute the mean
     # First: apply the mask
-    # Then trim the outer edges
     #
     # We add up all the non-masked channels
     #
-    lf = len(fft)
-    ff = lf/10
     mean = numpy.multiply(smask,fft)
     mean = mean[ff:-ff]
     lnm = len(mean)
@@ -551,7 +618,7 @@ def dynamic_mask(fft,smask):
         #  blanked channels tends to be poor.  I hope.
         #
         if (s < 1.0):
-            mask[i] = random.uniform(mean*0.91,mean*1.01)
+            mask[i] = random.uniform(mean-(deviation/2.0),mean+(deviation/2.0))
         i += 1
     
     return(mask)
