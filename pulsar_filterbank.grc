@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.12'?>
+<?grc format='1' created='3.7.13'?>
 <flow_graph>
   <timestamp>Tue Dec  4 02:45:36 2018</timestamp>
   <block>
@@ -10,7 +10,7 @@
     </param>
     <param>
       <key>window_size</key>
-      <value>1580,1280</value>
+      <value>1800,1600</value>
     </param>
     <param>
       <key>category</key>
@@ -101,7 +101,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1272, 20)</value>
+      <value>(1624, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -128,7 +128,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1112, 20)</value>
+      <value>(1520, 52)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -155,7 +155,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1360, 20)</value>
+      <value>(1712, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -222,7 +222,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(848, 496)</value>
+      <value>(1024, 504)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -238,7 +238,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>poll_rate</key>
-      <value>100</value>
+      <value>50</value>
     </param>
   </block>
   <block>
@@ -296,7 +296,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1488, 748)</value>
+      <value>(1544, 628)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -323,7 +323,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1488, 676)</value>
+      <value>(1640, 628)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -350,7 +350,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 164)</value>
+      <value>(480, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -362,7 +362,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fbrate/2.15</value>
+      <value>fbrate/2.10</value>
     </param>
   </block>
   <block>
@@ -377,7 +377,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1408, 356)</value>
+      <value>(1416, 476)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -404,7 +404,34 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1408, 612)</value>
+      <value>(832, 180)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>ones</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[1.0]*fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1592, 564)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -431,7 +458,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1408, 428)</value>
+      <value>(1416, 548)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -458,7 +485,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(800, 204)</value>
+      <value>(1328, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -486,7 +513,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 212)</value>
+      <value>(1576, 316)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -525,7 +552,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(392, 640)</value>
+      <value>(648, 680)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -583,7 +610,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(392, 724)</value>
+      <value>(792, 780)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -610,7 +637,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1440, 500)</value>
+      <value>(1600, 468)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -623,6 +650,33 @@ using estimate of mean power</value>
     <param>
       <key>value</key>
       <value>"%04d%02d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday,ltp.tm_hour,ltp.tm_min)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(712, 180)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>zeros</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[0.0]*fbsize</value>
     </param>
   </block>
   <block>
@@ -641,7 +695,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(240, 992)</value>
+      <value>(248, 1216)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -697,7 +751,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1200, 124)</value>
+      <value>(1152, 228)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -744,7 +798,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(304, 696)</value>
+      <value>(456, 784)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -776,6 +830,57 @@ excision</value>
     </param>
   </block>
   <block>
+    <key>blocks_add_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1296, 16)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_add_xx_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_complex_to_float</key>
     <param>
       <key>alias</key>
@@ -795,7 +900,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(448, 448)</value>
+      <value>(440, 568)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -838,7 +943,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(488, 364)</value>
+      <value>(544, 444)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -889,7 +994,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1384, 248)</value>
+      <value>(1616, 208)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -932,7 +1037,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 456)</value>
+      <value>(656, 560)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -975,7 +1080,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1376, 148)</value>
+      <value>(1376, 228)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1022,7 +1127,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(264, 28)</value>
+      <value>(248, 28)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1061,8 +1166,7 @@ excision</value>
     </param>
     <param>
       <key>comment</key>
-      <value>Decimate down to our final post-detect
-sample rate</value>
+      <value>Decimate down to post-detect rate X 4</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1074,7 +1178,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(592, 28)</value>
+      <value>(576, 60)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1125,7 +1229,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(288, 524)</value>
+      <value>(360, 700)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1157,6 +1261,57 @@ sample rate</value>
     </param>
   </block>
   <block>
+    <key>blocks_keep_one_in_n</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(872, 108)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_keep_one_in_n_2</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_multiply_const_vxx</key>
     <param>
       <key>alias</key>
@@ -1180,7 +1335,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(992, 108)</value>
+      <value>(952, 228)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1189,6 +1344,108 @@ sample rate</value>
     <param>
       <key>id</key>
       <value>blocks_multiply_const_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>zeros if median &lt;= 0 else ones</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1048, 28)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>ones if median &lt;= 0 else zeros</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1048, 108)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_1_0</value>
     </param>
     <param>
       <key>type</key>
@@ -1227,7 +1484,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(312, 220)</value>
+      <value>(296, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1278,7 +1535,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 772)</value>
+      <value>(232, 796)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1341,7 +1598,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(232, 436)</value>
+      <value>(264, 548)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1388,7 +1645,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(280, 1088)</value>
+      <value>(288, 1312)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1435,7 +1692,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 904)</value>
+      <value>(152, 1128)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1482,7 +1739,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(536, 1176)</value>
+      <value>(544, 1400)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2110,9 +2367,9 @@ def dynamic_mask(fft,smask):
 			#
 			# This gives us some hysteresis
 			#
-            if (fft[i] &gt; (dmean*5.0)):
+            if (fft[i] &gt; (dmean*2.5)):
                 automask[i] = 0.0
-            elif (fft[i] &lt;= (dmean*2.25)):
+            elif (fft[i] &lt;= (dmean*1.5)):
                 automask[i] = 1.0
 
         deviation = adev/mcount
@@ -2168,7 +2425,7 @@ def dynamic_mask(fft,smask):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(864, 708)</value>
+      <value>(1048, 844)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2248,7 +2505,7 @@ And estimation of the mean</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(248, 336)</value>
+      <value>(248, 416)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2299,7 +2556,7 @@ And estimation of the mean</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(512, 896)</value>
+      <value>(520, 1120)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2346,7 +2603,7 @@ And estimation of the mean</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(536, 1088)</value>
+      <value>(544, 1312)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2393,7 +2650,7 @@ And estimation of the mean</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(144, 992)</value>
+      <value>(152, 1216)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2549,6 +2806,53 @@ And estimation of the mean</value>
     </param>
   </block>
   <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(712, 1400)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>median</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Enable Median Filter</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>note</key>
     <param>
       <key>alias</key>
@@ -2572,7 +2876,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(568, 548)</value>
+      <value>(720, 796)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4010,7 +4314,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(216, 1184)</value>
+      <value>(224, 1408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4057,7 +4361,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 904)</value>
+      <value>(48, 1128)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4104,7 +4408,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(408, 1088)</value>
+      <value>(416, 1312)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4151,7 +4455,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(168, 1088)</value>
+      <value>(176, 1312)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4202,7 +4506,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(776, 20)</value>
+      <value>(856, 28)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4245,7 +4549,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 1184)</value>
+      <value>(40, 1408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4292,7 +4596,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 888)</value>
+      <value>(664, 1112)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4339,7 +4643,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 992)</value>
+      <value>(40, 1216)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4386,7 +4690,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(712, 984)</value>
+      <value>(720, 1208)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4433,7 +4737,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(504, 984)</value>
+      <value>(512, 1208)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4488,7 +4792,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 244)</value>
+      <value>(528, 324)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4582,7 +4886,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(32, 1088)</value>
+      <value>(40, 1312)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4629,7 +4933,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(320, 904)</value>
+      <value>(328, 1128)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4676,7 +4980,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(328, 1184)</value>
+      <value>(336, 1408)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4731,7 +5035,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(272, 780)</value>
+      <value>(600, 780)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6114,7 +6418,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 388)</value>
+      <value>(888, 604)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6141,7 +6445,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(976, 20)</value>
+      <value>(1336, 124)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6168,7 +6472,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(632, 156)</value>
+      <value>(768, 396)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6222,7 +6526,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(816, 148)</value>
+      <value>(744, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6304,6 +6608,12 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_add_xx_1</source_block_id>
+    <sink_block_id>virtual_sink_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_complex_to_float_0</source_block_id>
     <sink_block_id>blocks_float_to_complex_0</sink_block_id>
     <source_key>1</source_key>
@@ -6341,6 +6651,12 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>blocks_keep_one_in_n_0</source_block_id>
+    <sink_block_id>blocks_keep_one_in_n_2</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_keep_one_in_n_0</source_block_id>
     <sink_block_id>radio_astro_ra_vmedian_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -6352,10 +6668,28 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_keep_one_in_n_2</source_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_1_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
     <sink_block_id>blocks_add_const_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_multiply_const_vxx_1</source_block_id>
+    <sink_block_id>blocks_add_xx_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_multiply_const_vxx_1_0</source_block_id>
+    <sink_block_id>blocks_add_xx_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_stream_to_vector_0</source_block_id>
@@ -6389,7 +6723,7 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>radio_astro_ra_vmedian_0</source_block_id>
-    <sink_block_id>virtual_sink_1</sink_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
