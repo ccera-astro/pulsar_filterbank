@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.13'?>
+<?grc format='1' created='3.7.12'?>
 <flow_graph>
   <timestamp>Tue Dec  4 02:45:36 2018</timestamp>
   <block>
@@ -1022,7 +1022,7 @@ excision</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 28)</value>
+      <value>(264, 28)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1074,7 +1074,7 @@ sample rate</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(672, 4)</value>
+      <value>(592, 28)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1094,7 +1094,7 @@ sample rate</value>
     </param>
     <param>
       <key>n</key>
-      <value>fbdecim</value>
+      <value>fbdecim/4</value>
     </param>
     <param>
       <key>type</key>
@@ -4183,6 +4183,53 @@ in a "full" state.</value>
     </param>
   </block>
   <block>
+    <key>radio_astro_ra_vmedian</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(776, 20)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>radio_astro_ra_vmedian_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+    <param>
+      <key>vdecimate</key>
+      <value>4</value>
+    </param>
+  </block>
+  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -6094,7 +6141,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(848, 4)</value>
+      <value>(976, 20)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6229,7 +6276,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(504, 12)</value>
+      <value>(384, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6294,7 +6341,7 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>blocks_keep_one_in_n_0</source_block_id>
-    <sink_block_id>virtual_sink_1</sink_block_id>
+    <sink_block_id>radio_astro_ra_vmedian_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -6337,6 +6384,12 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>fft_vxx_0_0</source_block_id>
     <sink_block_id>blocks_complex_to_mag_squared_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>radio_astro_ra_vmedian_0</source_block_id>
+    <sink_block_id>virtual_sink_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
