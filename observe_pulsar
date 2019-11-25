@@ -208,4 +208,4 @@ then
 fi
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ --hp 0 \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
-   --source $1 --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION
+   --source $1 --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION --median 1
