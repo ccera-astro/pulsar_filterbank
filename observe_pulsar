@@ -88,7 +88,7 @@ lsusb >tmp$$
 if grep -q '2500:002[0123]' tmp$$
 then
    clk=`python -c "print $SRATE*4"`
-   DEVICE="type=b200,num_recv_frames=128,master_clock_rate=$clk"
+   DEVICE="type=b200,num_recv_frames=128,master_clock_rate=$clk,subdev='A:A'"
    uhd_usrp_probe --args type=b200 >usrp$$ 2>&1
    SUBDEV="A:A"
    if grep -i -q "no.*gps.*found" usrp$$
