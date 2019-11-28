@@ -513,7 +513,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1576, 316)</value>
+      <value>(1552, 316)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -525,7 +525,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.dynamic_mask(fft_poll,rfi_mask)</value>
+      <value>fb_helper.dynamic_mask(fft_poll,rfi_mask,thresh)</value>
     </param>
   </block>
   <block>
@@ -1421,7 +1421,7 @@ excision</value>
     </param>
     <param>
       <key>comment</key>
-      <value></value>
+      <value>We kind of fake up a "selector" here.</value>
     </param>
     <param>
       <key>const</key>
@@ -2297,7 +2297,7 @@ def static_mask(freq,bw,fbsize,rfilist):
 count=0
 deviation=0.0
 automask=None
-def dynamic_mask(fft,smask):
+def dynamic_mask(fft,smask,thresh):
     global count
     global deviation
     global automask
@@ -2367,9 +2367,9 @@ def dynamic_mask(fft,smask):
 			#
 			# This gives us some hysteresis
 			#
-            if (fft[i] &gt; (dmean*2.5)):
+            if (fft[i] &gt; (dmean*thresh)):
                 automask[i] = 0.0
-            elif (fft[i] &lt;= (dmean*1.5)):
+            elif (fft[i] &lt;= (dmean*(thresh/2.0))):
                 automask[i] = 1.0
 
         deviation = adev/mcount
@@ -5064,6 +5064,53 @@ in a "full" state.</value>
     <param>
       <key>vlen</key>
       <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(704, 1304)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>thresh</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>RFI detection threshold--linear factor</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>2.5</value>
     </param>
   </block>
   <block>

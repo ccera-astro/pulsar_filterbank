@@ -517,7 +517,7 @@ def static_mask(freq,bw,fbsize,rfilist):
 count=0
 deviation=0.0
 automask=None
-def dynamic_mask(fft,smask):
+def dynamic_mask(fft,smask,thresh):
     global count
     global deviation
     global automask
@@ -587,9 +587,9 @@ def dynamic_mask(fft,smask):
 			#
 			# This gives us some hysteresis
 			#
-            if (fft[i] > (dmean*2.5)):
+            if (fft[i] > (dmean*thresh)):
                 automask[i] = 0.0
-            elif (fft[i] <= (dmean*1.5)):
+            elif (fft[i] <= (dmean*(thresh/2.0))):
                 automask[i] = 1.0
 
         deviation = adev/mcount
