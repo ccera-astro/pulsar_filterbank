@@ -583,16 +583,23 @@ def dynamic_mask(fft,smask,thresh):
         #
         #
         for i in range(len(fft)):
-			
-			#
-			# This gives us some hysteresis
-			#
+            
+            #
+            # Bigger than threshold? It goes on the automask
+            #  AND NEVER LEAVES!  This prevents oscillation
+            #  over timescales that would be similar to pulsars...
+            #
             if (fft[i] > (dmean*thresh)):
                 automask[i] = 0.0
-            elif (fft[i] <= (dmean*(thresh/2.0))):
-                automask[i] = 1.0
-
-        deviation = adev/mcount
+        
+        #
+        # Two-point smoothing on deviation
+        #
+        if (deviation != 0.0):      
+            deviation += adev/mcount
+            deviation /= 2.0
+        else:
+            deviation = adev/mcount
 
     count +=1
 

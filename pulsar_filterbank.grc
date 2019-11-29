@@ -2363,16 +2363,23 @@ def dynamic_mask(fft,smask,thresh):
         #
         #
         for i in range(len(fft)):
-			
-			#
-			# This gives us some hysteresis
-			#
+            
+            #
+            # Bigger than threshold? It goes on the automask
+            #  AND NEVER LEAVES!  This prevents oscillation
+            #  over timescales that would be similar to pulsars...
+            #
             if (fft[i] &gt; (dmean*thresh)):
                 automask[i] = 0.0
-            elif (fft[i] &lt;= (dmean*(thresh/2.0))):
-                automask[i] = 1.0
-
-        deviation = adev/mcount
+        
+        #
+        # Two-point smoothing on deviation
+        #
+        if (deviation != 0.0):      
+            deviation += adev/mcount
+            deviation /= 2.0
+        else:
+            deviation = adev/mcount
 
     count +=1
 
@@ -2417,7 +2424,8 @@ def dynamic_mask(fft,smask,thresh):
 - write header info
 - provide a synchronization helper
 - provide a .FIL file header writer
-- process rx_time tag and update header</value>
+- process rx_time tag and update header
+- do RFI estimation and mask generation</value>
     </param>
     <param>
       <key>_enabled</key>
