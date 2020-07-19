@@ -197,7 +197,7 @@ then
 		sleep 15
 	done
 else
-	OBSTIME=30
+	OBSTIME=`expr $OBSTIME * -1`
 fi
 
 #
