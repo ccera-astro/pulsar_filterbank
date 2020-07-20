@@ -10,7 +10,7 @@ The code automatically determines suitable filterbank sizes and output
   header information that makes it useful for downstream tools
   like the PRESTO toolsuite.
 
-Also, a shell script, "pobserve" can be used to manage an observtion
+Also, a shell script, *observe_pulsar* can be used to manage an observtion
 with this Gnu Radio app.
 
 Currently supported options:
