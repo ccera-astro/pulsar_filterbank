@@ -633,3 +633,8 @@ def dynamic_mask(fft,smask,thresh):
         i += 1
     
     return(mask)
+def invert_rfi_mask(mask):
+    rmask = []
+    for i in range(0,len(mask)):
+        rmask.append(1.0 if mask[i] == 0.0 else 0.0)
+    return rmask
