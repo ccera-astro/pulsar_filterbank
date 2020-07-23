@@ -517,10 +517,12 @@ def static_mask(freq,bw,fbsize,rfilist):
 count=0
 deviation=0.0
 automask=None
+current_estimate=0.0
 def dynamic_mask(fft,smask,thresh):
     global count
     global deviation
     global automask
+    global current_estimate
    
     
     
@@ -620,6 +622,7 @@ def dynamic_mask(fft,smask,thresh):
     #
     mean = mean/float(lnm-nzero)
     mask = [0.0]*len(smask)
+    current_estimate = mean
     i = 0
     for s in smask:
         
@@ -638,3 +641,7 @@ def invert_rfi_mask(mask):
     for i in range(0,len(mask)):
         rmask.append(1.0 if mask[i] == 0.0 else 0.0)
     return rmask
+def get_current_estimate():
+	global current_estimate
+	
+	return current_estimate
