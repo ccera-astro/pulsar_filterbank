@@ -1426,7 +1426,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>const</key>
-      <value>rfi_mask</value>
+      <value>rfi_mask2</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1579,7 +1579,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>const</key>
-      <value>fb_helper.invert_rfi_mask(rfi_mask)</value>
+      <value>fb_helper.invert_rfi_mask(rfi_mask2)</value>
     </param>
     <param>
       <key>affinity</key>
@@ -2261,13 +2261,23 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     fp.close
     return True
 
-
+def auto_to_freqs(mask, freq, bw):
+    start = freq+(bw/2)
+    bins = len(mask)
+    decr = bw/bins
+    flist = ""
+    for i in range(len(mask)):
+        if (mask[i] == 0.0):
+            flist += "%8.4f," % (start/1.0e6)
+        start -= decr
+    return flist
 #
 # We're called fairly frequently, but we only want to log every 10 seconds
 #
 next_fft = time.time() + 10.0
 def log_fft(freq,bw,prefix,fft):
     global next_fft
+    global automask
     
     #
     # Degenerate FFT length--sometimes on startup
@@ -2316,6 +2326,9 @@ def log_fft(freq,bw,prefix,fft):
     fp.write("\n")
     fp.close()
 
+    mf = open (prefix+date+"-automask.txt", "w")
+    mf.write (auto_to_freqs(automask,freq,bw))
+    mf.close()
 
 
 
@@ -2440,7 +2453,7 @@ def update_header(pacer,runtime):
             os.remove(dataname)
         except:
             pass
-        
+
     return None
 
 #
@@ -2609,27 +2622,37 @@ def dynamic_mask(fft,smask,thresh):
     mask = [0.0]*len(smask)
     current_estimate = mean
     i = 0
-    for s in smask:
-        
-        #
-        # We apply the locally-estimated mean, and then dither by a
-        #  small amount--this makes sure that the correlation of the
-        #  blanked channels tends to be poor.  I hope.
-        #
-        if (s &lt; 1.0):
-            mask[i] = random.uniform(mean-(deviation/2.0),mean+(deviation/2.0))
-        i += 1
+    if False:
+        for s in smask:
+            
+            #
+            # We apply the locally-estimated mean, and then dither by a
+            #  small amount--this makes sure that the correlation of the
+            #  blanked channels tends to be poor.  I hope.
+            #
+            if (s &lt; 1.0):
+                mask[i] = random.uniform(mean-(deviation/2.0),mean+(deviation/2.0))
+            i += 1
     
-    return(mask)
+    return(smask)
+    
 def invert_rfi_mask(mask):
     rmask = []
     for i in range(0,len(mask)):
         rmask.append(1.0 if mask[i] == 0.0 else 0.0)
     return rmask
+
+estithen = time.time()
+frozen_estimate = 0.0   
 def get_current_estimate():
-	global current_estimate
-	
-	return current_estimate
+    global current_estimate
+    global frozen_estimate
+    
+    if (time.time() - estithen &lt; 60):
+        frozen_estimate = current_estimate
+        return current_estimate
+    else:
+        return frozen_estimate
 </value>
     </param>
     <param>
