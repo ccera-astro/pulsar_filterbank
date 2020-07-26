@@ -404,6 +404,33 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(1192, 332)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>magn</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.get_current_estimate()</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(832, 180)</value>
     </param>
     <param>
@@ -683,7 +710,7 @@ using estimate of mean power</value>
     <key>analog_noise_source_x</key>
     <param>
       <key>amp</key>
-      <value>fb_helper.get_current_estimate()</value>
+      <value>1.0</value>
     </param>
     <param>
       <key>alias</key>
@@ -1579,7 +1606,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>const</key>
-      <value>fb_helper.invert_rfi_mask(rfi_mask2)</value>
+      <value>fb_helper.invert_rfi_mask(rfi_mask2)*numpy.array([magn]*fbsize)</value>
     </param>
     <param>
       <key>affinity</key>
