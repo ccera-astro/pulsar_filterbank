@@ -113,7 +113,7 @@ then
 #
 # AIRSPY
 #
-elif grep -q "id50:60a1" tmp$$
+elif grep -q "1d50:60a1" tmp$$
 then
   DEVICE="airspy=0"
   EXEC=pulsar_filterbank_none.py
