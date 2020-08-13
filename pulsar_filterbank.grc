@@ -1187,7 +1187,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>scale</key>
-      <value>256</value>
+      <value>float(256*dscale)</value>
     </param>
     <param>
       <key>vlen</key>
@@ -2000,6 +2000,53 @@ amplitude is set by the power estimator</value>
     <param>
       <key>value</key>
       <value>28.3</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(880, 1400)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>dscale</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Detector scaling</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
     </param>
   </block>
   <block>
