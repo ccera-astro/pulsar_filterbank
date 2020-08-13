@@ -30,7 +30,7 @@ fi
 #
 if [ $# -lt 6 ]
 then
-	echo Usage:  observe_pulsar name freq bandwidth gain obs-time longitude
+	echo Usage:  observe_pulsar name freq bandwidth gain obs-time longitude [dscale]
 	exit
 fi
 
@@ -44,6 +44,12 @@ SUPPORTED="usrp rtlsdr airspy hackrf limesdr"
 PPS=internal
 CLOCK=internal
 LONGITUDE=$6
+if [ "@$7@" != "@@" ]
+then
+	DSCALE=$7
+else
+	DSCALE=1
+fi
 
 #
 # Figure out where the PSR database is
@@ -211,4 +217,4 @@ fi
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $1 --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION --median 1 \
-   --thresh 2.2
+   --thresh 2.2 --dscale $DSCALE
