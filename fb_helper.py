@@ -66,7 +66,7 @@ def dm_to_bins(dm,freq,bw,pw50):
 #
 # Write an external, text, header file
 #
-def write_header(fn, freq, bw, fbsize, fbrate):
+def write_header(fn, freq, bw, fbsize, fbrate, smpsize):
     f = open(fn, "w")
     ltp = time.gmtime(time.time())
     f.write("frequency=%.5f\n" % freq)
@@ -77,7 +77,7 @@ def write_header(fn, freq, bw, fbsize, fbrate):
         ltp.tm_mon, ltp.tm_mday))
     f.write("Approx start UTC Time=%02d:%02d:%02d\n" % (ltp.tm_hour,
         ltp.tm_min, ltp.tm_sec))
-    f.write("Expected disk write rate: %6.2f mbyte/sec\n" % ((fbsize*fbrate*2.0)/1.0e6))
+    f.write("Expected disk write rate: %6.2f mbyte/sec\n" % ((fbsize*fbrate*smpsize)/1.0e6))
     
 
 
@@ -101,7 +101,7 @@ def convert_sigproct(v):
 # Thanks to Guillermo Gancio (ganciogm@gmail.com) for the inspiration
 #   and much of the code
 #
-def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize,rx_time):
+def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize,rx_time,smpsize):
 
     header_args["outfile"] = outfile
     header_args["source_name"] = source_name
@@ -234,7 +234,7 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     aux="nbits"
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
-    aux=struct.pack('i', 16)
+    aux=struct.pack('i', smpsize*8)
     fp.write(aux)
     #--
     aux="tsamp"
@@ -379,7 +379,7 @@ didit = False
 # Basically, near the end of the run, concatenates the correct header data
 #  and the live sample data, and produces a final ".fil" output file.
 #
-def update_header(pacer,runtime):
+def update_header(pacer,runtime,smpsize):
     global didit
     global first_tag
     import time
@@ -449,7 +449,7 @@ def update_header(pacer,runtime):
             header_args["bw"],
             header_args["fbrate"],
             header_args["fbsize"],
-            MJD)
+            MJD,smpsize)
         dataname = header_args["outfile"].replace(".fil", ".filtmp")
         try:
             inf = open(dataname, "r")
