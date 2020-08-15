@@ -161,7 +161,7 @@ then
 	    if grep -i -q "no.*gps.*found" usrp$$
 	    then
 			EXEC=pulsar_filterbank_ntp.py
-			PPS=external
+			PPS=internal
 			CLOCK=external
 		else
 		    EXEC=pulsar_filterbank_gps.py
