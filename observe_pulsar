@@ -216,5 +216,5 @@ then
 fi
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
-   --source $1 --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION --median 1 \
+   --source $1 --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION --median 0 \
    --thresh 2.2 --dscale $DSCALE
