@@ -928,57 +928,6 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1296, 16)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_add_xx_1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>num_inputs</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>fbsize</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_add_xx</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
       <value>(1216, 232)</value>
     </param>
     <param>
@@ -1296,7 +1245,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>comment</key>
-      <value>Decimate down to post-detect rate X 4</value>
+      <value>Decimate down to post-detect rate</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1308,7 +1257,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(576, 60)</value>
+      <value>(920, 84)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1328,7 +1277,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>n</key>
-      <value>fbdecim/4</value>
+      <value>fbdecim</value>
     </param>
     <param>
       <key>type</key>
@@ -1391,57 +1340,6 @@ amplitude is set by the power estimator</value>
     </param>
   </block>
   <block>
-    <key>blocks_keep_one_in_n</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(872, 108)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_keep_one_in_n_2</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>n</key>
-      <value>4</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>fbsize</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_multiply_const_vxx</key>
     <param>
       <key>alias</key>
@@ -1474,108 +1372,6 @@ amplitude is set by the power estimator</value>
     <param>
       <key>id</key>
       <value>blocks_multiply_const_vxx_0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>fbsize</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_multiply_const_vxx</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>const</key>
-      <value>zeros if median &lt;= 0 else ones</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1048, 28)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_multiply_const_vxx_1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>fbsize</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_multiply_const_vxx</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value>We kind of fake up a "selector" here.</value>
-    </param>
-    <param>
-      <key>const</key>
-      <value>ones if median &lt;= 0 else zeros</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1048, 108)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>blocks_multiply_const_vxx_1_0</value>
     </param>
     <param>
       <key>type</key>
@@ -3109,53 +2905,6 @@ And estimation of the mean</value>
     <param>
       <key>import</key>
       <value>import numpy</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(712, 1400)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>median</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Enable Median Filter</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>hide</key>
-      <value>none</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
     </param>
   </block>
   <block>
@@ -4790,53 +4539,6 @@ in a "full" state.</value>
     <param>
       <key>value</key>
       <value>3.51</value>
-    </param>
-  </block>
-  <block>
-    <key>radio_astro_ra_vmedian</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(856, 28)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>radio_astro_ra_vmedian_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>fbsize</value>
-    </param>
-    <param>
-      <key>vdecimate</key>
-      <value>4</value>
     </param>
   </block>
   <block>
@@ -6967,12 +6669,6 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_add_xx_1</source_block_id>
-    <sink_block_id>virtual_sink_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>blocks_add_xx_2</source_block_id>
     <sink_block_id>blocks_float_to_char_0</sink_block_id>
     <source_key>0</source_key>
@@ -7016,13 +6712,7 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>blocks_keep_one_in_n_0</source_block_id>
-    <sink_block_id>blocks_keep_one_in_n_2</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_keep_one_in_n_0</source_block_id>
-    <sink_block_id>radio_astro_ra_vmedian_0</sink_block_id>
+    <sink_block_id>virtual_sink_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -7033,28 +6723,10 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_keep_one_in_n_2</source_block_id>
-    <sink_block_id>blocks_multiply_const_vxx_1_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
     <sink_block_id>blocks_add_xx_2</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_multiply_const_vxx_1</source_block_id>
-    <sink_block_id>blocks_add_xx_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_multiply_const_vxx_1_0</source_block_id>
-    <sink_block_id>blocks_add_xx_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_multiply_const_vxx_2</source_block_id>
@@ -7095,12 +6767,6 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>fft_vxx_0_0</source_block_id>
     <sink_block_id>blocks_complex_to_mag_squared_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>radio_astro_ra_vmedian_0</source_block_id>
-    <sink_block_id>blocks_multiply_const_vxx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
