@@ -10,7 +10,7 @@
     </param>
     <param>
       <key>window_size</key>
-      <value>1800,1600</value>
+      <value>2000,2000</value>
     </param>
     <param>
       <key>category</key>
@@ -101,7 +101,34 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1624, 12)</value>
+      <value>(1832, 380)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>cfname</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"/dev/null" if wide == 1 else pfname+".filtmp"</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1816, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -128,7 +155,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1488, 12)</value>
+      <value>(1704, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -155,7 +182,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1712, 12)</value>
+      <value>(1896, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -183,7 +210,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1168, 740)</value>
+      <value>(1720, 924)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -222,7 +249,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1024, 648)</value>
+      <value>(1576, 920)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -265,7 +292,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1168, 640)</value>
+      <value>(1584, 832)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -296,7 +323,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1360, 628)</value>
+      <value>(1752, 828)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -308,7 +335,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.build_header_info(pfname+".fil",source,ra,dec,freq,srate,fbrate,fbsize,None,1)</value>
+      <value>fb_helper.build_header_info(pfname+".fil",source,ra,dec,freq,srate,fbrate,fbsize,None,swidth)</value>
     </param>
   </block>
   <block>
@@ -323,7 +350,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1640, 628)</value>
+      <value>(1912, 828)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -335,7 +362,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.write_header(parmname, freq/1.0e6, samp_rate/1.0e6, fbsize, fbrate,1)</value>
+      <value>fb_helper.write_header(parmname, freq/1.0e6, samp_rate/1.0e6, fbsize, fbrate,swidth)</value>
     </param>
   </block>
   <block>
@@ -350,7 +377,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(480, 260)</value>
+      <value>(584, 316)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -377,7 +404,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1416, 476)</value>
+      <value>(1672, 660)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -404,7 +431,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1216, 324)</value>
+      <value>(1224, 436)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -431,34 +458,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(832, 180)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>ones</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>[1.0]*fbsize</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1592, 564)</value>
+      <value>(1824, 756)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -485,7 +485,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1416, 548)</value>
+      <value>(1664, 740)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -512,7 +512,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1592, 116)</value>
+      <value>(1488, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -540,7 +540,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1584, 324)</value>
+      <value>(1288, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -579,7 +579,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(648, 680)</value>
+      <value>(488, 1056)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -637,7 +637,88 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(792, 780)</value>
+      <value>(1848, 316)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>sfname</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"/dev/null" if wide == 0 else pfname+".filtmp"</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value>This provides passband response correction</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(496, 164)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>shaper</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.get_correction(fbsize,rolloff,fft_poll2)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1840, 828)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>swidth</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1 if wide == 0 else 2</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(224, 1076)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -664,7 +745,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1600, 468)</value>
+      <value>(1856, 660)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -677,33 +758,6 @@ using estimate of mean power</value>
     <param>
       <key>value</key>
       <value>"%04d%02d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday,ltp.tm_hour,ltp.tm_min)</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(712, 180)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>zeros</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>[0.0]*fbsize</value>
     </param>
   </block>
   <block>
@@ -732,7 +786,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1144, 492)</value>
+      <value>(1144, 620)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -779,7 +833,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(248, 1216)</value>
+      <value>(256, 1640)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -830,7 +884,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1408, 396)</value>
+      <value>(1376, 540)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -877,7 +931,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(456, 784)</value>
+      <value>(456, 968)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -928,7 +982,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1216, 232)</value>
+      <value>(1224, 272)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -979,7 +1033,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(440, 568)</value>
+      <value>(512, 664)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1022,7 +1076,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 444)</value>
+      <value>(568, 572)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1069,11 +1123,11 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>file</key>
-      <value>pfname+".filtmp"</value>
+      <value>cfname</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1616, 208)</value>
+      <value>(1840, 224)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1097,7 +1151,11 @@ amplitude is set by the power estimator</value>
     </param>
   </block>
   <block>
-    <key>blocks_float_to_char</key>
+    <key>blocks_file_sink</key>
+    <param>
+      <key>append</key>
+      <value>True</value>
+    </param>
     <param>
       <key>alias</key>
       <value></value>
@@ -1115,8 +1173,56 @@ amplitude is set by the power estimator</value>
       <value>True</value>
     </param>
     <param>
+      <key>file</key>
+      <value>sfname</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(1424, 220)</value>
+      <value>(1824, 120)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_file_sink_0_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>short</value>
+    </param>
+    <param>
+      <key>unbuffered</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_float_to_char</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value>Whether we produce 8-bit or 16-bit files
+depends on the "wide" input parameter.</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1600, 236)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1163,7 +1269,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(656, 560)</value>
+      <value>(736, 688)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1187,6 +1293,53 @@ amplitude is set by the power estimator</value>
     </param>
   </block>
   <block>
+    <key>blocks_float_to_short</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1664, 132)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_float_to_short_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>scale</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_head</key>
     <param>
       <key>alias</key>
@@ -1206,7 +1359,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(248, 28)</value>
+      <value>(336, 28)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1257,7 +1410,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(920, 84)</value>
+      <value>(736, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1308,7 +1461,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 700)</value>
+      <value>(240, 932)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1351,7 +1504,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>const</key>
-      <value>rfi_mask2</value>
+      <value>numpy.multiply(rfi_mask2,shaper)</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1363,7 +1516,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(952, 228)</value>
+      <value>(968, 260)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1372,6 +1525,57 @@ amplitude is set by the power estimator</value>
     <param>
       <key>id</key>
       <value>blocks_multiply_const_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>[0.0] * fbsize if hp == 0 else [0.60]*fbsize</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1168, 124)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_1</value>
     </param>
     <param>
       <key>type</key>
@@ -1414,7 +1618,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1352, 316)</value>
+      <value>(1352, 436)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1512,7 +1716,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1184, 396)</value>
+      <value>(1192, 540)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1544,6 +1748,57 @@ amplitude is set by the power estimator</value>
     </param>
   </block>
   <block>
+    <key>blocks_sub_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value>Implement DC block</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1416, 144)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_sub_xx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_tags_strobe</key>
     <param>
       <key>alias</key>
@@ -1563,7 +1818,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(232, 796)</value>
+      <value>(232, 980)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1673,7 +1928,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(288, 1312)</value>
+      <value>(296, 1736)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1720,7 +1975,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(152, 1128)</value>
+      <value>(160, 1552)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1767,7 +2022,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 1400)</value>
+      <value>(552, 1824)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1814,7 +2069,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(880, 1400)</value>
+      <value>(720, 1824)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1862,6 +2117,8 @@ import struct
 import pmt
 import numpy
 import random
+
+smpwidth = 0
 
 #
 # Determine reasonable decimation value, given sample-rate,
@@ -1922,6 +2179,11 @@ def dm_to_bins(dm,freq,bw,pw50):
 # Write an external, text, header file
 #
 def write_header(fn, freq, bw, fbsize, fbrate, smpsize):
+    global smpwidth
+    
+    if (smpwidth == 0):
+        smpwidth = smpsize
+        
     f = open(fn, "w")
     ltp = time.gmtime(time.time())
     f.write("frequency=%.5f\n" % freq)
@@ -1932,6 +2194,7 @@ def write_header(fn, freq, bw, fbsize, fbrate, smpsize):
         ltp.tm_mon, ltp.tm_mday))
     f.write("Approx start UTC Time=%02d:%02d:%02d\n" % (ltp.tm_hour,
         ltp.tm_min, ltp.tm_sec))
+    f.write("Output sample size %d bytes\n" % smpsize)
     f.write("Expected disk write rate: %6.2f mbyte/sec\n" % ((fbsize*fbrate*smpsize)/1.0e6))
     
 
@@ -1957,6 +2220,10 @@ def convert_sigproct(v):
 #   and much of the code
 #
 def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize,rx_time,smpsize):
+    global smpwidth
+    
+    if (smpwidth == 0):
+        smpwidth = smpsize
 
     header_args["outfile"] = outfile
     header_args["source_name"] = source_name
@@ -2145,9 +2412,15 @@ def auto_to_freqs(mask, freq, bw):
 # We're called fairly frequently, but we only want to log every 10 seconds
 #
 next_fft = time.time() + 10.0
+smooth_fft = [0.0]
+fft_cnt = 0
+last_smooth = time.time()
 def log_fft(freq,bw,prefix,fft):
     global next_fft
     global automask
+    global smooth_fft
+    global fft_cnt
+    global last_smooth
     
     #
     # Degenerate FFT length--sometimes on startup
@@ -2155,6 +2428,16 @@ def log_fft(freq,bw,prefix,fft):
     if (len(fft) &lt; 2):
         return
     
+    #
+    # Provide "smooth" FFT for get_correction
+    #  function
+    #
+    if ((time.time() - last_smooth) &gt;= 1.5):
+        if (len(smooth_fft) != len(fft)):
+            smooth_fft = numpy.array([0.0]*len(fft))
+        fft_cnt += 1
+        smooth_fft = numpy.add(fft,smooth_fft)
+        last_smooth = time.time()
     #
     # Not yet time
     #
@@ -2165,7 +2448,7 @@ def log_fft(freq,bw,prefix,fft):
     # Schedule our next one
     #
     next_fft = time.time() + 10.0
-    
+ 
     #
     # Get current time, break out into "struct tm" style time fields
     #
@@ -2240,6 +2523,10 @@ def update_header(pacer,runtime,smpsize):
     import time
     import shutil
     import os
+    global smpwidth
+    
+    if (smpwidth == 0):
+        smpwidth = smpsize
 
     #
     # If we haven't seen our first tag yet, data flow hasn't started
@@ -2325,6 +2612,9 @@ def update_header(pacer,runtime,smpsize):
             pass
 
     return None
+
+def get_swidth():
+    return smpwidth
 
 #
 # Calculate a "static" RFI mask--basically a vector of either 1.0 or 0.0
@@ -2523,6 +2813,79 @@ def get_current_estimate():
         return current_estimate
     else:
         return frozen_estimate
+
+#
+# Compute passband flatness correction
+#
+# Use the middle 8 bins as an average to normalize to
+#
+last_correct = time.time()
+correct_state = 0
+correction = [0.0]
+def get_correction(fbsize,correct,pacer):
+    global last_correct
+    global smooth_fft
+    global fft_cnt
+    global correct_state
+    global correction
+
+    #
+    # They haven't asked for correction
+    #
+    if (correct == 0):
+        return [1.0]*fbsize
+    
+    #
+    # If time to return a correction estimate
+    #
+    if ((time.time() - last_correct) &gt; 60):
+        # Compute correction if we haven't already done so
+        if (correct_state == 0):
+            correct_state = 1
+            
+            #
+            # Compute the fraction of the buffer we're ignoring
+            #  for calculation of the average level
+            #
+            frac = int(fbsize/6)
+            
+            #
+            # Reduce smooth by fft_cnt
+            #
+            smooth_fft = numpy.divide(smooth_fft,fft_cnt)
+            fft_cnt = 1
+            
+            #
+            # Produce the "window" over which we'll average
+            #
+            avg_window = smooth_fft[frac:-frac]
+            
+            #
+            # Average that "window"
+            #
+            avg = sum(avg_window)
+            avg /= float(len(avg_window))
+            
+            
+            #
+            # Compute the ratio between the average and the smoothed FFT, and
+            #  produce a scaling vector that makes them all roughly at the same level
+            #
+            # We only do thiS ONCE in an entire run near the beginning,
+            #   otherwise, other bad things will happen
+            #
+            # This should be OK, since the *ratios* should remain roughly
+            #  the same, even if the baseline noise level changes, due to
+            #  background continuum level changes, etc.
+            #
+            correction = numpy.divide([avg]*fbsize,smooth_fft)
+        return correction
+    #
+    # Not yet time, return no correction
+    #
+    else:
+        return [1.0]*fbsize
+    
 </value>
     </param>
     <param>
@@ -2576,7 +2939,7 @@ And estimation of the mean</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(960, 412)</value>
+      <value>(976, 468)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2623,7 +2986,7 @@ And estimation of the mean</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(248, 416)</value>
+      <value>(320, 440)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2674,7 +3037,7 @@ And estimation of the mean</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(520, 1120)</value>
+      <value>(528, 1544)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2721,7 +3084,54 @@ And estimation of the mean</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(152, 1216)</value>
+      <value>(896, 1512)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>hp</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>HP pass enable</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(160, 1640)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2931,7 +3341,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 796)</value>
+      <value>(408, 1100)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4369,7 +4779,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(224, 1408)</value>
+      <value>(232, 1832)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4416,7 +4826,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 1128)</value>
+      <value>(56, 1552)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4463,7 +4873,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(416, 1312)</value>
+      <value>(424, 1736)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4510,7 +4920,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(176, 1312)</value>
+      <value>(184, 1736)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4557,7 +4967,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 1408)</value>
+      <value>(48, 1832)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4604,7 +5014,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 1112)</value>
+      <value>(672, 1536)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4651,7 +5061,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 1216)</value>
+      <value>(48, 1640)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4698,7 +5108,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(720, 1208)</value>
+      <value>(728, 1632)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4745,7 +5155,54 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(512, 1208)</value>
+      <value>(872, 1824)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rolloff</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Enable Roll-off correction</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(520, 1632)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4800,7 +5257,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(528, 324)</value>
+      <value>(584, 380)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4809,6 +5266,57 @@ in a "full" state.</value>
     <param>
       <key>id</key>
       <value>single_pole_iir_filter_xx_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>single_pole_iir_filter_xx</key>
+    <param>
+      <key>alpha</key>
+      <value>1.0/5.0e3</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(968, 124)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>single_pole_iir_filter_xx_1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -4851,7 +5359,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(944, 340)</value>
+      <value>(960, 372)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4894,7 +5402,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 1312)</value>
+      <value>(48, 1736)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4941,7 +5449,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(328, 1128)</value>
+      <value>(336, 1552)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -4988,7 +5496,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(336, 1408)</value>
+      <value>(344, 1832)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5043,7 +5551,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(600, 780)</value>
+      <value>(600, 964)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5090,7 +5598,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(704, 1304)</value>
+      <value>(736, 1728)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6473,7 +6981,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(888, 604)</value>
+      <value>(952, 700)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6500,7 +7008,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1336, 124)</value>
+      <value>(920, 20)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6527,7 +7035,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(768, 396)</value>
+      <value>(784, 500)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6581,7 +7089,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(744, 260)</value>
+      <value>(792, 268)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6608,7 +7116,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(736, 324)</value>
+      <value>(784, 380)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6635,7 +7143,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(384, 12)</value>
+      <value>(536, 20)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -6648,6 +7156,53 @@ gr-osmsdr source.</value>
     <param>
       <key>stream_id</key>
       <value>f_mags</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(568, 1736)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>wide</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Enable 16-bit output</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0</value>
     </param>
   </block>
   <connection>
@@ -6670,7 +7225,13 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>blocks_add_xx_2</source_block_id>
-    <sink_block_id>blocks_float_to_char_0</sink_block_id>
+    <sink_block_id>blocks_sub_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_add_xx_2</source_block_id>
+    <sink_block_id>single_pole_iir_filter_xx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -6705,6 +7266,12 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_float_to_short_0</source_block_id>
+    <sink_block_id>blocks_file_sink_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_head_0</source_block_id>
     <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
     <source_key>0</source_key>
@@ -6729,6 +7296,12 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_multiply_const_vxx_1</source_block_id>
+    <sink_block_id>blocks_sub_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_multiply_const_vxx_2</source_block_id>
     <sink_block_id>blocks_add_xx_2</sink_block_id>
     <source_key>0</source_key>
@@ -6743,6 +7316,18 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>blocks_stream_to_vector_1</source_block_id>
     <sink_block_id>blocks_abs_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_sub_xx_0</source_block_id>
+    <sink_block_id>blocks_float_to_char_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_sub_xx_0</source_block_id>
+    <sink_block_id>blocks_float_to_short_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -6773,6 +7358,12 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>single_pole_iir_filter_xx_0</source_block_id>
     <sink_block_id>virtual_sink_2</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>single_pole_iir_filter_xx_1</source_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

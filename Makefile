@@ -42,7 +42,7 @@ pulsar_filterbank_gps.py: pulsar_filterbank_uhd.py
 #  Should probably have something that does automatic indent detection and
 #  arranges for the inserted code to follow the existing indent.
 #
-	-./insert_arbitrary_code pulsar_filterbank_gps.py '    tb.wait()'    '    fb_helper.update_header(None, None,1)'
+	-./insert_arbitrary_code pulsar_filterbank_gps.py '    tb.wait()'    '    fb_helper.update_header(None, None,fb_helper.get_swidth())'
 	chmod 755 pulsar_filterbank_gps.py
 
 pulsar_filterbank_ntp.py: pulsar_filterbank_uhd.py
@@ -53,7 +53,7 @@ pulsar_filterbank_ntp.py: pulsar_filterbank_uhd.py
 #  Should probably have something that does automatic indent detection and
 #  arranges for the inserted code to follow the existing indent.
 #
-	-./insert_arbitrary_code pulsar_filterbank_ntp.py '    tb.wait()'    '    fb_helper.update_header(None, None,1)'
+	-./insert_arbitrary_code pulsar_filterbank_ntp.py '    tb.wait()'    '    fb_helper.update_header(None, None,fb_helper.get_swidth())'
 	chmod 755 pulsar_filterbank_ntp.py
 
 #
@@ -68,7 +68,7 @@ pulsar_filterbank_none.py: pulsar_filterbank_osmo.py
 #  Should probably have something that does automatic indent detection and
 #  arranges for the inserted code to follow the existing indent.
 #
-	-./insert_arbitrary_code pulsar_filterbank_none.py '    tb.wait()'    '    fb_helper.update_header(None, None,1)'
+	-./insert_arbitrary_code pulsar_filterbank_none.py '    tb.wait()'    '    fb_helper.update_header(None, None,fb_helper.get_swidth())'
 
 
 install: $(TARGETS) $(PY)

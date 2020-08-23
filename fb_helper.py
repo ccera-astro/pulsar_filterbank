@@ -8,6 +8,8 @@ import pmt
 import numpy
 import random
 
+smpwidth = 0
+
 #
 # Determine reasonable decimation value, given sample-rate,
 #  filterbank-size (already determined) and pw50 for the
@@ -67,6 +69,11 @@ def dm_to_bins(dm,freq,bw,pw50):
 # Write an external, text, header file
 #
 def write_header(fn, freq, bw, fbsize, fbrate, smpsize):
+    global smpwidth
+    
+    if (smpwidth == 0):
+        smpwidth = smpsize
+        
     f = open(fn, "w")
     ltp = time.gmtime(time.time())
     f.write("frequency=%.5f\n" % freq)
@@ -77,6 +84,7 @@ def write_header(fn, freq, bw, fbsize, fbrate, smpsize):
         ltp.tm_mon, ltp.tm_mday))
     f.write("Approx start UTC Time=%02d:%02d:%02d\n" % (ltp.tm_hour,
         ltp.tm_min, ltp.tm_sec))
+    f.write("Output sample size %d bytes\n" % smpsize)
     f.write("Expected disk write rate: %6.2f mbyte/sec\n" % ((fbsize*fbrate*smpsize)/1.0e6))
     
 
@@ -102,6 +110,10 @@ def convert_sigproct(v):
 #   and much of the code
 #
 def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize,rx_time,smpsize):
+    global smpwidth
+    
+    if (smpwidth == 0):
+        smpwidth = smpsize
 
     header_args["outfile"] = outfile
     header_args["source_name"] = source_name
@@ -290,9 +302,15 @@ def auto_to_freqs(mask, freq, bw):
 # We're called fairly frequently, but we only want to log every 10 seconds
 #
 next_fft = time.time() + 10.0
+smooth_fft = [0.0]
+fft_cnt = 0
+last_smooth = time.time()
 def log_fft(freq,bw,prefix,fft):
     global next_fft
     global automask
+    global smooth_fft
+    global fft_cnt
+    global last_smooth
     
     #
     # Degenerate FFT length--sometimes on startup
@@ -300,6 +318,16 @@ def log_fft(freq,bw,prefix,fft):
     if (len(fft) < 2):
         return
     
+    #
+    # Provide "smooth" FFT for get_correction
+    #  function
+    #
+    if ((time.time() - last_smooth) >= 1.5):
+        if (len(smooth_fft) != len(fft)):
+            smooth_fft = numpy.array([0.0]*len(fft))
+        fft_cnt += 1
+        smooth_fft = numpy.add(fft,smooth_fft)
+        last_smooth = time.time()
     #
     # Not yet time
     #
@@ -310,7 +338,7 @@ def log_fft(freq,bw,prefix,fft):
     # Schedule our next one
     #
     next_fft = time.time() + 10.0
-    
+ 
     #
     # Get current time, break out into "struct tm" style time fields
     #
@@ -385,6 +413,10 @@ def update_header(pacer,runtime,smpsize):
     import time
     import shutil
     import os
+    global smpwidth
+    
+    if (smpwidth == 0):
+        smpwidth = smpsize
 
     #
     # If we haven't seen our first tag yet, data flow hasn't started
@@ -470,6 +502,9 @@ def update_header(pacer,runtime,smpsize):
             pass
 
     return None
+
+def get_swidth():
+    return smpwidth
 
 #
 # Calculate a "static" RFI mask--basically a vector of either 1.0 or 0.0
@@ -668,3 +703,76 @@ def get_current_estimate():
         return current_estimate
     else:
         return frozen_estimate
+
+#
+# Compute passband flatness correction
+#
+# Use the middle 8 bins as an average to normalize to
+#
+last_correct = time.time()
+correct_state = 0
+correction = [0.0]
+def get_correction(fbsize,correct,pacer):
+    global last_correct
+    global smooth_fft
+    global fft_cnt
+    global correct_state
+    global correction
+
+    #
+    # They haven't asked for correction
+    #
+    if (correct == 0):
+        return [1.0]*fbsize
+    
+    #
+    # If time to return a correction estimate
+    #
+    if ((time.time() - last_correct) > 60):
+        # Compute correction if we haven't already done so
+        if (correct_state == 0):
+            correct_state = 1
+            
+            #
+            # Compute the fraction of the buffer we're ignoring
+            #  for calculation of the average level
+            #
+            frac = int(fbsize/6)
+            
+            #
+            # Reduce smooth by fft_cnt
+            #
+            smooth_fft = numpy.divide(smooth_fft,fft_cnt)
+            fft_cnt = 1
+            
+            #
+            # Produce the "window" over which we'll average
+            #
+            avg_window = smooth_fft[frac:-frac]
+            
+            #
+            # Average that "window"
+            #
+            avg = sum(avg_window)
+            avg /= float(len(avg_window))
+            
+            
+            #
+            # Compute the ratio between the average and the smoothed FFT, and
+            #  produce a scaling vector that makes them all roughly at the same level
+            #
+            # We only do thiS ONCE in an entire run near the beginning,
+            #   otherwise, other bad things will happen
+            #
+            # This should be OK, since the *ratios* should remain roughly
+            #  the same, even if the baseline noise level changes, due to
+            #  background continuum level changes, etc.
+            #
+            correction = numpy.divide([avg]*fbsize,smooth_fft)
+        return correction
+    #
+    # Not yet time, return no correction
+    #
+    else:
+        return [1.0]*fbsize
+    
