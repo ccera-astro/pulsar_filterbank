@@ -656,7 +656,9 @@ using estimate of mean power</value>
     <key>variable</key>
     <param>
       <key>comment</key>
-      <value>This provides passband response correction</value>
+      <value>This provides passband response correction
+We merge in to the RFI excision masker, to
+eliminate an extra multiply-const</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -912,6 +914,53 @@ amplitude is set by the power estimator</value>
     </param>
   </block>
   <block>
+    <key>blocks_abs_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1552, 140)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_abs_xx_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_add_xx</key>
     <param>
       <key>alias</key>
@@ -1127,7 +1176,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1840, 224)</value>
+      <value>(1864, 216)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1178,7 +1227,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1824, 120)</value>
+      <value>(1864, 120)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1222,7 +1271,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1600, 236)</value>
+      <value>(1600, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1312,7 +1361,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1664, 132)</value>
+      <value>(1712, 132)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1555,7 +1604,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>const</key>
-      <value>[0.0] * fbsize if hp == 0 else [0.60]*fbsize</value>
+      <value>[0.0] * fbsize if hp == 0 else [0.58]*fbsize</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1755,7 +1804,9 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>comment</key>
-      <value>Implement DC block</value>
+      <value>Implement DC block
+Subtract long-term average from current
+samples</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1767,7 +1818,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1416, 144)</value>
+      <value>(1392, 144)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -5288,7 +5339,7 @@ in a "full" state.</value>
     <key>single_pole_iir_filter_xx</key>
     <param>
       <key>alpha</key>
-      <value>1.0/5.0e3</value>
+      <value>1.0/(fbrate*5.0)</value>
     </param>
     <param>
       <key>alias</key>
@@ -7218,6 +7269,18 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_abs_xx_1</source_block_id>
+    <sink_block_id>blocks_float_to_char_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_abs_xx_1</source_block_id>
+    <sink_block_id>blocks_float_to_short_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_add_xx_0</source_block_id>
     <sink_block_id>tag_retrieve</sink_block_id>
     <source_key>0</source_key>
@@ -7321,13 +7384,7 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>blocks_sub_xx_0</source_block_id>
-    <sink_block_id>blocks_float_to_char_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_sub_xx_0</source_block_id>
-    <sink_block_id>blocks_float_to_short_0</sink_block_id>
+    <sink_block_id>blocks_abs_xx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
