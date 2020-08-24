@@ -728,7 +728,7 @@ def get_correction(fbsize,correct,pacer):
     #
     # If time to return a correction estimate
     #
-    if ((time.time() - last_correct) > 60):
+    if ((time.time() - last_correct) > 90):
         # Compute correction if we haven't already done so
         if (correct_state == 0):
             correct_state = 1

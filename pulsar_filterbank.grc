@@ -1381,7 +1381,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>scale</key>
-      <value>1</value>
+      <value>32767.5*dscale</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1459,7 +1459,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(736, 12)</value>
+      <value>(736, 44)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1604,7 +1604,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>const</key>
-      <value>[0.0] * fbsize if hp == 0 else [0.58]*fbsize</value>
+      <value>[0.0] * fbsize if hp == 0 else [hpgain]*fbsize</value>
     </param>
     <param>
       <key>affinity</key>
@@ -2889,7 +2889,7 @@ def get_correction(fbsize,correct,pacer):
     #
     # If time to return a correction estimate
     #
-    if ((time.time() - last_correct) &gt; 60):
+    if ((time.time() - last_correct) &gt; 90):
         # Compute correction if we haven't already done so
         if (correct_state == 0):
             correct_state = 1
@@ -3164,6 +3164,53 @@ And estimation of the mean</value>
     <param>
       <key>value</key>
       <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(896, 1608)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>hpgain</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>High Pass pseudo-gain</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.6</value>
     </param>
   </block>
   <block>

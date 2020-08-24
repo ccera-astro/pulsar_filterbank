@@ -2,6 +2,15 @@
 #
 # Usage:  observe_pulsar name freq bandwidth gain obs-time longitude
 #
+
+function emptyarg
+{
+	if [ "@@" = $2 ]
+	then
+		echo "Missing argument for $1"
+		exit 1
+	fi
+}
 PATH=$PATH:/usr/local/bin
 export PATH
 
@@ -28,28 +37,112 @@ fi
 #
 # Check command line args
 #
-if [ $# -lt 6 ]
-then
-	echo Usage:  observe_pulsar name freq bandwidth gain obs-time longitude [dscale]
-	exit
-fi
+WIDE=0
+NAME=B0329+54
+FREQ=408.0
+SRATE=4.0
+RFGAIN=40
+LONGITUDE=-76.03
+DSCALE=1
+OBSTIME=5
+HP=0
+HPGAIN=0.6
+ROLLOFF=0
+while [ $# -ge 1 ]
+do
+	case $1 in
+	--name)
+		emptyarg $1 $2
+		NAME=$2
+		shift 2
+		;;
+	--freq)
+	    emptyarg $1 $2
+		FREQ=$2
+		shift 2
+		;;
+	--srate)
+	    emptyarg $1 $2
+		SRATE=$2
+		shift 2
+		;;
+	--rfgain)
+	    emptyarg $1 $2
+		RFGAIN=$2
+		shift 2
+		;;
+	--longitude)
+	    emptyarg $1 $2
+		LONGITUDE=$2
+		shift 2
+		;;
+	--dscale)
+	    emptyarg $1 $2
+		DSCALE=$2
+		shift 2
+		;;
+	 --wide)
+		WIDE=1
+		shift
+		;;
+	 --hp)
+	    HP=1
+	    shift
+	    ;;
+	 --hpgain)
+	    emptyarg $1 $2
+	    HPGAIN=$2
+	    shift 2
+	    ;;
+	 --obstime)
+	    emptyarg $1 $2
+	    OBSTIME=$2
+	    shift 2
+	    ;;
+	 --prefix)
+		emptyarg $1 $2
+		PREFIX=$2
+		shift 2
+		;;
+	--rolloff)
+		ROLLOFF=1
+		shift
+		;;
+     --help)
+		shift
+		cat <<!EOF!
+Usage: observer_pulsar <options>:
+
+--name         Pulsar name. Default: $NAME
+--freq         Center frequency **IN MHz**.  Default: $FREQ
+--srate        Sample rate, **IN MHz**:  Default: $SRATE
+--rfgain       RF gain, usually in dB, depending on hardware. Default: $RFGAIN
+--longitude    Local longitude. -ve is west.: Default: $LONGITUDE
+--dscale       Detector scaling: Default: $DSCALE
+--wide         Enable Wide (16 bit) samples Default: $WIDE
+--hp           Enable high-pass filter. Default: $HP
+--hpgain       Set "gain" on high-pass. Default: $HPGAIN
+--obstime      Observing time, **MINuTES**. Default: $OBSTIME
+--prefix       Output file prefix. Default: $PREFIX
+--rolloff      Enable roll-off correction
+!EOF!
+     exit
+     ;;
+	 *)
+		echo "Unknown argument: $1"
+		exit 1
+    esac
+done
 
 DEVICE="None"
-SRATE=`python -c "print ($3 * 1.0e6)"`
-FREQ=`python -c "print ($2 * 1.0e6)"`
-OBSTIME=`expr $5 '*' 60`
-RFGAIN=$4
+SRATE=`python -c "print ($SRATE * 1.0e6)"`
+FREQ=`python -c "print ($FREQ * 1.0e6)"`
+OBSTIME=`expr $OBSTIME '*' 60`
 SUBDEV="A:A"
 SUPPORTED="usrp rtlsdr airspy hackrf limesdr"
 PPS=internal
 CLOCK=internal
-LONGITUDE=$6
-if [ "@$7@" != "@@" ]
-then
-	DSCALE=$7
-else
-	DSCALE=1
-fi
+
 
 #
 # Figure out where the PSR database is
@@ -69,12 +162,12 @@ else
 	echo Cannot find PSR database file
 	exit
 fi
-cased=`echo $1 |tr [A-Z] [a-z]`
+cased=`echo $NAME |tr [A-Z] [a-z]`
 if grep -qi $cased $dbfile
 then
 	eval `grep $cased $dbfile`
 else
-	echo "Could not find pulsar params in database for: $1"
+	echo "Could not find pulsar params in database for: $NAME"
 	exit
 fi
 
@@ -214,7 +307,8 @@ if [ "@$RFILIST@"  != "@@" ]
 then
 	RESOLUTION=2
 fi
+
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
-   --source $1 --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \
-   --thresh 2.2 --dscale $DSCALE
+   --source $NAME --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \
+   --thresh 2.2 --dscale $DSCALE --hp $HP --hpgain $HPGAIN --wide $WIDE --rolloff $ROLLOFF
