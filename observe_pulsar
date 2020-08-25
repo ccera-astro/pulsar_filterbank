@@ -12,21 +12,56 @@ function emptyarg
 	fi
 }
 
+#
+# Establish defaults
+#
+
+#
+# Figure out where to write output files
+#
+if [ -e /mnt/extra ]
+then
+	PREFIX=/mnt/extra/
+else
+    PREFIX=$HOME/
+fi
+
+#
+# If this environment variable exists, it overrides previous decisions
+#
+if [ @$PSR_DATA_LOCATION@ != "@@" ]
+then
+	PREFIX=${PSR_DATA_LOCATION}/
+fi
+
+WIDE=0
+NAME=B0329+54
+FREQ=408.0
+SRATE=4.0
+RFGAIN=40
+LONGITUDE=-76.03
+DSCALE=1
+OBSTIME=5
+HP=0
+HPGAIN=0.6
+ROLLOFF=0
 function do_help
 {
 			cat <<!EOF!
-Usage: observer_pulsar <options>:
+Usage: $0 <options>:
 
 --name         Pulsar name. Default: $NAME
 --freq         Center frequency **IN MHz**.  Default: $FREQ
 --srate        Sample rate, **IN MHz**:  Default: $SRATE
---rfgain       RF gain, usually in dB, depending on hardware. Default: $RFGAIN
---longitude    Local longitude. -ve is west.: Default: $LONGITUDE
+--rfgain       RF gain, usually in dB. Default: $RFGAIN
+--longitude    Local longitude. Negative is west.: Default: $LONGITUDE
 --dscale       Detector scaling: Default: $DSCALE
 --wide         Enable Wide (16 bit) samples Default: $WIDE
 --hp           Enable high-pass filter. Default: $HP
 --hpgain       Set "gain" on high-pass. Default: $HPGAIN
 --obstime      Observing time, **MINuTES**. Default: $OBSTIME
+               NOTE: A negative 'obstime' results in running immediately
+               rather than waiting for the object to enter the FOV.
 --prefix       Output file prefix. Default: $PREFIX
 --rolloff      Enable roll-off correction
 !EOF!
@@ -48,37 +83,9 @@ export PATH
 trap "rm -f usrp$$ tmp$$; exit" 1 2 3 4 5 6 7 8 9 10
 
 #
-# Figure out where to write output files
-#
-if [ -e /mnt/extra ]
-then
-	PREFIX=/mnt/extra/
-else
-    PREFIX=$HOME/
-fi
-
-#
-# If this environment variable exists, it overrides previous decisions
-#
-if [ @$PSR_DATA_LOCATION@ != "@@" ]
-then
-	PREFIX=${PSR_DATA_LOCATION}/
-fi
-
-#
 # Check command line args
 #
-WIDE=0
-NAME=B0329+54
-FREQ=408.0
-SRATE=4.0
-RFGAIN=40
-LONGITUDE=-76.03
-DSCALE=1
-OBSTIME=5
-HP=0
-HPGAIN=0.6
-ROLLOFF=0
+
 while [ $# -ge 1 ]
 do
 	case $1 in
