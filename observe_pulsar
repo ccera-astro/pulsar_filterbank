@@ -11,6 +11,37 @@ function emptyarg
 		exit 1
 	fi
 }
+
+function do_help
+{
+			cat <<!EOF!
+Usage: observer_pulsar <options>:
+
+--name         Pulsar name. Default: $NAME
+--freq         Center frequency **IN MHz**.  Default: $FREQ
+--srate        Sample rate, **IN MHz**:  Default: $SRATE
+--rfgain       RF gain, usually in dB, depending on hardware. Default: $RFGAIN
+--longitude    Local longitude. -ve is west.: Default: $LONGITUDE
+--dscale       Detector scaling: Default: $DSCALE
+--wide         Enable Wide (16 bit) samples Default: $WIDE
+--hp           Enable high-pass filter. Default: $HP
+--hpgain       Set "gain" on high-pass. Default: $HPGAIN
+--obstime      Observing time, **MINuTES**. Default: $OBSTIME
+--prefix       Output file prefix. Default: $PREFIX
+--rolloff      Enable roll-off correction
+!EOF!
+}
+
+function mhz
+{
+	retval=`python -c "print $1/1000000.0"`
+}
+
+if [ $# -lt 1 ]
+then
+	do_help
+	exit
+fi
 PATH=$PATH:/usr/local/bin
 export PATH
 
@@ -109,24 +140,8 @@ do
 		shift
 		;;
      --help)
-		shift
-		cat <<!EOF!
-Usage: observer_pulsar <options>:
-
---name         Pulsar name. Default: $NAME
---freq         Center frequency **IN MHz**.  Default: $FREQ
---srate        Sample rate, **IN MHz**:  Default: $SRATE
---rfgain       RF gain, usually in dB, depending on hardware. Default: $RFGAIN
---longitude    Local longitude. -ve is west.: Default: $LONGITUDE
---dscale       Detector scaling: Default: $DSCALE
---wide         Enable Wide (16 bit) samples Default: $WIDE
---hp           Enable high-pass filter. Default: $HP
---hpgain       Set "gain" on high-pass. Default: $HPGAIN
---obstime      Observing time, **MINuTES**. Default: $OBSTIME
---prefix       Output file prefix. Default: $PREFIX
---rolloff      Enable roll-off correction
-!EOF!
-     exit
+		do_help
+        exit
      ;;
 	 *)
 		echo "Unknown argument: $1"
@@ -273,9 +288,20 @@ then
 	echo "No supported SDR devices found: $SUPPORTED"
 	exit
 fi
-echo Found $DEVICE running at $SRATE on $FREQ
-echo Will run for $OBSTIME seconds
-echo PSR params: PW50 $PW50 DM $DM RA $RA DEC $DEC
+mhz $FREQ
+f=$retval
+
+mhz $SRATE
+b=$retval
+
+echo Found $DEVICE tuning to $f MHz with a bandwidth of $b MHz
+if [ $OBSTIME -lt 0 ]
+then
+	echo Running immediately for `python -c "print abs($OBSTIME)"` seconds
+else
+	echo Will run for $OBSTIME seconds once object is in view
+fi
+echo Pulsar Parameters: $NAME: PW50 $PW50 DM $DM RA $RA DEC $DEC
 
 #
 # Wait for pulsar to "rise" -- to be within obstime/2 of transit
@@ -292,7 +318,7 @@ then
 			echo Starting receiver at $lmst
 			break
 		fi
-		echo Waiting for pulsar to rise at: $target, current LMST is $lmst
+		echo Waiting for pulsar $NAME to rise at: $target, current LMST is $lmst
 		sleep 15
 	done
 else
