@@ -389,7 +389,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fbrate/2.75</value>
+      <value>(1.0/pw50)*4.5</value>
     </param>
   </block>
   <block>
@@ -7209,7 +7209,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(128, 164)</value>
+      <value>(256, 132)</value>
     </param>
     <param>
       <key>_rotation</key>
