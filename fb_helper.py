@@ -776,3 +776,5 @@ def get_correction(fbsize,correct,pacer):
     else:
         return [1.0]*fbsize
     
+def get_sky_freq(sky,freq):
+	return sky if sky != 0.0 else freq

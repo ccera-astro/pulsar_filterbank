@@ -194,7 +194,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.dm_to_bins(dm,freq,samp_rate,pw50)*resolution</value>
+      <value>fb_helper.dm_to_bins(dm,fb_helper.get_sky_freq(sky,freq),samp_rate,pw50)*resolution</value>
     </param>
   </block>
   <block>
@@ -222,7 +222,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.log_fft(freq,samp_rate,prefix,fft_poll2)</value>
+      <value>fb_helper.log_fft(fb_helper.get_sky_freq(sky,freq),samp_rate,prefix,fft_poll2)</value>
     </param>
   </block>
   <block>
@@ -335,7 +335,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.build_header_info(pfname+".fil",source,ra,dec,freq,srate,fbrate,fbsize,None,swidth)</value>
+      <value>fb_helper.build_header_info(pfname+".fil",source,ra,dec,fb_helper.get_sky_freq(sky,freq),srate,fbrate,fbsize,None,swidth)</value>
     </param>
   </block>
   <block>
@@ -362,7 +362,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.write_header(parmname, freq/1.0e6, samp_rate/1.0e6, fbsize, fbrate,swidth)</value>
+      <value>fb_helper.write_header(parmname, fb_helper.get_sky_freq(sky,freq)/1.0e6, samp_rate/1.0e6, fbsize, fbrate,swidth)</value>
     </param>
   </block>
   <block>
@@ -524,7 +524,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fb_helper.static_mask(freq,samp_rate,fbsize,rfilist)</value>
+      <value>fb_helper.static_mask(fb_helper.get_sky_freq(sky,freq),samp_rate,fbsize,rfilist)</value>
     </param>
   </block>
   <block>
@@ -2937,6 +2937,8 @@ def get_correction(fbsize,correct,pacer):
     else:
         return [1.0]*fbsize
     
+def get_sky_freq(sky,freq):
+	return sky if sky != 0.0 else freq
 </value>
     </param>
     <param>
@@ -5482,6 +5484,53 @@ in a "full" state.</value>
     <param>
       <key>vlen</key>
       <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(896, 1416)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>sky</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Sky Frequency</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.0</value>
     </param>
   </block>
   <block>

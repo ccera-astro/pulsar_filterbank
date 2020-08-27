@@ -45,6 +45,7 @@ OBSTIME=5
 HP=0
 HPGAIN=0.6
 ROLLOFF=0
+SKY=0.0
 function do_help
 {
 			cat <<!EOF!
@@ -64,6 +65,7 @@ Usage: $0 <options>:
                rather than waiting for the object to enter the FOV.
 --prefix       Output file prefix. Default: $PREFIX
 --rolloff      Enable roll-off correction
+--sky          Specify actual sky frequency. 0 is off Default $SKY
 !EOF!
 }
 
@@ -344,4 +346,4 @@ fi
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $NAME --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \
-   --thresh 2.2 --dscale $DSCALE --hp $HP --hpgain $HPGAIN --wide $WIDE --rolloff $ROLLOFF
+   --thresh 2.2 --dscale $DSCALE --hp $HP --hpgain $HPGAIN --wide $WIDE --rolloff $ROLLOFF --sky $SKY
