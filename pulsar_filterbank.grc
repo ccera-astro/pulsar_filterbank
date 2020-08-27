@@ -377,6 +377,33 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(1056, 60)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>hpcorner</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1.0/10.0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(584, 316)</value>
     </param>
     <param>
@@ -389,7 +416,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>(1.0/pw50)*4.5</value>
+      <value>(1.0/pw50)*2.5</value>
     </param>
   </block>
   <block>
@@ -5388,7 +5415,7 @@ in a "full" state.</value>
     <key>single_pole_iir_filter_xx</key>
     <param>
       <key>alpha</key>
-      <value>1.0/(fbrate*5.0)</value>
+      <value>1.0-math.pow(math.e,-2.0*(hpcorner/(fbrate)))</value>
     </param>
     <param>
       <key>alias</key>
