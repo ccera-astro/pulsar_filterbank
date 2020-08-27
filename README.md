@@ -1,7 +1,7 @@
 # pulsar_filterbank
 A Gnu Radio flow-graph for producing raw filterbank files from a live SDR
 
-It produces 16-bit binary outputs, arranged from lowest to highest frequency
+It produces 16-bit or 8-bit binary outputs, arranged from lowest to highest frequency
   in the filterbank output.
 
 The code automatically determines suitable filterbank sizes and output
@@ -50,6 +50,7 @@ Options:
 
 The 'observe_pulsar' script makes some of this easier to deal with:
 
+<pre>
 Usage: observe_pulsar <options>:
 
 --name         Pulsar name. Default: B0329+54
@@ -68,5 +69,5 @@ Usage: observe_pulsar <options>:
 --rolloff      Enable roll-off correction
 --sky          Set sky frequency
 
-
+</pre>
 Appropriate pulsar parameters will be taken from a database of about 200 objects, included in this source package.
