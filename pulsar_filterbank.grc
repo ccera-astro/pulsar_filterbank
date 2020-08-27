@@ -389,7 +389,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fbrate/2.10</value>
+      <value>fbrate/2.75</value>
     </param>
   </block>
   <block>
