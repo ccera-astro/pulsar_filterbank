@@ -1,8 +1,15 @@
 #!/usr/bin/python2
 import os
 import sys
+#
+# Produced with:
+#
+#   psrcat -c "PSRB PSRJ RAJ DECJ DM W50 P0" -l "S400 > 10" -o short
+#
 def decimalize(s):
     stoks=s.split(":")
+    if (len(stoks) == 1):
+        return(float(stoks[0]))
     hours = float(stoks[0])
     minutes = float(stoks[1])
     seconds = float(stoks[1])
@@ -20,7 +27,9 @@ for line in lines:
     if "---" not in line and len(toks) >= 7 and unicode(toks[0]).isnumeric() == True:
        bname=toks[1].lower()
        jname=toks[2].lower()
-       if (jname == "*" or bname == "*"):
+       if (bname == "*" and jname == "*"):
+           continue
+       if (toks[3] == "*" or toks[4] == "*"):
            continue
        ra=decimalize(toks[3])
        dec=decimalize(toks[4])
@@ -30,6 +39,8 @@ for line in lines:
        pw50=float(toks[6])*1.0e-3
        p0=float(toks[7])
        fmt="NAME=%s; DEC=%-7.3f; RA=%-7.3f; PW50=%-9.6f; DM=%s; P0=%-9.6f"
-       print fmt % (bname, dec, ra, pw50, dm, p0)
+       if (bname != "*"):
+           print fmt % (bname, dec, ra, pw50, dm, p0)
        if (bname != jname):
-           print fmt % (jname, dec, ra, pw50, dm, p0)
+           if (jname != "*"):
+               print fmt % (jname, dec, ra, pw50, dm, p0)
