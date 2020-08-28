@@ -232,7 +232,7 @@ elif grep -q "0bda:283[28]" tmp$$
 then
   DEVICE="rtl=0"
   EXEC=pulsar_filterbank_none.py
-  SRATE=`python -c "rate=$SRATE if $SRATE < 2500000 else 2500000; print rate"`
+  SRATE=`python -c "rate=$SRATE if $SRATE <= 2560000 else 2560000; print rate"`
 #
 # AIRSPY
 #
@@ -310,7 +310,7 @@ then
 else
 	echo Will run for $OBSTIME seconds once object is in view
 fi
-echo Pulsar Parameters: $NAME: PW50 $PW50 DM $DM RA $RA DEC $DEC
+echo Pulsar Parameters: $NAME: PW50 $PW50 DM $DM RA $RA DEC $DEC P0 $P0
 
 #
 # Wait for pulsar to "rise" -- to be within obstime/2 of transit

@@ -5874,7 +5874,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>iq_imbal_enb0</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>norm_gain0</key>
