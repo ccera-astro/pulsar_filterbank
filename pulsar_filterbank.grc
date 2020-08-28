@@ -389,7 +389,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>1.0/10.0</value>
+      <value>(1.0/p0)/20.0</value>
     </param>
   </block>
   <block>
@@ -416,7 +416,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>(1.0/pw50)*2.5</value>
+      <value>(1.0/pw50)*1.5</value>
     </param>
   </block>
   <block>
@@ -4888,6 +4888,53 @@ in a "full" state.</value>
     <param>
       <key>sync</key>
       <value></value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(400, 1640)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>p0</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Pulsar P0</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0.714520</value>
     </param>
   </block>
   <block>
