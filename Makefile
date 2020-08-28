@@ -9,6 +9,9 @@ DBFILE=psr_db.txt
 
 all: $(TARGETS)
 
+cleandata:
+	rm -f *fft*.csv *mask*.txt *.fil *.filtmp *.header
+
 #
 # First, build the UHD-sourced "branch" of the .GRC file
 #
