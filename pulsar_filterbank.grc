@@ -5862,11 +5862,11 @@ in a "full" state.</value>
     </param>
     <param>
       <key>bw0</key>
-      <value>0</value>
+      <value>samp_rate*2.0</value>
     </param>
     <param>
       <key>center_freq0</key>
-      <value>freq</value>
+      <value>uhd.tune_request(freq,samp_rate/1.8)</value>
     </param>
     <param>
       <key>dc_offs_enb0</key>
