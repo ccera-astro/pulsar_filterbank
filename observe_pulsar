@@ -46,6 +46,7 @@ HP=0
 HPGAIN=0.6
 ROLLOFF=0
 SKY=0.0
+INTEGRATOR=0
 function do_help
 {
 			cat <<!EOF!
@@ -66,6 +67,7 @@ Usage: $0 <options>:
 --prefix       Output file prefix. Default: $PREFIX
 --rolloff      Enable roll-off correction
 --sky          Specify actual sky frequency. 0 is off Default $SKY
+--integrator   Use integrate-and-dump instead of IIR filter
 !EOF!
 }
 
@@ -148,6 +150,9 @@ do
 		ROLLOFF=1
 		shift
 		;;
+     --integrator)
+		INTEGRATOR=1
+		shift
      --help)
 		do_help
         exit
@@ -347,4 +352,4 @@ $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $NAME --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \
    --thresh 2.2 --dscale $DSCALE --hp $HP --hpgain $HPGAIN --wide $WIDE --rolloff $ROLLOFF --sky $SKY \
-   --p0 $P0
+   --p0 $P0 --integrator $INTEGRATOR

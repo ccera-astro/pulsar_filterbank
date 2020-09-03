@@ -323,7 +323,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(688, 316)</value>
+      <value>(672, 340)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -404,7 +404,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1056, 60)</value>
+      <value>(1392, 284)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -431,7 +431,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(584, 316)</value>
+      <value>(576, 340)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -443,7 +443,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>(1.0/pw50)*1.5</value>
+      <value>(1.0/pw50)*2.5</value>
     </param>
   </block>
   <block>
@@ -720,7 +720,7 @@ eliminate an extra multiply-const</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(496, 164)</value>
+      <value>(368, 204)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1085,6 +1085,57 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(632, 144)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_add_xx_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_add_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(1224, 272)</value>
     </param>
     <param>
@@ -1136,7 +1187,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(512, 664)</value>
+      <value>(512, 752)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1179,7 +1230,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(568, 572)</value>
+      <value>(552, 612)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1345,7 +1396,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>scale</key>
-      <value>float(256*dscale)</value>
+      <value>float(dscale)</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1372,7 +1423,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(736, 688)</value>
+      <value>(752, 776)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1435,7 +1486,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>scale</key>
-      <value>32767.5*dscale</value>
+      <value>float(dscale)</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1517,7 +1568,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(784, 580)</value>
+      <value>(760, 580)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1560,11 +1611,11 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(736, 44)</value>
+      <value>(696, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1781,6 +1832,108 @@ depends on the "wide" input parameter.</value>
     <param>
       <key>id</key>
       <value>blocks_multiply_const_vxx_2</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>[float(fbdecim)]*fbsize if integrator == 0 else [0.0]*fbsize</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(856, 12)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_3</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>[1.0]*fbsize if integrator == 1 else [0.0]*fbsize</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(848, 676)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_4</value>
     </param>
     <param>
       <key>type</key>
@@ -3520,6 +3673,53 @@ And estimation of the mean</value>
     <param>
       <key>import</key>
       <value>import numpy</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(920, 1704)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>integrator</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Enable straight integrator instead of IIR</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -5489,7 +5689,7 @@ in a "full" state.</value>
     <key>single_pole_iir_filter_xx</key>
     <param>
       <key>alpha</key>
-      <value>1.0-math.pow(math.e,-2.0*(lpcorner/(fbrate*fbdecim)))</value>
+      <value>1.0-math.pow(math.e,-2.0*(lpcorner/(fft_rate)))</value>
     </param>
     <param>
       <key>alias</key>
@@ -5505,7 +5705,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -7280,7 +7480,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(952, 700)</value>
+      <value>(936, 788)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7303,11 +7503,11 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(920, 20)</value>
+      <value>(792, 156)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7330,7 +7530,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -7373,7 +7573,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>stream_id</key>
-      <value>d_mags</value>
+      <value>pre_d_mags2</value>
     </param>
   </block>
   <block>
@@ -7415,7 +7615,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(792, 268)</value>
+      <value>(800, 292)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7465,7 +7665,7 @@ gr-osmsdr source.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -7482,6 +7682,33 @@ gr-osmsdr source.</value>
     <param>
       <key>stream_id</key>
       <value>f_mags</value>
+    </param>
+  </block>
+  <block>
+    <key>virtual_source</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(656, 228)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_source_3</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value>pre_d_mags2</value>
     </param>
   </block>
   <block>
@@ -7562,6 +7789,12 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_add_xx_1</source_block_id>
+    <sink_block_id>virtual_sink_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_add_xx_2</source_block_id>
     <sink_block_id>blocks_sub_xx_0</sink_block_id>
     <source_key>0</source_key>
@@ -7623,13 +7856,13 @@ gr-osmsdr source.</value>
   </connection>
   <connection>
     <source_block_id>blocks_integrate_xx_0</source_block_id>
-    <sink_block_id>virtual_sink_3</sink_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_4</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_keep_one_in_n_0</source_block_id>
-    <sink_block_id>virtual_sink_1</sink_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_3</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -7656,6 +7889,18 @@ gr-osmsdr source.</value>
     <sink_block_id>blocks_add_xx_2</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_multiply_const_vxx_3</source_block_id>
+    <sink_block_id>blocks_add_xx_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_multiply_const_vxx_4</source_block_id>
+    <sink_block_id>virtual_sink_3</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_stream_to_vector_0</source_block_id>
@@ -7746,5 +7991,11 @@ gr-osmsdr source.</value>
     <sink_block_id>blocks_keep_one_in_n_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_3</source_block_id>
+    <sink_block_id>blocks_add_xx_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
   </connection>
 </flow_graph>
