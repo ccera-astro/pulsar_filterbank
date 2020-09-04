@@ -153,6 +153,7 @@ do
      --integrator)
 		INTEGRATOR=1
 		shift
+		;;
      --help)
 		do_help
         exit
