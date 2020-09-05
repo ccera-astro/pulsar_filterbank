@@ -167,6 +167,7 @@ done
 DEVICE="None"
 SRATE=`python -c "print ($SRATE * 1.0e6)"`
 FREQ=`python -c "print ($FREQ * 1.0e6)"`
+SKY=`python -c "print ($SKY * 1.0e6)"`
 OBSTIME=`expr $OBSTIME '*' 60`
 SUBDEV="A:A"
 SUPPORTED="usrp rtlsdr airspy hackrf limesdr"

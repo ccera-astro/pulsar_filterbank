@@ -45,7 +45,8 @@ Options:
   --thresh=THRESH       Set RFI detection threshold--linear factor
                         [default=2.5]
   --wide=WIDE           Set Enable 16-bit output [default=0]
-  --sky=SKY             Set independent SKY frequency.  [default=0]          
+  --sky=SKY             Set independent SKY frequency.  [default=0]
+  --integrator=INTEG    Use integrate-and-dump instead of IIR filter [default=0]          
 </pre>
 
 The 'observe_pulsar' script makes some of this easier to deal with:
@@ -68,6 +69,7 @@ Usage: observe_pulsar <options>:
 --prefix       Output file prefix. Default: ~
 --rolloff      Enable roll-off correction
 --sky          Set sky frequency
+--integrator   Turn on integrator instead of IIR filter
 
 </pre>
 Appropriate pulsar parameters will be taken from a database of about 200 objects, included in this source package.
