@@ -1396,7 +1396,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>scale</key>
-      <value>float(dscale)</value>
+      <value>float(dscale) if dscale &gt;= 0 else fb_helper.autoscale(70,fft_poll2)</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1486,7 +1486,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>scale</key>
-      <value>float(dscale)</value>
+      <value>float(dscale) if dscale &gt;= 0 else fb_helper.autoscale(18000,fft_poll2)</value>
     </param>
     <param>
       <key>vlen</key>
@@ -3196,7 +3196,14 @@ def get_correction(fbsize,correct,pacer):
         return [1.0]*fbsize
     
 def get_sky_freq(sky,freq):
-	return sky if sky != 0.0 else freq
+    return sky if sky != 0.0 else freq
+
+def autoscale(scale,pace):
+    p = get_current_estimate()
+    if (p &gt; 1.0e-12):
+        return float(scale/p)
+    else:
+        return 1.0
 </value>
     </param>
     <param>

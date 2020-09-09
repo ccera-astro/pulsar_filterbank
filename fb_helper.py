@@ -777,4 +777,11 @@ def get_correction(fbsize,correct,pacer):
         return [1.0]*fbsize
     
 def get_sky_freq(sky,freq):
-	return sky if sky != 0.0 else freq
+    return sky if sky != 0.0 else freq
+
+def autoscale(scale,pace):
+    p = get_current_estimate()
+    if (p > 1.0e-12):
+        return float(scale/p)
+    else:
+        return 1.0
