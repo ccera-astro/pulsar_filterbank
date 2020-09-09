@@ -1396,7 +1396,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>scale</key>
-      <value>float(dscale) if dscale &gt;= 0 else fb_helper.autoscale(70,fft_poll2)</value>
+      <value>float(dscale) if dscale &gt;= 0 else fb_helper.autoscale(abs(dscale),fft_poll2)</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1486,7 +1486,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>scale</key>
-      <value>float(dscale) if dscale &gt;= 0 else fb_helper.autoscale(18000,fft_poll2)</value>
+      <value>float(dscale) if dscale &gt;= 0 else fb_helper.autoscale(abs(dscale),fft_poll2)</value>
     </param>
     <param>
       <key>vlen</key>
@@ -3117,7 +3117,7 @@ def get_current_estimate():
     global current_estimate
     global frozen_estimate
     
-    if (time.time() - estithen &lt; 60):
+    if (time.time() - estithen &lt; 90):
         frozen_estimate = current_estimate
         return current_estimate
     else:

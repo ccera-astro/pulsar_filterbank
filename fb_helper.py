@@ -698,7 +698,7 @@ def get_current_estimate():
     global current_estimate
     global frozen_estimate
     
-    if (time.time() - estithen < 60):
+    if (time.time() - estithen < 90):
         frozen_estimate = current_estimate
         return current_estimate
     else:
