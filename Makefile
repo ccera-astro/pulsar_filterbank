@@ -9,6 +9,9 @@ DBFILE=psr_db.txt
 
 all: $(TARGETS)
 
+tarfile: $(TARGETS)
+	tar cvzf pulsar_filterbank.tar.gz $(TARGETS) $(PY) $(SCRIPTS) $(SOURCES) $(DBFILE) Makefile
+
 cleandata:
 	rm -f *fft*.csv *mask*.txt *.fil *.filtmp *.header
 
