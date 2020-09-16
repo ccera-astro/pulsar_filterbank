@@ -157,10 +157,15 @@ do
      --help)
 		do_help
         exit
-     ;;
+        ;;
+     --resolution)
+        RESOLUTION=$2
+        shift 2
+       ;;
 	 *)
 		echo "Unknown argument: $1"
 		exit 1
+		;;
     esac
 done
 
@@ -344,12 +349,6 @@ fi
 #
 # Call the appropriate version of the Gnu Radio flow-graph
 #
-RESOLUTION=1
-if [ "@$RFILIST@"  != "@@" ]
-then
-	RESOLUTION=2
-fi
-
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $NAME --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \

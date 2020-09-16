@@ -785,3 +785,67 @@ def autoscale(scale,pace):
         return float(scale/p)
     else:
         return 1.0
+
+current_channel = 0
+def get_current_channel(pacer,nchan):
+    global current_channel
+    
+    r = [0.0]*nchan
+    r[current_channel] = 1.0
+    current_channel += 1
+    if (current_channel >= nchan):
+        current_channel = 0
+    return r
+
+channels = None
+chcnts = None
+spikes = None
+lastchan = -1
+def analyser(fft,nchan):
+    global automask
+    global channels
+    global chcnts
+    global spikes
+    global lastchan
+    
+    nfft = fft[0:len(fft)/2]
+    if channels == None:
+        channels = [numpy.array([0.0]*len(nfft))]*nchan
+        chcnts = [0.0]*nchan
+        spikes = [0]*nchan
+    
+    ccn = current_channel
+    channels[ccn] = numpy.add(nfft,channels[ccn])
+    chcnts[ccn] += 1.0
+    
+    #
+    # Ignore if this is the first data after a channel change
+    #
+    if (ccn != lastchan):
+        #print "New channel %d" % ccn
+        lastchan = ccn
+        return ccn
+    
+    chavg = numpy.divide(channels[ccn], chcnts[ccn])
+    
+    spike = 0
+    winsize = 6
+    if (chcnts[ccn] > 10):
+        for inspected in range(winsize,len(chavg)-winsize):
+            window = sum(chavg[inspected-winsize:inspected-1])
+            window /= float(winsize)
+            if (chavg[inspected] > window*3.5):
+                spike += 1
+ 
+        if (spike == 0):
+            if (spikes[ccn] > 0):
+                spikes[ccn] -=1
+
+        elif (spike > 1):
+            spikes[ccn] += 1
+
+        if (spikes[ccn] > 10):
+            automask[ccn] = 0.0
+
+    return ccn
+

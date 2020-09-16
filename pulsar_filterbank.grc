@@ -101,7 +101,147 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1832, 380)</value>
+      <value>(1032, 1212)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>an_fftsize</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>2048</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1808, 1236)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>analyser_result</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fb_helper.analyser(analysis_poll_fast,fbsize)</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_function_probe</key>
+    <param>
+      <key>block_id</key>
+      <value>analysis_probe</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>function_args</key>
+      <value></value>
+    </param>
+    <param>
+      <key>function_name</key>
+      <value>level</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1640, 1232)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>analysis_poll_fast</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[0.0]*an_fftsize</value>
+    </param>
+    <param>
+      <key>poll_rate</key>
+      <value>4</value>
+    </param>
+  </block>
+  <block>
+    <key>variable_function_probe</key>
+    <param>
+      <key>block_id</key>
+      <value>analysis_probe</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>function_args</key>
+      <value></value>
+    </param>
+    <param>
+      <key>function_name</key>
+      <value>level</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1640, 1320)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>analysis_poll_slow</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>[0.0]*an_fftsize</value>
+    </param>
+    <param>
+      <key>poll_rate</key>
+      <value>0.3333</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1840, 452)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -210,7 +350,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1720, 924)</value>
+      <value>(1752, 916)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -404,7 +544,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1392, 284)</value>
+      <value>(1080, 60)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -691,7 +831,7 @@ using estimate of mean power</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1848, 316)</value>
+      <value>(1888, 388)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -817,10 +957,10 @@ eliminate an extra multiply-const</value>
     </param>
   </block>
   <block>
-    <key>analog_noise_source_x</key>
+    <key>analog_fastnoise_source_x</key>
     <param>
       <key>amp</key>
-      <value>1.0</value>
+      <value>1</value>
     </param>
     <param>
       <key>alias</key>
@@ -828,9 +968,7 @@ eliminate an extra multiply-const</value>
     </param>
     <param>
       <key>comment</key>
-      <value>A noise stream, gated by the RFI-mask
-RFI channels have noise in them whose
-amplitude is set by the power estimator</value>
+      <value></value>
     </param>
     <param>
       <key>affinity</key>
@@ -842,7 +980,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1144, 620)</value>
+      <value>(1192, 648)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -850,7 +988,7 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>id</key>
-      <value>analog_noise_source_x_0</value>
+      <value>analog_fastnoise_source_x_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -870,7 +1008,50 @@ amplitude is set by the power estimator</value>
     </param>
     <param>
       <key>seed</key>
-      <value>37</value>
+      <value>0</value>
+    </param>
+    <param>
+      <key>samples</key>
+      <value>int(2.0e6)</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_probe_signal_vx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1856, 1172)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>analysis_probe</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>an_fftsize</value>
     </param>
   </block>
   <block>
@@ -1254,6 +1435,49 @@ amplitude is set by the power estimator</value>
     </param>
   </block>
   <block>
+    <key>blocks_complex_to_mag_squared</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1448, 1172)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_complex_to_mag_squared_1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>an_fftsize</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_file_sink</key>
     <param>
       <key>append</key>
@@ -1376,7 +1600,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1600, 292)</value>
+      <value>(1712, 276)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1596,6 +1820,57 @@ depends on the "wide" input parameter.</value>
     </param>
   </block>
   <block>
+    <key>blocks_integrate_xx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>decim</key>
+      <value>fbsize</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1064, 1108)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_integrate_xx_1</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_keep_one_in_n</key>
     <param>
       <key>alias</key>
@@ -1695,6 +1970,57 @@ depends on the "wide" input parameter.</value>
     <param>
       <key>vlen</key>
       <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_keep_one_in_n</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(856, 940)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_keep_one_in_n_2</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n</key>
+      <value>10</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
     </param>
   </block>
   <block>
@@ -1953,6 +2279,59 @@ depends on the "wide" input parameter.</value>
     </param>
   </block>
   <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value>This effectively selects which channel we are
+currently observing for detected modulation 
+artifacts</value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>fb_helper.get_current_channel(analysis_poll_slow,fbsize)</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(824, 1012)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_5</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>fbsize</value>
+    </param>
+  </block>
+  <block>
     <key>blocks_stream_to_vector</key>
     <param>
       <key>alias</key>
@@ -2048,6 +2427,57 @@ depends on the "wide" input parameter.</value>
     <param>
       <key>num_items</key>
       <value>fbsize</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_stream_to_vector</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1224, 1076)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_stream_to_vector_2</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_items</key>
+      <value>an_fftsize</value>
     </param>
     <param>
       <key>vlen</key>
@@ -2160,6 +2590,57 @@ samples</value>
     <param>
       <key>value</key>
       <value>pmt.from_bool(True)</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_vector_to_stream</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(888, 1156)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_vector_to_stream_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_items</key>
+      <value>fbsize</value>
     </param>
     <param>
       <key>vlen</key>
@@ -3204,6 +3685,70 @@ def autoscale(scale,pace):
         return float(scale/p)
     else:
         return 1.0
+
+current_channel = 0
+def get_current_channel(pacer,nchan):
+    global current_channel
+    
+    r = [0.0]*nchan
+    r[current_channel] = 1.0
+    current_channel += 1
+    if (current_channel &gt;= nchan):
+        current_channel = 0
+    return r
+
+channels = None
+chcnts = None
+spikes = None
+lastchan = -1
+def analyser(fft,nchan):
+    global automask
+    global channels
+    global chcnts
+    global spikes
+    global lastchan
+    
+    nfft = fft[0:len(fft)/2]
+    if channels == None:
+        channels = [numpy.array([0.0]*len(nfft))]*nchan
+        chcnts = [0.0]*nchan
+        spikes = [0]*nchan
+    
+    ccn = current_channel
+    channels[ccn] = numpy.add(nfft,channels[ccn])
+    chcnts[ccn] += 1.0
+    
+    #
+    # Ignore if this is the first data after a channel change
+    #
+    if (ccn != lastchan):
+        #print "New channel %d" % ccn
+        lastchan = ccn
+        return ccn
+    
+    chavg = numpy.divide(channels[ccn], chcnts[ccn])
+    
+    spike = 0
+    winsize = 6
+    if (chcnts[ccn] &gt; 10):
+        for inspected in range(winsize,len(chavg)-winsize):
+            window = sum(chavg[inspected-winsize:inspected-1])
+            window /= float(winsize)
+            if (chavg[inspected] &gt; window*3.5):
+                spike += 1
+ 
+        if (spike == 0):
+            if (spikes[ccn] &gt; 0):
+                spikes[ccn] -=1
+
+        elif (spike &gt; 1):
+            spikes[ccn] += 1
+
+        if (spikes[ccn] &gt; 10):
+            automask[ccn] = 0.0
+
+    return ccn
+
 </value>
     </param>
     <param>
@@ -3216,7 +3761,9 @@ def autoscale(scale,pace):
 - provide a synchronization helper
 - provide a .FIL file header writer
 - process rx_time tag and update header
-- do RFI estimation and mask generation</value>
+- do RFI estimation and mask generation
+- compute passband correction
+- provide auto-scale option for output</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -3224,7 +3771,7 @@ def autoscale(scale,pace):
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1048, 844)</value>
+      <value>(1136, 804)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3274,6 +3821,69 @@ And estimation of the mean</value>
     <param>
       <key>vlen</key>
       <value>fbsize</value>
+    </param>
+  </block>
+  <block>
+    <key>fft_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>fft_size</key>
+      <value>an_fftsize</value>
+    </param>
+    <param>
+      <key>forward</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1392, 1056)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fft_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>nthreads</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>shift</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>window</key>
+      <value>window.blackmanharris(an_fftsize)</value>
     </param>
   </block>
   <block>
@@ -3727,6 +4337,49 @@ And estimation of the mean</value>
     <param>
       <key>value</key>
       <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>note</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value>A sub-graph to do analysis of the
+*detected* spectrum.
+
+This allows us to look for RFI components in a
+channel that may be only a wee bit above the
+average noise floor, and thus may fail to
+trigger the RF spectral excision.
+
+One channel is analysed at a time, in a
+round-robin schedule.
+
+This eliminates having to have &lt;fbsize&gt;
+independent FFTs running in parallel.</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1160, 1156)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>note_0</value>
+    </param>
+    <param>
+      <key>note</key>
+      <value></value>
     </param>
   </block>
   <block>
@@ -5846,6 +6499,108 @@ in a "full" state.</value>
     </param>
   </block>
   <block>
+    <key>single_pole_iir_filter_xx</key>
+    <param>
+      <key>alpha</key>
+      <value>0.1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1640, 1164)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>single_pole_iir_filter_xx_3</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>an_fftsize</value>
+    </param>
+  </block>
+  <block>
+    <key>single_pole_iir_filter_xx</key>
+    <param>
+      <key>alpha</key>
+      <value>1.0/5.0</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1136, 1012)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>single_pole_iir_filter_xx_4</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -7719,6 +8474,33 @@ gr-osmsdr source.</value>
     </param>
   </block>
   <block>
+    <key>virtual_source</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(872, 892)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>virtual_source_4</value>
+    </param>
+    <param>
+      <key>stream_id</key>
+      <value>f_mags</value>
+    </param>
+  </block>
+  <block>
     <key>parameter</key>
     <param>
       <key>alias</key>
@@ -7766,7 +8548,7 @@ gr-osmsdr source.</value>
     </param>
   </block>
   <connection>
-    <source_block_id>analog_noise_source_x_0</source_block_id>
+    <source_block_id>analog_fastnoise_source_x_0</source_block_id>
     <sink_block_id>blocks_stream_to_vector_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -7838,6 +8620,12 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_complex_to_mag_squared_1</source_block_id>
+    <sink_block_id>single_pole_iir_filter_xx_3</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_float_to_char_0</source_block_id>
     <sink_block_id>blocks_file_sink_0</sink_block_id>
     <source_key>0</source_key>
@@ -7868,6 +8656,12 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_integrate_xx_1</source_block_id>
+    <sink_block_id>single_pole_iir_filter_xx_4</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_keep_one_in_n_0</source_block_id>
     <sink_block_id>blocks_multiply_const_vxx_3</sink_block_id>
     <source_key>0</source_key>
@@ -7876,6 +8670,12 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>blocks_keep_one_in_n_1</source_block_id>
     <sink_block_id>blocks_add_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_keep_one_in_n_2</source_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_5</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -7910,6 +8710,12 @@ gr-osmsdr source.</value>
     <sink_key>0</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_multiply_const_vxx_5</source_block_id>
+    <sink_block_id>blocks_vector_to_stream_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>blocks_stream_to_vector_0</source_block_id>
     <sink_block_id>fft_vxx_0_0</sink_block_id>
     <source_key>0</source_key>
@@ -7918,6 +8724,12 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>blocks_stream_to_vector_1</source_block_id>
     <sink_block_id>blocks_abs_xx_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_stream_to_vector_2</source_block_id>
+    <sink_block_id>fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -7934,6 +8746,12 @@ gr-osmsdr source.</value>
     <sink_key>1</sink_key>
   </connection>
   <connection>
+    <source_block_id>blocks_vector_to_stream_0</source_block_id>
+    <sink_block_id>blocks_integrate_xx_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
     <source_block_id>copyblock</source_block_id>
     <sink_block_id>blocks_complex_to_float_0</sink_block_id>
     <source_key>0</source_key>
@@ -7942,6 +8760,12 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>copyblock</source_block_id>
     <sink_block_id>blocks_keep_one_in_n_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fft_vxx_0</source_block_id>
+    <sink_block_id>blocks_complex_to_mag_squared_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -7966,6 +8790,18 @@ gr-osmsdr source.</value>
   <connection>
     <source_block_id>single_pole_iir_filter_xx_2</source_block_id>
     <sink_block_id>fft_probe</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>single_pole_iir_filter_xx_3</source_block_id>
+    <sink_block_id>analysis_probe</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>single_pole_iir_filter_xx_4</source_block_id>
+    <sink_block_id>blocks_stream_to_vector_2</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -8004,5 +8840,11 @@ gr-osmsdr source.</value>
     <sink_block_id>blocks_add_xx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>virtual_source_4</source_block_id>
+    <sink_block_id>blocks_keep_one_in_n_2</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
 </flow_graph>
