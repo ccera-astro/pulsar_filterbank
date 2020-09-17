@@ -2944,9 +2944,9 @@ def dm_to_bins(dm,freq,bw,pw50):
     Dt *= dm
     
     #
-    # So that there's only 5% (of W50) residual smearing in each channel of the FB
+    # So that there's only 25% (of W50) residual smearing in each channel of the FB
     #
-    required_bins = Dt/(p50ms/20.0)
+    required_bins = Dt/(p50ms/4.0)
     
     #
     # We do a bit of base2 math to make this a nice FFT size
@@ -2959,9 +2959,9 @@ def dm_to_bins(dm,freq,bw,pw50):
     
     #
     # No sense making the filterbank too small
-    # Set bins so that minimum is 32 channels
-    if bins &lt; 5:
-        bins = 5
+    # Set bins so that minimum is 4 channels
+    if bins &lt; 2:
+        bins = 2
 
     return(int(2**bins))
 
@@ -3248,7 +3248,7 @@ def log_fft(freq,bw,prefix,fft):
     # Constract filename from parts
     #
     date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
-    fp = open(prefix+date+"-fft.csv", "a")
+    fp = open(prefix+"psr-"+date+"-fft.csv", "a")
     
     #
     # Write UTC header
@@ -3269,7 +3269,7 @@ def log_fft(freq,bw,prefix,fft):
     fp.write("\n")
     fp.close()
 
-    mf = open (prefix+date+"-automask.txt", "w")
+    mf = open (prefix+"psr-"+date+"-automask.txt", "w")
     mf.write (auto_to_freqs(automask,freq,bw))
     mf.close()
 
@@ -3493,6 +3493,8 @@ def dynamic_mask(fft,smask,thresh):
     #
     lf = len(fft)
     ff = lf/10
+    if (ff == 0):
+        ff = 1
     
     #
     # Calculate mean deviation, but only occasionally

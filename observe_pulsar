@@ -47,6 +47,7 @@ HPGAIN=0.6
 ROLLOFF=0
 SKY=0.0
 INTEGRATOR=0
+RESOLUTION=1
 function do_help
 {
 			cat <<!EOF!
