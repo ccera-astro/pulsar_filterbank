@@ -27,6 +27,13 @@ def determine_rate(srate,fbsize,pw50):
             return d
     return 1
 
+def dm_to_smear(freq,bw,dm):
+    f_lower = (freq-(bw/2.0))*1.0e-6
+    f_upper = (freq+(bw/2.0))*1.0e-6
+    Dt = 4.15e6 * (math.pow(f_lower,-2.0)-math.pow(f_upper,-2.0))
+    Dt *= dm
+    return Dt
+
 #
 # Convert DM to a reasonable number of FFT bins, given
 #  DM, center-frequency, bandwidth, and pw50
@@ -34,14 +41,11 @@ def determine_rate(srate,fbsize,pw50):
 def dm_to_bins(dm,freq,bw,pw50):
     
     #
-    # Convert to milliseconds (sigh)
+    # Convert pw50 to milliseconds (sigh)
     #
     p50ms = pw50 * 1000.0
     
-    f_lower = (freq-(bw/2.0))*1.0e-6
-    f_upper = (freq+(bw/2.0))*1.0e-6
-    Dt = 4.15e6 * (math.pow(f_lower,-2.0)-math.pow(f_upper,-2.0))
-    Dt *= dm
+    Dt = dm_to_smear(freq,bw,dm)
     
     #
     # So that there's only 25% (of W50) residual smearing in each channel of the FB

@@ -1,4 +1,4 @@
-TARGETS=pulsar_filterbank_gps.py pulsar_filterbank_ntp.py pulsar_filterbank_none.py
+TARGETS=pulsar_filterbank_gps.py pulsar_filterbank_ntp.py pulsar_filterbank_none.py Folder_Block.py
 PY=fb_helper.py lmst.py
 SCRIPTS=observe_pulsar
 SOURCES=pulsar_filterbank.grc
@@ -13,7 +13,7 @@ tarfile: $(TARGETS)
 	tar cvzf pulsar_filterbank.tar.gz $(TARGETS) $(PY) $(SCRIPTS) $(SOURCES) $(DBFILE) Makefile
 
 cleandata:
-	rm -f *fft*.csv *mask*.txt *.fil *.filtmp *.header
+	rm -f *fft*.csv *mask*.txt *.fil *.filtmp *.header *.tar.gz
 
 #
 # First, build the UHD-sourced "branch" of the .GRC file

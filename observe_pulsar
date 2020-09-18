@@ -48,6 +48,7 @@ ROLLOFF=0
 SKY=0.0
 INTEGRATOR=0
 RESOLUTION=1
+PROFILE=0
 function do_help
 {
 			cat <<!EOF!
@@ -69,6 +70,8 @@ Usage: $0 <options>:
 --rolloff      Enable roll-off correction
 --sky          Specify actual sky frequency. 0 is off Default $SKY
 --integrator   Use integrate-and-dump instead of IIR filter
+--profile      Enable crude profile output
+--resoluton    Increase number of filterbank outputs by this value
 !EOF!
 }
 
@@ -162,6 +165,10 @@ do
      --resolution)
         RESOLUTION=$2
         shift 2
+       ;;
+     --profile)
+       PROFILE=1
+       shift
        ;;
 	 *)
 		echo "Unknown argument: $1"
@@ -354,4 +361,4 @@ $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $NAME --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \
    --thresh 2.2 --dscale $DSCALE --hp $HP --hpgain $HPGAIN --wide $WIDE --rolloff $ROLLOFF --sky $SKY \
-   --p0 $P0 --integrator $INTEGRATOR
+   --p0 $P0 --integrator $INTEGRATOR --profile $PROFILE
