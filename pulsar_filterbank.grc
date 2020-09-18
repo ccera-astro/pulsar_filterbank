@@ -718,7 +718,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>prefix+"psr-"+timestr+"-profile.txt" if profile else '/dev/null'</value>
+      <value>prefix+"psr-"+timestr+"-profile.json" if profile else '/dev/null'</value>
     </param>
   </block>
   <block>
