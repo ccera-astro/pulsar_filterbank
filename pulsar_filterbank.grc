@@ -1056,8 +1056,9 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         delayincr = round(delayincr)
         delayincr = int(delayincr)
         for i in range(fbsize):
-            self.delaymap[i] = (fbsize-i)*delayincr
+            self.delaymap[(fbsize-i)-1] = i*delayincr
         
+        print "Delaymap: %s" % str(self.delaymap)
         self.fbuf = [0.0]*fbsize
         self.flen = len(self.fbuf)
         
