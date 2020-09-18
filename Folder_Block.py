@@ -9,7 +9,7 @@ be the parameters. All of them are required to have default values!
 import numpy as np
 from gnuradio import gr
 import time
-
+import json
 
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """A pulsar folder/de-dispersion block"""
@@ -34,7 +34,6 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         for i in range(fbsize):
             self.delaymap[(fbsize-i)-1] = i*delayincr
         
-        print "Delaymap: %s" % str(self.delaymap)
         self.fbuf = [0.0]*fbsize
         self.flen = len(self.fbuf)
         
@@ -45,9 +44,19 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         
         #
         # The derived single-period pulse profile
+        # We maintain two others that are +/- 100PPM
         #
         self.profile = np.array([0.0]*tbins)
-        self.pcounts = np.array([0]*len(self.profile))
+        self.pcounts = np.array([0.0]*tbins)
+        
+        self.profilep = np.array([0.0]*tbins)
+        self.pcountsp = np.array([0.0]*tbins)
+        
+        self.profilen = np.array([0.0]*tbins)
+        self.pcountsn = np.array([0.0]*tbins)
+        
+        self.plen = tbins
+        
         
         #
         # Sample period
@@ -66,7 +75,10 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         # The profile should be "exactly" as long as a single
         #   pulse period
         #
+        # We have to others that "straddle" tbin by +/- 100PPM
         self.tbin = self.p0/len(self.profile)
+        self.tbinp = self.p0*(1.0+100e-6)/len(self.profile)
+        self.tbinn = self.p0*(1.0-100e-6)/len(self.profile)
         
         #
         # Open the output file
@@ -79,7 +91,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.INTERVAL = fbrate*interval
         self.logcount = self.INTERVAL
         
-        print "sper %f tbin %f ratio %f" % (self.sper, self.tbin, self.tbin/self.sper)
+        #print "tbin %-11.7f tbinp %-11.7f tbinn %-11.7f" % (self.tbin, self.tbinp, self.tbinn)
         
     def work(self, input_items, output_items):
         """Do dedispersion/folding"""
@@ -110,13 +122,25 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             #   total time-bins (self.tbin) modulo the profile length
             #
             where = self.MET/self.tbin
-            where = int(where) % len(self.profile)
+            where = int(where) % self.plen
+            
+            wherep = self.MET/self.tbinp
+            wherep = int(wherep) % self.plen
+            
+            wheren = self.MET/self.tbinn
+            wheren = int(wheren) % self.plen
             
             #
             # Update value in that profile bin
             #
             self.profile[where] += outval
             self.pcounts[where] += 1
+            
+            self.profilep[wherep] += outval
+            self.pcountsp[wherep] += 1
+            
+            self.profilen[wheren] += outval
+            self.pcountsn[wheren] += 1
             
             #
             # Increment Mission Elapsed Time
@@ -133,10 +157,18 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             #  value of the profile.
             #
             if (self.logcount <= 0):
-                fp = open(self.fname, "w")
+                fp = open(self.fname, "a")
                 output = np.divide(self.profile,self.pcounts)
-                for v in output:
-                    fp.write("%-11.7f\n" % v)
+                outputp = np.divide(self.profilep,self.pcountsp)
+                outputn = np.divide(self.profilen,self.pcountsn)
+                d = {}
+                t = time.gmtime()
+                d["time"] = "%04d%02d%02d-%02d:%02d:%02d" % (t.tm_year,
+                    t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
+                d["profilen"] = list(outputn)
+                d["profile"] = list(output)
+                d["profilep"]  = list(outputp)
+                fp.write(json.dumps(d, indent=4, sort_keys=True)+"\n")
                 fp.close()
                 self.logcount = self.INTERVAL
             
