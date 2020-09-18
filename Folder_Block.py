@@ -70,7 +70,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         #
         # Open the output file
         #
-        self.fp = open(filename, "w")
+        self.fname = filename
         
         #
         # The logging interval
@@ -99,7 +99,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                     if (self.delaymap[j] > 0):
                         self.delaymap[j] -= 1
                     else:
-						break
+                        break
             else:
                 outval = sum(q[(i*self.flen):(i*self.flen)+self.flen])
             
@@ -132,9 +132,11 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             #  value of the profile.
             #
             if (self.logcount <= 0):
+                fp = open(self.fname, "w")
                 output = np.divide(self.profile,self.pcounts)
-                self.fp.write(str(output)+"\n")
-                self.fp.flush()
+                for v in output:
+                    fp.write("%-11.7f\n" % v)
+                fp.close()
                 self.logcount = self.INTERVAL
             
             
