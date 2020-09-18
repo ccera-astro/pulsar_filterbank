@@ -12,9 +12,9 @@ import time
 
 
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
-    """Embedded Python Block example - a simple multiply const"""
+    """A pulsar folder/de-dispersion block"""
 
-    def __init__(self, fbsize=16,smear=10.0,period=0.714,filename='/dev/null',fbrate=2500):  # only default arguments here
+    def __init__(self, fbsize=16,smear=10.0,period=0.714,filename='/dev/null',fbrate=2500,tbins=250,interval=30):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -45,7 +45,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         #
         # The derived single-period pulse profile
         #
-        self.profile = np.array([0.0]*250)
+        self.profile = np.array([0.0]*tbins)
         self.pcounts = np.array([0]*len(self.profile))
         
         #
@@ -55,9 +55,16 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         
         #
         # Mission Elapsed Time
+        # This is moved along at every time samples arrival--incremented
+        #   by 'self.sper'
         #
         self.MET = 0.0
         
+        #
+        # How much time is in each bin?
+        # The profile should be "exactly" as long as a single
+        #   pulse period
+        #
         self.tbin = self.p0/len(self.profile)
         
         #
@@ -65,11 +72,16 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         #
         self.fp = open(filename, "w")
         
-        self.INTERVAL = fbrate*30
+        #
+        # The logging interval
+        #
+        self.INTERVAL = fbrate*interval
         self.logcount = self.INTERVAL
-            
+        
+        print "sper %f tbin %f ratio %f" % (self.sper, self.tbin, self.tbin/self.sper)
+        
     def work(self, input_items, output_items):
-        """example: multiply with constant"""
+        """Do dedispersion/folding"""
         q = input_items[0]
         for i in range(len(q)/self.flen):
             #
@@ -86,22 +98,39 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                 for j in range(self.flen):
                     if (self.delaymap[j] > 0):
                         self.delaymap[j] -= 1
+                    else:
+						break
             else:
                 outval = sum(q[(i*self.flen):(i*self.flen)+self.flen])
             
             #
             # Figure out where this sample goes in the profile buffer, based on MET
+            # We place the next sample based on the MET, re-expressed in terms of
+            #   total time-bins (self.tbin) modulo the profile length
             #
             where = self.MET/self.tbin
-            where = int(where)
-            if (where >= len(self.profile)):
-                where = 0
-                
+            where = int(where) % len(self.profile)
+            
+            #
+            # Update value in that profile bin
+            #
             self.profile[where] += outval
             self.pcounts[where] += 1
             
+            #
+            # Increment Mission Elapsed Time
+            #
             self.MET += self.sper
+            
+            #
+            # Decrement the log counter
+            #
             self.logcount -= 1
+            
+            #
+            # If time to log, the output is the reduced-by-counts
+            #  value of the profile.
+            #
             if (self.logcount <= 0):
                 output = np.divide(self.profile,self.pcounts)
                 self.fp.write(str(output)+"\n")

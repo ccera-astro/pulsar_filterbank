@@ -706,7 +706,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1624, 532)</value>
+      <value>(1560, 572)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -719,6 +719,33 @@ format every 10 seconds</value>
     <param>
       <key>value</key>
       <value>prefix+"psr-"+timestr+"-profile.txt" if profile else '/dev/null'</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1664, 572)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>reduced_rate</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>fbrate/3.0</value>
     </param>
   </block>
   <block>
@@ -991,7 +1018,7 @@ eliminate an extra multiply-const</value>
     </param>
     <param>
       <key>_io_cache</key>
-      <value>('Pulsar Folder', 'blk', [('fbsize', '16'), ('smear', '10.0'), ('period', '0.714'), ('filename', "'/dev/null'"), ('fbrate', '2500')], [('0', 'float', 1)], [], 'Embedded Python Block example - a simple multiply const', [])</value>
+      <value>('Pulsar Folder', 'blk', [('fbsize', '16'), ('smear', '10.0'), ('period', '0.714'), ('filename', "'/dev/null'"), ('fbrate', '2500'), ('tbins', '250'), ('interval', '30')], [('0', 'float', 1)], [], 'A pulsar folder/de-dispersion block', [])</value>
     </param>
     <param>
       <key>_source_code</key>
@@ -1009,9 +1036,9 @@ import time
 
 
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
-    """Embedded Python Block example - a simple multiply const"""
+    """A pulsar folder/de-dispersion block"""
 
-    def __init__(self, fbsize=16,smear=10.0,period=0.714,filename='/dev/null',fbrate=2500):  # only default arguments here
+    def __init__(self, fbsize=16,smear=10.0,period=0.714,filename='/dev/null',fbrate=2500,tbins=250,interval=30):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -1042,7 +1069,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         #
         # The derived single-period pulse profile
         #
-        self.profile = np.array([0.0]*250)
+        self.profile = np.array([0.0]*tbins)
         self.pcounts = np.array([0]*len(self.profile))
         
         #
@@ -1052,9 +1079,16 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         
         #
         # Mission Elapsed Time
+        # This is moved along at every time samples arrival--incremented
+        #   by 'self.sper'
         #
         self.MET = 0.0
         
+        #
+        # How much time is in each bin?
+        # The profile should be "exactly" as long as a single
+        #   pulse period
+        #
         self.tbin = self.p0/len(self.profile)
         
         #
@@ -1062,11 +1096,16 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         #
         self.fp = open(filename, "w")
         
-        self.INTERVAL = fbrate*30
+        #
+        # The logging interval
+        #
+        self.INTERVAL = fbrate*interval
         self.logcount = self.INTERVAL
-            
+        
+        print "sper %f tbin %f ratio %f" % (self.sper, self.tbin, self.tbin/self.sper)
+        
     def work(self, input_items, output_items):
-        """example: multiply with constant"""
+        """Do dedispersion/folding"""
         q = input_items[0]
         for i in range(len(q)/self.flen):
             #
@@ -1083,22 +1122,39 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                 for j in range(self.flen):
                     if (self.delaymap[j] &gt; 0):
                         self.delaymap[j] -= 1
+                    else:
+						break
             else:
                 outval = sum(q[(i*self.flen):(i*self.flen)+self.flen])
             
             #
             # Figure out where this sample goes in the profile buffer, based on MET
+            # We place the next sample based on the MET, re-expressed in terms of
+            #   total time-bins (self.tbin) modulo the profile length
             #
             where = self.MET/self.tbin
-            where = int(where)
-            if (where &gt;= len(self.profile)):
-                where = 0
-                
+            where = int(where) % len(self.profile)
+            
+            #
+            # Update value in that profile bin
+            #
             self.profile[where] += outval
             self.pcounts[where] += 1
             
+            #
+            # Increment Mission Elapsed Time
+            #
             self.MET += self.sper
+            
+            #
+            # Decrement the log counter
+            #
             self.logcount -= 1
+            
+            #
+            # If time to log, the output is the reduced-by-counts
+            #  value of the profile.
+            #
             if (self.logcount &lt;= 0):
                 output = np.divide(self.profile,self.pcounts)
                 self.fp.write(str(output)+"\n")
@@ -1119,7 +1175,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>fbrate</key>
-      <value>fbrate/3</value>
+      <value>reduced_rate</value>
     </param>
     <param>
       <key>fbsize</key>
@@ -1131,7 +1187,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1632, 424)</value>
+      <value>(1632, 432)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1142,12 +1198,20 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
       <value>Folder_Block</value>
     </param>
     <param>
+      <key>interval</key>
+      <value>30</value>
+    </param>
+    <param>
       <key>period</key>
       <value>p0</value>
     </param>
     <param>
       <key>smear</key>
       <value>fb_helper.dm_to_smear(freq,samp_rate,dm)</value>
+    </param>
+    <param>
+      <key>tbins</key>
+      <value>tbins</value>
     </param>
   </block>
   <block>
@@ -6287,7 +6351,7 @@ in a "full" state.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1032, 1800)</value>
+      <value>(1056, 1824)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -7190,6 +7254,53 @@ in a "full" state.</value>
     <param>
       <key>vlen</key>
       <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1072, 1488)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tbins</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Number of time bins for profile</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>intx</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>250</value>
     </param>
   </block>
   <block>
