@@ -1058,29 +1058,37 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         for i in range(fbsize):
             self.delaymap[(fbsize-i)-1] = i*delayincr
         
-        self.fbuf = [0.0]*fbsize
-        self.flen = len(self.fbuf)
+        #
+        # Needed in a few places
+        #
+        self.flen = fbsize
         
+        
+
         #
         # The pulsar period
         #
         self.p0 = period
         
         #
-        # The derived single-period pulse profile
-        # We maintain two others that are +/- 100PPM
+        # The derived single-period pulse profile with various shifts
         #
-        self.profile = np.array([0.0]*tbins)
-        self.pcounts = np.array([0.0]*tbins)
+        #
+        self.shifts = [-100.0e-6, -10.0e-6, 0.0, 10.0e-6, 100.0e-6]
+        self.profiles = [[0.0]*tbins]*len(self.shifts)
+        self.pcounts = [[0.0]*tbins]*len(self.shifts)
         
-        self.profilep = np.array([0.0]*tbins)
-        self.pcountsp = np.array([0.0]*tbins)
-        
-        self.profilen = np.array([0.0]*tbins)
-        self.pcountsn = np.array([0.0]*tbins)
-        
+        #
+        #
+        # How much time is in each bin?
+        # The profile should be "exactly" as long as a single
+        #   pulse period
+        #
+        self.tbint = []
+        for shift in self.shifts:
+            self.tbint.append((self.p0*(1.0+shift))/tbins)
+            
         self.plen = tbins
-        
         
         #
         # Sample period
@@ -1095,19 +1103,10 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.MET = 0.0
         
         #
-        # How much time is in each bin?
-        # The profile should be "exactly" as long as a single
-        #   pulse period
-        #
-        # We have to others that "straddle" tbin by +/- 100PPM
-        self.tbin = self.p0/len(self.profile)
-        self.tbinp = self.p0*(1.0+100e-6)/len(self.profile)
-        self.tbinn = self.p0*(1.0-100e-6)/len(self.profile)
-        
-        #
         # Open the output file
         #
         self.fname = filename
+        self.sequence = 0
         
         #
         # The logging interval
@@ -1143,28 +1142,15 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             #
             # Figure out where this sample goes in the profile buffer, based on MET
             # We place the next sample based on the MET, re-expressed in terms of
-            #   total time-bins (self.tbin) modulo the profile length
+            #   total time-bins (self.tbint) modulo the profile length
             #
-            where = self.MET/self.tbin
-            where = int(where) % self.plen
-            
-            wherep = self.MET/self.tbinp
-            wherep = int(wherep) % self.plen
-            
-            wheren = self.MET/self.tbinn
-            wheren = int(wheren) % self.plen
-            
+            # Update all the profiles
             #
-            # Update value in that profile bin
-            #
-            self.profile[where] += outval
-            self.pcounts[where] += 1
-            
-            self.profilep[wherep] += outval
-            self.pcountsp[wherep] += 1
-            
-            self.profilen[wheren] += outval
-            self.pcountsn[wheren] += 1
+            for i in range(len(self.profiles)):
+                where = self.MET/self.tbint[i]
+                where = int(where) % self.plen
+                self.profiles[i][where] += outval
+                self.pcounts[i][where] += 1
             
             #
             # Increment Mission Elapsed Time
@@ -1182,16 +1168,23 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             #
             if (self.logcount &lt;= 0):
                 fp = open(self.fname, "a")
-                output = np.divide(self.profile,self.pcounts)
-                outputp = np.divide(self.profilep,self.pcountsp)
-                outputn = np.divide(self.profilen,self.pcountsn)
+                outputs = []
+                for i in range(len(self.profiles)):
+                    outputs.append(np.divide(self.profiles[i],self.pcounts[i]))
                 d = {}
                 t = time.gmtime()
                 d["time"] = "%04d%02d%02d-%02d:%02d:%02d" % (t.tm_year,
                     t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
-                d["profilen"] = list(outputn)
-                d["profile"] = list(output)
-                d["profilep"]  = list(outputp)
+                d["sequence"] = self.sequence
+                self.sequence += 1
+                profiles = []
+                for i in range(len(self.profiles)):
+                    pd = {}
+                    pd["profile"] = list(outputs[i])
+                    pd["p0"] = self.p0*(1.0+self.shifts[i])
+                    pd["shift"] = self.shifts[i]
+                    profiles.append(pd)
+                d["profiles"] = profiles
                 fp.write(json.dumps(d, indent=4, sort_keys=True)+"\n")
                 fp.close()
                 self.logcount = self.INTERVAL
