@@ -1102,6 +1102,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.shifts = [-100.0e-6, -10.0e-6, -5.0e-6, 0.0, 5.0e-6, 10.0e-6, 100.0e-6]
         self.profiles = [[0.0]*tbins]*len(self.shifts)
         self.pcounts = [[0.0]*tbins]*len(self.shifts)
+        self.nprofiles = len(self.profiles)
         
         #
         #
@@ -1185,11 +1186,11 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             #
             # Update all the profiles
             #
-            for i in range(len(self.profiles)):
-                where = self.MET/self.tbint[i]
+            for x in range(self.nprofiles):
+                where = self.MET/self.tbint[x]
                 where = int(where) % self.plen
-                self.profiles[i][where] += outval
-                self.pcounts[i][where] += 1
+                self.profiles[x][where] += outval
+                self.pcounts[x][where] += 1
             
             #
             # Increment Mission Elapsed Time
@@ -1208,8 +1209,8 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
             if (self.logcount &lt;= 0):
                 fp = open(self.fname, "a")
                 outputs = []
-                for i in range(len(self.profiles)):
-                    outputs.append(np.divide(self.profiles[i],self.pcounts[i]))
+                for x in range(len(self.profiles)):
+                    outputs.append(np.divide(self.profiles[x],self.pcounts[x]))
                 d = {}
                 t = time.gmtime()
                 d["time"] = "%04d%02d%02d-%02d:%02d:%02d" % (t.tm_year,
@@ -1219,11 +1220,11 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                 d["min_input_length"] = self.min_in
                 self.sequence += 1
                 profiles = []
-                for i in range(len(self.profiles)):
+                for x in range(len(self.profiles)):
                     pd = {}
-                    pd["profile"] = list(outputs[i])
-                    pd["p0"] = self.p0*(1.0+self.shifts[i])
-                    pd["shift"] = self.shifts[i]
+                    pd["profile"] = list(outputs[x])
+                    pd["p0"] = self.p0*(1.0+self.shifts[x])
+                    pd["shift"] = self.shifts[x]
                     profiles.append(pd)
                 d["profiles"] = profiles
                 fp.write(json.dumps(d, indent=4, sort_keys=True)+",\n")
