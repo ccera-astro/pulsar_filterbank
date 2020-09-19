@@ -39,8 +39,6 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         #
         self.flen = fbsize
         
-        
-
         #
         # The pulsar period
         #
@@ -50,7 +48,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         # The derived single-period pulse profile with various shifts
         #
         #
-        self.shifts = [-100.0e-6, -10.0e-6, 0.0, 10.0e-6, 100.0e-6]
+        self.shifts = [-100.0e-6, -10.0e-6, -5.0e-6, 0.0, 5.0e-6, 10.0e-6, 100.0e-6]
         self.profiles = [[0.0]*tbins]*len(self.shifts)
         self.pcounts = [[0.0]*tbins]*len(self.shifts)
         
@@ -63,7 +61,10 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.tbint = []
         for shift in self.shifts:
             self.tbint.append((self.p0*(1.0+shift))/tbins)
-            
+        
+        #
+        # The profile length
+        #   
         self.plen = tbins
         
         #
@@ -84,6 +85,9 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.fname = filename
         self.sequence = 0
         
+        self.max_in = 0.0
+        self.min_in = 100000000
+        
         #
         # The logging interval
         #
@@ -98,7 +102,12 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     def work(self, input_items, output_items):
         """Do dedispersion/folding"""
         q = input_items[0]
-        for i in range(len(q)/self.flen):
+        l = len(q)
+        if (l > self.max_in):
+            self.max_in = l
+        elif (l < self.min_in):
+            self.min_in = l
+        for i in range(l/self.flen):
             #
             # Do delay/dedispersion logic
             #
@@ -155,6 +164,8 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                 d["time"] = "%04d%02d%02d-%02d:%02d:%02d" % (t.tm_year,
                     t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec)
                 d["sequence"] = self.sequence
+                d["max_input_length"] = self.max_in
+                d["min_input_length"] = self.min_in
                 self.sequence += 1
                 profiles = []
                 for i in range(len(self.profiles)):
