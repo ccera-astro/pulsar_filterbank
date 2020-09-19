@@ -733,6 +733,33 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>_coordinate</key>
+      <value>(1784, 572)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>profile_dec</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>2</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
       <value>(1664, 572)</value>
     </param>
     <param>
@@ -745,7 +772,7 @@ format every 10 seconds</value>
     </param>
     <param>
       <key>value</key>
-      <value>fbrate/3.0</value>
+      <value>fbrate/profile_dec</value>
     </param>
   </block>
   <block>
@@ -1115,6 +1142,9 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.logcount = self.INTERVAL
         
         #print "tbin %-11.7f tbinp %-11.7f tbinn %-11.7f" % (self.tbin, self.tbinp, self.tbinn)
+        fp = open(self.fname, "w")
+        fp.write ("[\n")
+        fp.close()
         
     def work(self, input_items, output_items):
         """Do dedispersion/folding"""
@@ -1185,7 +1215,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                     pd["shift"] = self.shifts[i]
                     profiles.append(pd)
                 d["profiles"] = profiles
-                fp.write(json.dumps(d, indent=4, sort_keys=True)+"\n")
+                fp.write(json.dumps(d, indent=4, sort_keys=True)+",\n")
                 fp.close()
                 self.logcount = self.INTERVAL
             
@@ -2349,7 +2379,7 @@ depends on the "wide" input parameter.</value>
     </param>
     <param>
       <key>n</key>
-      <value>3 if profile == 1 else 100</value>
+      <value>profile_dec if profile == 1 else 100</value>
     </param>
     <param>
       <key>type</key>

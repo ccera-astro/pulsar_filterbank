@@ -49,6 +49,8 @@ SKY=0.0
 INTEGRATOR=0
 RESOLUTION=1
 PROFILE=0
+TBINS=200
+PINTERVAL=30
 function do_help
 {
 			cat <<!EOF!
@@ -60,18 +62,22 @@ Usage: $0 <options>:
 --rfgain       RF gain, usually in dB. Default: $RFGAIN
 --longitude    Local longitude. Negative is west.: Default: $LONGITUDE
 --dscale       Detector scaling: Default: $DSCALE
+               NOTE: A negative value here causes it to autoscale to produce
+                 output whose average magnitude is '<dscale>'
 --wide         Enable Wide (16 bit) samples Default: $WIDE
 --hp           Enable high-pass filter. Default: $HP
 --hpgain       Set "gain" on high-pass. Default: $HPGAIN
---obstime      Observing time, **MINuTES**. Default: $OBSTIME
+--obstime      Observing time, **MINUTES**. Default: $OBSTIME
                NOTE: A negative 'obstime' results in running immediately
                rather than waiting for the object to enter the FOV.
 --prefix       Output file prefix. Default: $PREFIX
---rolloff      Enable roll-off correction
---sky          Specify actual sky frequency. 0 is off Default $SKY
---integrator   Use integrate-and-dump instead of IIR filter
---profile      Enable crude profile output
---resoluton    Increase number of filterbank outputs by this value
+--rolloff      Enable roll-off correction. Default: $ROLLOFF
+--sky          Specify actual sky frequency. 0 is off Default: $SKY
+--integrator   Use integrate-and-dump instead of IIR filter.  Default: $INTEGRATOR
+--profile      Enable crude profile output.  Default $PROFILE
+--resolution   Increase number of filterbank outputs by this value. Default: $RESOLUTION
+--tbins        Number of time-bins for builtin pulsar folding. Default: $TBINS
+--pinterval    Interval between pulsar profile logs. Default: $PINTERVAL
 !EOF!
 }
 
@@ -169,6 +175,14 @@ do
      --profile)
        PROFILE=1
        shift
+       ;;
+     --pinterval)
+       PINTERVAL=$2
+       shift 2
+       ;;
+     --tbins)
+       TBINS=$2
+       shift 2
        ;;
 	 *)
 		echo "Unknown argument: $1"
@@ -361,4 +375,4 @@ $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $NAME --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \
    --thresh 2.2 --dscale $DSCALE --hp $HP --hpgain $HPGAIN --wide $WIDE --rolloff $ROLLOFF --sky $SKY \
-   --p0 $P0 --integrator $INTEGRATOR --profile $PROFILE
+   --p0 $P0 --integrator $INTEGRATOR --profile $PROFILE --pinterval $PINTERVAL --tbins $TBINS

@@ -91,6 +91,9 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         self.logcount = self.INTERVAL
         
         #print "tbin %-11.7f tbinp %-11.7f tbinn %-11.7f" % (self.tbin, self.tbinp, self.tbinn)
+        fp = open(self.fname, "w")
+        fp.write ("[\n")
+        fp.close()
         
     def work(self, input_items, output_items):
         """Do dedispersion/folding"""
@@ -161,7 +164,7 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
                     pd["shift"] = self.shifts[i]
                     profiles.append(pd)
                 d["profiles"] = profiles
-                fp.write(json.dumps(d, indent=4, sort_keys=True)+"\n")
+                fp.write(json.dumps(d, indent=4, sort_keys=True)+",\n")
                 fp.close()
                 self.logcount = self.INTERVAL
             
