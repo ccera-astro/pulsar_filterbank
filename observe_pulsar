@@ -220,7 +220,7 @@ else
 	echo Cannot find PSR database file
 	exit
 fi
-cased=`echo $NAME |tr [A-Z] [a-z]`
+cased=`echo $NAME |tr '[A-Z]' '[a-z]'`
 if grep -qi $cased $dbfile
 then
 	eval `grep $cased $dbfile`
@@ -248,15 +248,15 @@ then
    DEVICE="type=b200,num_recv_frames=128,master_clock_rate=$clk,subdev='A:A'"
    uhd_usrp_probe --args type=b200 >usrp$$ 2>&1
    SUBDEV="A:A"
-   if grep -i -q "no.*gps.*found" usrp$$
+   if grep -i -q "Found.*an.*GPSDO" usrp$$
    then
-	EXEC=pulsar_filterbank_ntp.py
+	EXEC=pulsar_filterbank_gps.py
 	PPS=external
-	CLOCK=external
+	CLOCK=gpsdo
    else
-    EXEC=pulsar_filterbank_gps.py
-    PPS=gpsdo
-    CLOCK=gpsdo
+    EXEC=pulsar_filterbank_ntp.py
+    PPS=internal
+    CLOCK=external
    fi
    rm -f usrp$$
 #
@@ -309,15 +309,15 @@ then
 	    DEVICE="addr=192.168.10.2"
 	    SUBDEV="A:0"
 	    uhd_usrp_probe --args $DEVICE >usrp$$ 2>&1
-	    if grep -i -q "no.*gps.*found" usrp$$
+	    if grep -i -q "Found an.*GPS" usrp$$
 	    then
-			EXEC=pulsar_filterbank_ntp.py
-			PPS=internal
-			CLOCK=external
+			EXEC=pulsar_filterbank_gps.py
+			PPS=gspdo
+			CLOCK=gpsdo
 		else
-		    EXEC=pulsar_filterbank_gps.py
-		    PPS=gpsdo
-		    CLOCK=gpsdo
+		    EXEC=pulsar_filterbank_ntp.py
+		    PPS=default
+		    CLOCK=external
 		fi
      fi
      rm -f usrp$$
@@ -371,6 +371,7 @@ fi
 #
 # Call the appropriate version of the Gnu Radio flow-graph
 #
+echo Executing $EXEC
 $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $NAME --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \
