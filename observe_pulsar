@@ -51,6 +51,7 @@ RESOLUTION=1
 PROFILE=0
 TBINS=200
 PINTERVAL=30
+GPS=0
 function do_help
 {
 			cat <<!EOF!
@@ -78,6 +79,7 @@ Usage: $0 <options>:
 --resolution   Increase number of filterbank outputs by this value. Default: $RESOLUTION
 --tbins        Number of time-bins for builtin pulsar folding. Default: $TBINS
 --pinterval    Interval between pulsar profile logs. Default: $PINTERVAL
+--gps          Indicate that there's a GPS module present (UHD/USRP only)
 !EOF!
 }
 
@@ -183,6 +185,10 @@ do
      --tbins)
        TBINS=$2
        shift 2
+       ;;
+     --gps)
+       GPS=1
+       shift
        ;;
 	 *)
 		echo "Unknown argument: $1"
@@ -316,7 +322,7 @@ then
 			CLOCK=gpsdo
 		else
 		    EXEC=pulsar_filterbank_ntp.py
-		    PPS=default
+		    PPS=internal
 		    CLOCK=external
 		fi
      fi
@@ -325,6 +331,23 @@ fi
 
 rm -f usrp$$
 rm -f tmp$$
+
+#
+# If --gps option present
+#
+if [ $GPS -ne 0 ]
+then
+	case $DEVICE in
+	*type=b2*|*addr=*)
+		PPS=gspdo
+		CLOCK=gpsdo
+		EXEC=pulsar_filterbank_gps.py
+		;;
+	*)
+		echo "***WARNING: GPS not supported in this device type"
+		;;
+	esac
+fi
 
 if [ $DEVICE = None ]
 then
