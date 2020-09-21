@@ -1045,7 +1045,7 @@ eliminate an extra multiply-const</value>
     </param>
     <param>
       <key>_io_cache</key>
-      <value>('Pulsar Folder', 'blk', [('fbsize', '16'), ('smear', '10.0'), ('period', '0.714'), ('filename', "'/dev/null'"), ('fbrate', '2500'), ('tbins', '250'), ('interval', '30')], [('0', 'float', 1)], [], 'A pulsar folder/de-dispersion block', [])</value>
+      <value>('Pulsar Folder', 'blk', [('fbsize', '16'), ('smear', '10.0'), ('period', '0.714'), ('filename', "'/dev/null'"), ('fbrate', '2500'), ('tbins', '250'), ('interval', '30'), ('tppms', "'0.0'")], [('0', 'float', 1)], [], 'A pulsar folder/de-dispersion block', [])</value>
     </param>
     <param>
       <key>_source_code</key>
@@ -1065,7 +1065,7 @@ import json
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """A pulsar folder/de-dispersion block"""
 
-    def __init__(self, fbsize=16,smear=10.0,period=0.714,filename='/dev/null',fbrate=2500,tbins=250,interval=30):  # only default arguments here
+    def __init__(self, fbsize=16,smear=10.0,period=0.714,filename='/dev/null',fbrate=2500,tbins=250,interval=30,tppms="0.0"):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -1099,7 +1099,11 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         # The derived single-period pulse profile with various shifts
         #
         #
-        self.shifts = [-100.0e-6, -10.0e-6, -5.0e-6, 0.0, 5.0e-6, 10.0e-6, 100.0e-6]
+        ppmlist = tppms.split(",")
+        self.shifts = []
+        for p in ppmlist:
+            self.shifts.append(float(p)*1.0e-6)
+            
         self.profiles = [[0.0]*tbins]*len(self.shifts)
         self.pcounts = [[0.0]*tbins]*len(self.shifts)
         self.nprofiles = len(self.profiles)
@@ -1282,6 +1286,10 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
     <param>
       <key>tbins</key>
       <value>tbins</value>
+    </param>
+    <param>
+      <key>tppms</key>
+      <value>trial_ppms</value>
     </param>
   </block>
   <block>
@@ -7465,6 +7473,53 @@ in a "full" state.</value>
     <param>
       <key>value</key>
       <value>2.5</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1240, 1576)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>trial_ppms</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>List of trial ppms</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>string</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"0.0"</value>
     </param>
   </block>
   <block>

@@ -52,6 +52,7 @@ PROFILE=0
 TBINS=200
 PINTERVAL=30
 GPS=0
+TRIALS="-10.0,0.0,10.0"
 function do_help
 {
 			cat <<!EOF!
@@ -79,7 +80,8 @@ Usage: $0 <options>:
 --resolution   Increase number of filterbank outputs by this value. Default: $RESOLUTION
 --tbins        Number of time-bins for builtin pulsar folding. Default: $TBINS
 --pinterval    Interval between pulsar profile logs. Default: $PINTERVAL
---gps          Indicate that there's a GPS module present (UHD/USRP only)
+--gps          Indicate that there's a GPS module present (UHD/USRP only).
+--trials       List of trial PPMs for folder. Default $TRIALS
 !EOF!
 }
 
@@ -189,6 +191,10 @@ do
      --gps)
        GPS=1
        shift
+       ;;
+     --trials)
+       TRIALS=$2
+       shift 2
        ;;
 	 *)
 		echo "Unknown argument: $1"
@@ -399,4 +405,5 @@ $EXEC --dec $DEC --ra $RA --device $DEVICE --dm $DM --freq $FREQ  \
    --pps $PPS --prefix $PREFIX --pw50 $PW50 --refclock $CLOCK --rfgain $RFGAIN --runtime $OBSTIME \
    --source $NAME --srate $SRATE --subdev $SUBDEV --rfilist "$RFILIST" --resolution $RESOLUTION \
    --thresh 2.2 --dscale $DSCALE --hp $HP --hpgain $HPGAIN --wide $WIDE --rolloff $ROLLOFF --sky $SKY \
-   --p0 $P0 --integrator $INTEGRATOR --profile $PROFILE --pinterval $PINTERVAL --tbins $TBINS
+   --p0 $P0 --integrator $INTEGRATOR --profile $PROFILE --pinterval $PINTERVAL --tbins $TBINS \
+   --trial-ppms $TRIALS

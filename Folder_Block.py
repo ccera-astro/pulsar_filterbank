@@ -14,7 +14,7 @@ import json
 class blk(gr.sync_block):  # other base classes are basic_block, decim_block, interp_block
     """A pulsar folder/de-dispersion block"""
 
-    def __init__(self, fbsize=16,smear=10.0,period=0.714,filename='/dev/null',fbrate=2500,tbins=250,interval=30):  # only default arguments here
+    def __init__(self, fbsize=16,smear=10.0,period=0.714,filename='/dev/null',fbrate=2500,tbins=250,interval=30,tppms="0.0"):  # only default arguments here
         """arguments to this function show up as parameters in GRC"""
         gr.sync_block.__init__(
             self,
@@ -48,7 +48,11 @@ class blk(gr.sync_block):  # other base classes are basic_block, decim_block, in
         # The derived single-period pulse profile with various shifts
         #
         #
-        self.shifts = [-100.0e-6, -10.0e-6, -5.0e-6, 0.0, 5.0e-6, 10.0e-6, 100.0e-6]
+        ppmlist = tppms.split(",")
+        self.shifts = []
+        for p in ppmlist:
+            self.shifts.append(float(p)*1.0e-6)
+            
         self.profiles = [[0.0]*tbins]*len(self.shifts)
         self.pcounts = [[0.0]*tbins]*len(self.shifts)
         self.nprofiles = len(self.profiles)
