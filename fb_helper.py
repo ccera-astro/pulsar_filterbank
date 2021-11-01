@@ -612,8 +612,10 @@ def dynamic_mask(fft,smask,thresh):
     #
     # Determine trim range
     #
+    # (Python 3 update: make sure the ff is integer. Arrays can only be
+    # indexed by integers)
     lf = len(fft)
-    ff = lf/10
+    ff = int(lf/10)
     if (ff == 0):
         ff = 1
 
