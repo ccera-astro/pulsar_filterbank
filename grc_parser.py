@@ -62,7 +62,7 @@ fp = open(sys.argv[3], "r")
 lines = fp.readlines()
 for line in lines:
     line = line.replace("(", "(root, ", 1)
-    print line
+    print(line)
     eval(line)
 fp.close()
 

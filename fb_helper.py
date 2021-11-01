@@ -470,8 +470,8 @@ def update_header(pacer,runtime,smpsize):
                 seconds = first_tag
             else:
                 seconds = time.time()
-            print "No rx_time tag, start time will be approximate."
-        
+            print("No rx_time tag, start time will be approximate.")
+
         #
         # Turn real seconds into MJD
         #
