@@ -3445,11 +3445,17 @@ def convert_sigproct(v):
     timestr="%02d%02d%02d.0" % (hours, minutes, seconds)
     return(float(timestr))
 
+
+def tobytes(s):
+    """converts specified parameter to bytes. Python 3 is much more picky regarding
+       differences between strings and bytes. This function is used in build_header_info()"""
+    return bytes(str(s),'utf-8')
+
 #
 # This will cause a header block to be prepended to the output file
 #
 # Thanks to Guillermo Gancio (ganciogm@gmail.com) for the inspiration
-#   and much of the code
+# and much of the code. Adjusted to python 3 by Tomek Mrugalski.
 #
 def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize,rx_time,smpsize):
     global smpwidth
@@ -3465,7 +3471,6 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     header_args["bw"] = bw
     header_args["fbrate"] = fbrate
     header_args["fbsize"] = fbsize
-
 
     #
     # Time for one sample, in sec
@@ -3499,29 +3504,31 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     sub_bands=fbsize
 
     #
-    # Determine MJD from file timestamp
+    # Determine MJD from file timestamp. Open the output file as binary.
     #
     if (rx_time == None):
-        fp = open(outfile, "w")
+        fp = open(outfile, "wb")
         t_start = (os.path.getmtime(outfile) / 86400) + 40587
     else:
-        fp = open(outfile, "w")
+        fp = open(outfile, "wb")
         t_start = rx_time
 
     #
     # The rest here is mostly due to Guillermo Gancio ganciogm@gmail.com
     #
-    stx="HEADER_START"
-    etx="HEADER_END"
+    stx=tobytes("HEADER_START")
+    etx=tobytes("HEADER_END")
     fp.write(struct.pack('i', len(stx))+stx)
     fp.flush()
+
     #--
-    aux="rawdatafile"
+    aux=tobytes("rawdatafile")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
-    fp.write(struct.pack('i', len(outfile))+outfile)
+    fp.write(struct.pack('i', len(outfile))+tobytes(outfile))
+
     #--
-    aux="src_raj"
+    aux=tobytes("src_raj")
     aux=struct.pack('i', len(aux))+aux
     source_ra = convert_sigproct(source_ra)
     fp.write(aux)
@@ -3530,96 +3537,106 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     fp.flush()
 
     #--
-    aux="src_dej"
+    aux=tobytes("src_dej")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     source_dec= convert_sigproct(source_dec)
     aux=struct.pack('d', source_dec)
     fp.write(aux)
     #--
-    aux="az_start"
+
+    aux=tobytes("az_start")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', 0.0)
     fp.write(aux)
     #--
-    aux="za_start"
+    aux=tobytes("za_start")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', 0.0)
     fp.write(aux)
     #--
-    aux="tstart"
+    aux=tobytes("tstart")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', float(t_start))
     fp.write(aux)
     #--
-    aux="foff"
+    aux=tobytes("foff")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', f_off)
     fp.write(aux)
     #--
-    aux="fch1"
+    aux=tobytes("fch1")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', high_freq)
     fp.write(aux)
     #--
-    aux="nchans"
+    aux=tobytes("nchans")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', sub_bands)
     fp.write(aux)
     #--
-    aux="data_type"
+    aux=tobytes("data_type")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 1)
     fp.write(aux)
     #--
-    aux="ibeam"
+
+
+    aux=tobytes("ibeam")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 1)
     fp.write(aux)
     #--
-    aux="nbits"
+    aux=tobytes("nbits")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', smpsize*8)
     fp.write(aux)
     #--
-    aux="tsamp"
+
+
+    aux=tobytes("tsamp")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', tsamp)
     fp.write(aux)
     #--
-    aux="nbeams"
+    aux=tobytes("nbeams")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 1)
     fp.write(aux)
+
+
     #--
-    aux="nifs"
+    aux=tobytes("nifs")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 1)
     fp.write(aux)
+
     #--
-    aux="source_name"
+    aux=tobytes("source_name")
     fp.write(struct.pack('i', len(aux))+aux)
-    fp.write(struct.pack('i', len(source_name))+source_name)
+    fp.write(struct.pack('i', len(source_name)) + tobytes(source_name))
+
+
     #--
-    aux="machine_id"
+    aux=tobytes("machine_id")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 20)
     fp.write(aux)
     #--
-    aux="telescope_id"
+    aux=tobytes("telescope_id")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 20)
@@ -3933,8 +3950,10 @@ def dynamic_mask(fft,smask,thresh):
     #
     # Determine trim range
     #
+    # (Python 3 update: make sure the ff is integer. Arrays can only be
+    # indexed by integers)
     lf = len(fft)
-    ff = lf/10
+    ff = int(lf/10)
     if (ff == 0):
         ff = 1
 
@@ -4152,6 +4171,7 @@ def analyser(fft,nchan):
     global spikes
     global lastchan
 
+    # python 3 fix: indices must be integers
     nfft = fft[0:int(len(fft)/2)]
     if channels == None:
         channels = [numpy.array([0.0]*len(nfft))]*nchan
