@@ -32,10 +32,10 @@ pulsar_filterbank_osmo.grc: pulsar_filterbank.grc
 #
 pulsar_filterbank_uhd.py: pulsar_filterbank_uhd.grc
 
-	-grcc -d . pulsar_filterbank_uhd.grc
+	-grcc pulsar_filterbank_uhd.grc
 
 pulsar_filterbank_osmo.py: pulsar_filterbank_osmo.grc
-	-grcc -d . pulsar_filterbank_osmo.grc
+	-grcc pulsar_filterbank_osmo.grc
 
 #
 # Now edit the resulting .py code to include appropriate time-sync primitives
