@@ -833,7 +833,8 @@ def analyser(fft,nchan):
     global spikes
     global lastchan
 
-    nfft = fft[0:len(fft)/2]
+    # python 3 fix: indices must be integers
+    nfft = fft[0:int(len(fft)/2)]
     if channels == None:
         channels = [numpy.array([0.0]*len(nfft))]*nchan
         chcnts = [0.0]*nchan
