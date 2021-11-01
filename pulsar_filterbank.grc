@@ -3231,7 +3231,7 @@ samples</value>
     </param>
     <param>
       <key>value</key>
-      <value>airspy=0</value>
+      <value>"airspy=0"</value>
     </param>
   </block>
   <block>
