@@ -37,30 +37,30 @@ def dm_to_smear(freq,bw,dm):
 #
 # Convert DM to a reasonable number of FFT bins, given
 #  DM, center-frequency, bandwidth, and pw50
-# 
+#
 def dm_to_bins(dm,freq,bw,pw50):
-    
+
     #
     # Convert pw50 to milliseconds (sigh)
     #
     p50ms = pw50 * 1000.0
-    
+
     Dt = dm_to_smear(freq,bw,dm)
-    
+
     #
     # So that there's only 25% (of W50) residual smearing in each channel of the FB
     #
     required_bins = Dt/(p50ms/4.0)
-    
+
     #
     # We do a bit of base2 math to make this a nice FFT size
     #
     bins = math.log(required_bins)/math.log(2.0)
     if (abs(bins-int(bins)) > 0.2):
         bins += 1
-    
+
     bins = int(bins)
-    
+
     #
     # No sense making the filterbank too small
     # Set bins so that minimum is 4 channels
@@ -74,10 +74,10 @@ def dm_to_bins(dm,freq,bw,pw50):
 #
 def write_header(fn, freq, bw, fbsize, fbrate, smpsize):
     global smpwidth
-    
+
     if (smpwidth == 0):
         smpwidth = smpsize
-        
+
     f = open(fn, "w")
     ltp = time.gmtime(time.time())
     f.write("frequency=%.5f\n" % freq)
@@ -90,7 +90,7 @@ def write_header(fn, freq, bw, fbsize, fbrate, smpsize):
         ltp.tm_min, ltp.tm_sec))
     f.write("Output sample size %d bytes\n" % smpsize)
     f.write("Expected disk write rate: %6.2f mbyte/sec\n" % ((fbsize*fbrate*smpsize)/1.0e6))
-    
+
 
 
 header_args = {}
@@ -106,16 +106,22 @@ def convert_sigproct(v):
     seconds = itime - (hours*3600) - (minutes*60)
     timestr="%02d%02d%02d.0" % (hours, minutes, seconds)
     return(float(timestr))
-  
+
+
+def tobytes(s):
+    """converts specified parameter to bytes. Python 3 is much more picky regarding
+       differences between strings and bytes. This function is used in build_header_info()"""
+    return bytes(str(s),'utf-8')
+
 #
 # This will cause a header block to be prepended to the output file
 #
 # Thanks to Guillermo Gancio (ganciogm@gmail.com) for the inspiration
-#   and much of the code
+# and much of the code. Adjusted to python 3 by Tomek Mrugalski.
 #
 def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fbsize,rx_time,smpsize):
     global smpwidth
-    
+
     if (smpwidth == 0):
         smpwidth = smpsize
 
@@ -128,62 +134,63 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     header_args["fbrate"] = fbrate
     header_args["fbsize"] = fbsize
 
-
     #
     # Time for one sample, in sec
     #
     tsamp=1.0/fbrate
-    
+
     #
     # Frequency offset between channels, in MHz
     #
     f_off=bw/fbsize
     f_off /= 1.0e6
     f_off *= -1
-    
+
     #
     # Highest frequency represented in FB, in MHz
     #
     high_freq = freq+(bw/2.0)
     high_freq  /= 1.0e6
     high_freq -= (f_off/2.0)
-    
+
     #
     # Lowest
     #
     low_freq = freq-(bw/2.0)
     low_freq /= 1.0e6
     low_freq += (f_off/2.0)
-    
+
     #
     # Number of subbands
     #
     sub_bands=fbsize
-    
+
     #
-    # Determine MJD from file timestamp
+    # Determine MJD from file timestamp. Open the output file as binary.
     #
     if (rx_time == None):
-        fp = open(outfile, "w")
+        fp = open(outfile, "wb")
         t_start = (os.path.getmtime(outfile) / 86400) + 40587
     else:
-        fp = open(outfile, "w")
+        fp = open(outfile, "wb")
         t_start = rx_time
- 
+
     #
     # The rest here is mostly due to Guillermo Gancio ganciogm@gmail.com
     #
-    stx="HEADER_START"
-    etx="HEADER_END"
+    stx=tobytes("HEADER_START")
+    etx=tobytes("HEADER_END")
     fp.write(struct.pack('i', len(stx))+stx)
     fp.flush()
+
     #--
-    aux="rawdatafile"
+    aux=tobytes("rawdatafile")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
-    fp.write(struct.pack('i', len(outfile))+outfile)
+    fp.write(struct.pack('i', len(outfile))+tobytes(outfile))
+
     #--
-    aux="src_raj"
+    aux=tobytes("src_raj")
     aux=struct.pack('i', len(aux))+aux
     source_ra = convert_sigproct(source_ra)
     fp.write(aux)
@@ -192,96 +199,106 @@ def build_header_info(outfile,source_name,source_ra,source_dec,freq,bw,fbrate,fb
     fp.flush()
 
     #--
-    aux="src_dej"
+    aux=tobytes("src_dej")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     source_dec= convert_sigproct(source_dec)
     aux=struct.pack('d', source_dec)
     fp.write(aux)
     #--
-    aux="az_start"
+
+    aux=tobytes("az_start")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', 0.0)
     fp.write(aux)
     #--
-    aux="za_start"
+    aux=tobytes("za_start")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', 0.0)
     fp.write(aux)
     #--
-    aux="tstart"
+    aux=tobytes("tstart")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', float(t_start))
     fp.write(aux)
     #--
-    aux="foff"
+    aux=tobytes("foff")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', f_off)
     fp.write(aux)
     #--
-    aux="fch1"
+    aux=tobytes("fch1")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', high_freq)
     fp.write(aux)
     #--
-    aux="nchans"
+    aux=tobytes("nchans")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', sub_bands)
     fp.write(aux)
     #--
-    aux="data_type"
+    aux=tobytes("data_type")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 1)
     fp.write(aux)
     #--
-    aux="ibeam"
+
+
+    aux=tobytes("ibeam")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 1)
     fp.write(aux)
     #--
-    aux="nbits"
+    aux=tobytes("nbits")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', smpsize*8)
     fp.write(aux)
     #--
-    aux="tsamp"
+
+
+    aux=tobytes("tsamp")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('d', tsamp)
     fp.write(aux)
     #--
-    aux="nbeams"
+    aux=tobytes("nbeams")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 1)
     fp.write(aux)
+
+
     #--
-    aux="nifs"
+    aux=tobytes("nifs")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 1)
     fp.write(aux)
+
     #--
-    aux="source_name"
+    aux=tobytes("source_name")
     fp.write(struct.pack('i', len(aux))+aux)
-    fp.write(struct.pack('i', len(source_name))+source_name)
+    fp.write(struct.pack('i', len(source_name)) + tobytes(source_name))
+
+
     #--
-    aux="machine_id"
+    aux=tobytes("machine_id")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 20)
     fp.write(aux)
     #--
-    aux="telescope_id"
+    aux=tobytes("telescope_id")
     aux=struct.pack('i', len(aux))+aux
     fp.write(aux)
     aux=struct.pack('i', 20)
@@ -315,13 +332,13 @@ def log_fft(freq,bw,prefix,fft):
     global smooth_fft
     global fft_cnt
     global last_smooth
-    
+
     #
     # Degenerate FFT length--sometimes on startup
     #
     if (len(fft) < 2):
         return
-    
+
     #
     # Provide "smooth" FFT for get_correction
     #  function
@@ -337,28 +354,28 @@ def log_fft(freq,bw,prefix,fft):
     #
     if (time.time() < next_fft):
         return
-    
+
     #
     # Schedule our next one
     #
     next_fft = time.time() + 10.0
- 
+
     #
     # Get current time, break out into "struct tm" style time fields
     #
     ltp = time.gmtime(time.time())
-    
+
     #
     # Constract filename from parts
     #
     date = "%04d%02d%02d%02d" % (ltp.tm_year, ltp.tm_mon, ltp.tm_mday, ltp.tm_hour)
     fp = open(prefix+"psr-"+date+"-fft.csv", "a")
-    
+
     #
     # Write UTC header
     #
     fp.write("%02d:%02d:%02d," % (ltp.tm_hour, ltp.tm_min, ltp.tm_sec))
-    
+
     #
     # Spectrum is inverted:  Fc+bw/2 to Fc-bw/2
     #
@@ -388,7 +405,7 @@ def log_fft(freq,bw,prefix,fft):
 # We maintain a static tag dictionary for use later by the header
 #  update code
 #
-tag_dict = {} 
+tag_dict = {}
 first_tag = None
 def process_tag(tags):
     global first_tag
@@ -396,7 +413,7 @@ def process_tag(tags):
         tag_dict[pmt.to_python(tag.key)] = pmt.to_python(tag.value)
         if (first_tag == None):
             first_tag = time.time()
-    
+
 #
 # Used to find a tag in the tag_dict
 #
@@ -405,7 +422,7 @@ def get_tag(key):
         return (tag_dict[key])
     else:
         return None
-        
+
 didit = False
 #
 # Basically, near the end of the run, concatenates the correct header data
@@ -418,7 +435,7 @@ def update_header(pacer,runtime,smpsize):
     import shutil
     import os
     global smpwidth
-    
+
     if (smpwidth == 0):
         smpwidth = smpsize
 
@@ -440,11 +457,11 @@ def update_header(pacer,runtime,smpsize):
             endtime -= 0.5
     #
     # We're being called as an exit handler
-    # 
+    #
     else:
         endtime = time.time() - 30.0
         didit = False
-    
+
     #
     # This little dance ensures that we only update the header and concatenate
     #   the live sample data when:
@@ -453,7 +470,7 @@ def update_header(pacer,runtime,smpsize):
     #   o   We haven't already done this
     #
     if ((time.time() >= endtime) and didit == False):
-        
+
         #
         # We retrieve the previously-cached "rx_time" tag
         #
@@ -463,15 +480,15 @@ def update_header(pacer,runtime,smpsize):
         if (times != None):
             seconds = float(times[0])+float(times[1])
         else:
-            # 
+            #
             # This will result in a very-rough approximation
             #
             if (first_tag != None):
                 seconds = first_tag
             else:
                 seconds = time.time()
-            print "No rx_time tag, start time will be approximate."
-        
+            print("No rx_time tag, start time will be approximate.")
+
         #
         # Turn real seconds into MJD
         #
@@ -521,13 +538,13 @@ def get_swidth():
 #   with a "1.0", that filterbank bin will be included, else it won't.
 #
 def static_mask(freq,bw,fbsize,rfilist):
-    
+
     #
     # If no RFI list, the mask is all 1.0
     #
     if (rfilist == "" or len(rfilist) == 0 or rfilist == None):
         return ([1.0]*fbsize)
-    
+
     #
     # Step size is the bandwidth over the filterbank size
     #   (bin width, basically, in Hz)
@@ -535,7 +552,7 @@ def static_mask(freq,bw,fbsize,rfilist):
     step = bw/fbsize
     start = freq-(bw/2.0)
     end = freq+(bw/2.0)
-    
+
     #
     # Parse the RFI list, do a little sanity checking
     #  on the values.
@@ -575,31 +592,33 @@ def dynamic_mask(fft,smask,thresh):
     global deviation
     global automask
     global current_estimate
-   
-    
-    
+
+
+
     if (automask == None):
         automask = [1.0]*len(fft)
-    
+
     #
     # Our ultimate mask is based on both the user-input static mask
     #  and the dynamically-determined mask
     #
     smask = list(numpy.multiply(smask,automask))
-    
+
     #
     # How many blanked/excised channels in the static mask?
     #
     nzero = smask.count(0.0)
-    
+
     #
     # Determine trim range
     #
+    # (Python 3 update: make sure the ff is integer. Arrays can only be
+    # indexed by integers)
     lf = len(fft)
-    ff = lf/10
+    ff = int(lf/10)
     if (ff == 0):
         ff = 1
-    
+
     #
     # Calculate mean deviation, but only occasionally
     # Update automask, but only occasionally
@@ -610,7 +629,7 @@ def dynamic_mask(fft,smask,thresh):
         #
         trim_fft = fft[ff:-ff]
         trim_mask = list(smask[ff:-ff])
-        
+
         #
         # Compute a quick mean
         # Since the trim_fft bins at the trim_mask excision locations will
@@ -623,7 +642,7 @@ def dynamic_mask(fft,smask,thresh):
         mcount = len(trim_fft)-trim_mask.count(0.0)
         dmean = sum(numpy.multiply(trim_fft,trim_mask))
         dmean /= mcount
-        
+
         #
         # Now compute average deviation
         #
@@ -631,7 +650,7 @@ def dynamic_mask(fft,smask,thresh):
         for i in range(len(trim_fft)):
             if (trim_mask[i]):
                 adev += abs(trim_fft[i]-dmean)
-        
+
         #
         # Automask looks for FFT values that exceed the current
         #  mean estimate by a significant factor--a pulsar will
@@ -639,7 +658,7 @@ def dynamic_mask(fft,smask,thresh):
         #
         #
         for i in range(len(fft)):
-            
+
             #
             # Bigger than threshold? It goes on the automask
             #  AND NEVER LEAVES!  This prevents oscillation
@@ -647,11 +666,11 @@ def dynamic_mask(fft,smask,thresh):
             #
             if (fft[i] > (dmean*thresh)):
                 automask[i] = 0.0
-        
+
         #
         # Two-point smoothing on deviation
         #
-        if (deviation != 0.0):      
+        if (deviation != 0.0):
             deviation += adev/mcount
             deviation /= 2.0
         else:
@@ -669,7 +688,7 @@ def dynamic_mask(fft,smask,thresh):
     mean = mean[ff:-ff]
     lnm = len(mean)
     mean = sum(mean)
-    
+
     #
     # Then: divide by length - count of blanked channels
     #  (divide by count of non-masked channels, IOW)
@@ -680,7 +699,7 @@ def dynamic_mask(fft,smask,thresh):
     i = 0
     if False:
         for s in smask:
-            
+
             #
             # We apply the locally-estimated mean, and then dither by a
             #  small amount--this makes sure that the correlation of the
@@ -689,9 +708,9 @@ def dynamic_mask(fft,smask,thresh):
             if (s < 1.0):
                 mask[i] = random.uniform(mean-(deviation/2.0),mean+(deviation/2.0))
             i += 1
-    
+
     return(smask)
-    
+
 def invert_rfi_mask(mask):
     rmask = []
     for i in range(0,len(mask)):
@@ -699,11 +718,11 @@ def invert_rfi_mask(mask):
     return rmask
 
 estithen = time.time()
-frozen_estimate = 0.0   
+frozen_estimate = 0.0
 def get_current_estimate():
     global current_estimate
     global frozen_estimate
-    
+
     if (time.time() - estithen < 90):
         frozen_estimate = current_estimate
         return current_estimate
@@ -730,7 +749,7 @@ def get_correction(fbsize,correct,pacer):
     #
     if (correct == 0):
         return [1.0]*fbsize
-    
+
     #
     # If time to return a correction estimate
     #
@@ -738,31 +757,31 @@ def get_correction(fbsize,correct,pacer):
         # Compute correction if we haven't already done so
         if (correct_state == 0):
             correct_state = 1
-            
+
             #
             # Compute the fraction of the buffer we're ignoring
             #  for calculation of the average level
             #
             frac = int(fbsize/6)
-            
+
             #
             # Reduce smooth by fft_cnt
             #
             smooth_fft = numpy.divide(smooth_fft,fft_cnt)
             fft_cnt = 1
-            
+
             #
             # Produce the "window" over which we'll average
             #
             avg_window = smooth_fft[frac:-frac]
-            
+
             #
             # Average that "window"
             #
             avg = sum(avg_window)
             avg /= float(len(avg_window))
-            
-            
+
+
             #
             # Compute the ratio between the average and the smoothed FFT, and
             #  produce a scaling vector that makes them all roughly at the same level
@@ -781,7 +800,7 @@ def get_correction(fbsize,correct,pacer):
     #
     else:
         return [1.0]*fbsize
-    
+
 def get_sky_freq(sky,freq):
     return sky if sky != 0.0 else freq
 
@@ -795,7 +814,7 @@ def autoscale(scale,pace):
 current_channel = 0
 def get_current_channel(pacer,nchan):
     global current_channel
-    
+
     r = [0.0]*nchan
     r[current_channel] = 1.0
     current_channel += 1
@@ -813,17 +832,18 @@ def analyser(fft,nchan):
     global chcnts
     global spikes
     global lastchan
-    
-    nfft = fft[0:len(fft)/2]
+
+    # python 3 fix: indices must be integers
+    nfft = fft[0:int(len(fft)/2)]
     if channels == None:
         channels = [numpy.array([0.0]*len(nfft))]*nchan
         chcnts = [0.0]*nchan
         spikes = [0]*nchan
-    
+
     ccn = current_channel
     channels[ccn] = numpy.add(nfft,channels[ccn])
     chcnts[ccn] += 1.0
-    
+
     #
     # Ignore if this is the first data after a channel change
     #
@@ -831,9 +851,9 @@ def analyser(fft,nchan):
         #print "New channel %d" % ccn
         lastchan = ccn
         return ccn
-    
+
     chavg = numpy.divide(channels[ccn], chcnts[ccn])
-    
+
     spike = 0
     winsize = 6
     if (chcnts[ccn] > 10):
@@ -842,7 +862,7 @@ def analyser(fft,nchan):
             window /= float(winsize)
             if (chavg[inspected] > window*3.5):
                 spike += 1
- 
+
         if (spike == 0):
             if (spikes[ccn] > 0):
                 spikes[ccn] -=1
@@ -854,4 +874,3 @@ def analyser(fft,nchan):
             automask[ccn] = 0.0
 
     return ccn
-

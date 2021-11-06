@@ -31,7 +31,7 @@ def update_block(root, tag, name, subdict):
                 newval = subdict[ky.text]
                 val = param.find("value")
                 val.text = newval
-    
+
 def update_connection(root, source, sink, insub):
     for conn in root.iter("connection"):
         source_key = conn.find("source_block_id")
@@ -62,7 +62,7 @@ fp = open(sys.argv[3], "r")
 lines = fp.readlines()
 for line in lines:
     line = line.replace("(", "(root, ", 1)
-    print line
+    print(line)
     eval(line)
 fp.close()
 
